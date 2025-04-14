@@ -1,2 +1,16 @@
-# carbonlyzer-ai
-Carbonlyzer-AI is an AI-powered carbon footprint decoder that transforms your everyday tasks, receipts, bills, and activities into insightful environmental impact reports. Upload text or images and get personalized, actionable tips to reduce your CO₂ emissions — with real-time visual feedback and global comparisons. 🌍♻️
+# 🌿 Carbonlyzer-AI
+
+**Your AI-powered carbon footprint decoder.**  
+Turn your everyday tasks, bills, and purchases into environmental insights — and discover smarter, greener alternatives.
+
+---
+
+## 🔍 What It Does
+
+- 📸 **Scan receipts or bills** (image or text)
+- 🧠 **AI extracts tasks** like eating meat, using AC, or taking a cab
+- ♻️ **Estimates your carbon footprint** using verified global data
+- 💡 **Recommends greener choices** to reduce your emissions
+- 🌍 **Shows the impact** if millions made the same change
+
+---
