@@ -21,68 +21,127 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         .welcome-section {
-            padding: 4rem 0;
-            background: linear-gradient(160deg, #ffffff 0%, #f0f7f0 100%);
-            border-radius: 15px;
-            margin: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="rgba(255,255,255,0.1)" d="M0,0 L100,0 L100,100 L0,100 Z"/></svg>');
+            opacity: 0.1;
+            animation: pulse 4s infinite;
         }
         .main-title {
             font-size: 4.5rem;
-            font-weight: 700;
-            color: #1B5E20;
+            font-weight: 800;
+            color: white;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            animation: fadeIn 1s ease-out;
         }
         .slogan {
-            font-size: 2rem;
-            color: #388E3C;
+            font-size: 2.2rem;
+            color: #E8F5E9;
             font-weight: 500;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out 0.3s;
         }
         .eco-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
         }
-        .input-section {
+        .input-container {
             max-width: 500px;
-            margin: 2rem auto;
+            margin: 0 auto;
             padding: 2rem;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 1s ease-out 0.6s;
+        }
+        .stTextInput > div > div > input {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+        .stTextInput > div > div > input:focus {
+            border-color: #E8F5E9;
+            box-shadow: 0 0 0 3px rgba(232, 245, 233, 0.3);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .stTextInput > div > div > input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .stTextInput > div > div > label {
+            font-size: 1.1rem;
+            color: #E8F5E9;
+            font-weight: 500;
         }
         .stButton > button {
             width: 100%;
-            margin: 1rem auto;
+            margin: 1.5rem auto 0;
             display: block;
-            background-color: #1B5E20;
-            color: white;
+            background-color: #E8F5E9;
+            color: #1B5E20;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeIn 1s ease-out 0.9s;
         }
         .stButton > button:hover {
-            background-color: #2E7D32;
+            background-color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        .stTextInput > div > div > input {
-            border: 2px solid #E8F5E9;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+        .leaf-decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 4s ease-in-out infinite;
         }
-        .stTextInput > div > div > input:focus {
-            border-color: #1B5E20;
-            box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.2);
-        }
+        .leaf-1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .leaf-2 { top: 40%; right: 15%; animation-delay: 1s; }
+        .leaf-3 { bottom: 20%; left: 15%; animation-delay: 2s; }
+        .leaf-4 { bottom: 40%; right: 10%; animation-delay: 3s; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -114,6 +173,10 @@ def analyze_text(text: str) -> list:
 def welcome_page():
     st.markdown("""
         <div class="welcome-section">
+            <div class="leaf-decoration leaf-1">🌿</div>
+            <div class="leaf-decoration leaf-2">🍃</div>
+            <div class="leaf-decoration leaf-3">🌱</div>
+            <div class="leaf-decoration leaf-4">🌿</div>
             <div style='text-align: center;'>
                 <div class="eco-icon">🌱</div>
                 <h1 class="main-title">EcoMate-AI</h1>
@@ -122,18 +185,44 @@ def welcome_page():
         </div>
     """, unsafe_allow_html=True)
     
+    # Create a container for the input and button
     with st.container():
-        st.markdown('<div class="input-section">', unsafe_allow_html=True)
-        name = st.text_input("Your Name", value=st.session_state.user_name, placeholder="Enter your name")
-        
-        if st.button("Get Started"):
-            if name.strip():
-                st.session_state.user_name = name
-                st.session_state.page = 'main'
-                st.rerun()
-            else:
-                st.error("Please enter your name to continue.")
-        st.markdown('</div>', unsafe_allow_html=True)
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            # Custom styled input field
+            st.markdown("""
+                <style>
+                    .stTextInput > div > div > input {
+                        background-color: rgba(255, 255, 255, 0.1);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        border-radius: 12px;
+                        color: white;
+                        font-size: 1.2rem;
+                        text-align: center;
+                        padding: 1rem;
+                    }
+                    .stTextInput > div > div > input:focus {
+                        border-color: #E8F5E9;
+                        box-shadow: 0 0 0 2px rgba(232, 245, 233, 0.3);
+                    }
+                    .stTextInput > div > div > input::placeholder {
+                        color: rgba(255, 255, 255, 0.7);
+                    }
+                </style>
+            """, unsafe_allow_html=True)
+            
+            # Create a form to handle both Enter key and button click
+            with st.form("name_form"):
+                name = st.text_input("", placeholder="Enter your name", key="name_input", label_visibility="collapsed")
+                submitted = st.form_submit_button("Get Started")
+                
+                if submitted or name:  # This will trigger on both button click and Enter key
+                    if name.strip():
+                        st.session_state.user_name = name
+                        st.session_state.page = 'main'
+                        st.rerun()
+                    else:
+                        st.error("Please enter your name to continue.")
 
 def main_page():
     # Welcome banner with user's name
@@ -208,12 +297,93 @@ def display_results():
         title='Carbon Footprint by Category',
         color='category',
         color_discrete_map={
-            'Food': '#FF9999',
-            'Transport': '#66B2FF',
-            'Energy': '#99FF99',
-            'Shopping': '#FFCC99'
+            'Food': '#FF6B6B',      # Bright coral
+            'Transport': '#4ECDC4',  # Bright turquoise
+            'Energy': '#45B7D1',     # Bright blue
+            'Shopping': '#96CEB4'    # Soft green
         }
     )
+    
+    # Update layout for better aesthetics
+    fig.update_layout(
+        title={
+            'text': "Carbon Footprint by Category",
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {
+                'size': 24,
+                'family': "Arial, sans-serif",
+                'color': '#1B5E20'
+            }
+        },
+        font={
+            'size': 16,
+            'family': "Arial, sans-serif",
+            'color': '#333333'
+        },
+        legend={
+            'title': {
+                'text': 'Categories',
+                'font': {
+                    'size': 18,
+                    'family': "Arial, sans-serif",
+                    'color': '#1B5E20'
+                }
+            },
+            'font': {
+                'size': 16,
+                'family': "Arial, sans-serif"
+            },
+            'orientation': 'h',
+            'yanchor': "bottom",
+            'y': -0.2,
+            'xanchor': "center",
+            'x': 0.5
+        },
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        margin=dict(t=100, b=100, l=50, r=50),
+        height=600,
+        width=800,
+        showlegend=False  # Hide legend since we're using labels
+    )
+    
+    # Update traces for better visibility
+    fig.update_traces(
+        textposition='outside',
+        textinfo='percent+label',
+        textfont={
+            'size': 16,
+            'family': "Arial, sans-serif",
+            'color': '#333333'
+        },
+        hovertemplate='<b>%{label}</b><br>CO₂e: %{value:.2f} kg<br>Percentage: %{percent:.1%}<extra></extra>',
+        marker=dict(
+            line=dict(color='#ffffff', width=2),
+            colors=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+        ),
+        pull=[0.1, 0, 0, 0],  # Slightly pull the first slice for emphasis
+        rotation=45  # Rotate the pie for better label placement
+    )
+    
+    # Add annotations for better label visibility
+    fig.update_annotations(
+        font=dict(
+            size=16,
+            family="Arial, sans-serif",
+            color="#333333"
+        ),
+        showarrow=True,
+        arrowhead=1,
+        arrowcolor="#666666",
+        arrowsize=1,
+        arrowwidth=2,
+        ax=20,
+        ay=-40
+    )
+    
     st.plotly_chart(fig, use_container_width=True)
     
     # Detailed breakdown
