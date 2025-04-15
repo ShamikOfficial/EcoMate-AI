@@ -1,4 +1,4 @@
-# 🌱 Carbonlyzer-AI
+# 🌱 EcoMate-AI
 
 A sustainability-focused AI application that analyzes your carbon footprint from daily activities and receipts.
 
