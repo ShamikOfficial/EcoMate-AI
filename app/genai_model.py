@@ -85,7 +85,8 @@ class GenAIModel:
     def generate_suggestions(self, text: str, suggestion_schema: Dict[str, Any]) -> Dict[str, Any]:
 
         prompt = f'''Analyze the following text and provide relevant suggestions.
-                Return the suggestions in a structured format according to the provided schema.
+                Return the suggestions in a structured format according to the provided schema. Also only give suggestion if necessary. If task is already an optimal carbon emission compliant task, no need suggestion unnecessary.
+                Make sure each suggestion is not more than 10-20 words.
 
                 Text: {text}
                 '''
@@ -112,7 +113,7 @@ Return a list of structured JSON objects according to the provided schema.
 Be strict:
 Only include activities directly related to carbon-emitting actions
 If the text mentions more than one activity, include each, even from different categories
-The category,activity,type must be closest from the emission files provided to you below. Put NA if not found any of the attributes from emission files.
+The category,activity,type must be closest from the emission files provided to you below. Give best estimate of the fields if you are not able to find it in the pdf emission file provided.
 
 Input source_text: {text}
 '''
