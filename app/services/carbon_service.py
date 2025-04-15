@@ -3,7 +3,7 @@ import os
 from typing import Dict, List
 import re
 import logging
-
+import requests
 logger = logging.getLogger(__name__)
 
 class CarbonCalculator:
@@ -22,18 +22,16 @@ class CarbonCalculator:
         try:
             for activity in activities:
                 try:
-                    # Find matching emission factor
-                    factor = self._find_emission_factor(activity['text'], activity['category'])
-                    
-                    if factor is not None:
-                        co2e = float(activity['quantity']) * float(factor['co2e_per_unit'])
+                    if activity['co2e_per_unit'] is not None and activity['co2e_per_unit']!='NA':
+                        co2e = float(activity['quantity']) * float(activity['co2e_per_unit'])
                         results.append({
-                            'text': activity['text'],
+                            'text': activity['activity'],
                             'category': activity['category'],
-                            #'type': activity['type'],
+                            'type': activity['type'],
+                            'co2e_per_unit': activity['co2e_per_unit'],
                             'co2e': co2e,
                             'quantity': activity['quantity'],
-                            'unit': factor['unit']
+                            'unit': activity['unit']
                         })
                     else:
                         logger.warning(f"No emission factor found for activity: {activity['text']}")
@@ -49,55 +47,17 @@ class CarbonCalculator:
             logger.error(f"Error in calculate_carbon_footprint: {str(e)}")
             raise
     
-    def _find_emission_factor(self, text: str, category: str) -> Dict:
-        """Find matching emission factor for activity"""
-        try:
-            text = text.lower()
-            
-            # Get all factors for the category
-            category_factors = self.emission_factors[self.emission_factors['category'] == category]
-            
-            if category_factors.empty:
-                logger.warning(f"No emission factors found for category: {category}")
-                return None
-            
-            for _, row in category_factors.iterrows():
-                # Check if any word from the activity is in the emission factor
-                activity_words = set(text.split())
-                factor_words = set(row['activity'].lower().split())
-                
-                if activity_words.intersection(factor_words):
-                    print(row.to_dict())
-                    return row.to_dict()
-            
-            return None
-        except Exception as e:
-            logger.error(f"Error in _find_emission_factor: {str(e)}")
-            return None
-    
     def get_sustainability_suggestions(self, activities: List[Dict]) -> List[str]:
-        """Generate sustainability suggestions based on activities"""
-        suggestions = []
-        
+
+        """Send text to backend for analysis"""
         try:
-            for activity in activities:
-                try:
-                    category = activity['category']
-                    co2e = activity['co2e']
-                    
-                    if category == 'Food' and co2e > 1.0:
-                        suggestions.append("Consider plant-based alternatives for high-carbon foods")
-                    elif category == 'Transport' and co2e > 0.5:
-                        suggestions.append("Try using public transit or carpooling for your commute")
-                    elif category == 'Energy' and co2e > 0.3:
-                        suggestions.append("Consider using energy-efficient appliances and turning off devices when not in use")
-                    elif category == 'Shopping' and co2e > 0.1:
-                        suggestions.append("Consider buying second-hand or sustainable products")
-                except Exception as e:
-                    logger.error(f"Error generating suggestion for activity {activity}: {str(e)}")
-                    continue
-            
-            return suggestions
+            response = requests.post(
+                "http://localhost:8000/generate/suggestions",
+                params={"text": str(activities)}
+            )
+            response.raise_for_status()
+            print("suggestion:",response.json())
+            return response.json()["suggestions"]
         except Exception as e:
-            logger.error(f"Error in get_sustainability_suggestions: {str(e)}")
-            return [] 
+            logger.error(f"Error analyzing text: {str(e)}")
+            return []

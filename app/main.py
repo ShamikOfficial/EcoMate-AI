@@ -47,16 +47,41 @@ st.markdown("""
             margin-bottom: 1rem;
         }
         .input-section {
-            max-width: 600px;
+            max-width: 500px;
             margin: 2rem auto;
             padding: 2rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .stButton > button {
-            width: 200px;
-            margin: 2rem auto;
+            width: 100%;
+            margin: 1rem auto;
             display: block;
             background-color: #1B5E20;
             color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .stButton > button:hover {
+            background-color: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .stTextInput > div > div > input {
+            border: 2px solid #E8F5E9;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .stTextInput > div > div > input:focus {
+            border-color: #1B5E20;
+            box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.2);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -99,24 +124,22 @@ def welcome_page():
     
     with st.container():
         st.markdown('<div class="input-section">', unsafe_allow_html=True)
-        name = st.text_input("First Name", value=st.session_state.user_name)
-        surname = st.text_input("Last Name", value=st.session_state.user_surname)
+        name = st.text_input("Your Name", value=st.session_state.user_name, placeholder="Enter your name")
         
         if st.button("Get Started"):
-            if name.strip() and surname.strip():
+            if name.strip():
                 st.session_state.user_name = name
-                st.session_state.user_surname = surname
                 st.session_state.page = 'main'
                 st.rerun()
             else:
-                st.error("Please enter both your first and last name to continue.")
+                st.error("Please enter your name to continue.")
         st.markdown('</div>', unsafe_allow_html=True)
 
 def main_page():
     # Welcome banner with user's name
     st.markdown(f"""
         <div style='background-color: #f0f7f0; padding: 1rem; border-radius: 10px; margin-bottom: 2rem;'>
-            <h2 style='color: #1B5E20; margin: 0;'>Welcome, {st.session_state.user_name} {st.session_state.user_surname}! 👋</h2>
+            <h2 style='color: #1B5E20; margin: 0;'>Welcome, {st.session_state.user_name}! 👋</h2>
         </div>
     """, unsafe_allow_html=True)
     
@@ -152,7 +175,7 @@ def main_page():
                         calculator = CarbonCalculator()
                         results = calculator.calculate_carbon_footprint(activities)
                         suggestions = calculator.get_sustainability_suggestions(results)
-                        
+
                         # Update session state
                         st.session_state.carbon_data = results
                         st.session_state.suggestions = suggestions

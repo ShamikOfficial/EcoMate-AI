@@ -8,6 +8,8 @@ from typing import List, Dict
 import json
 import os
 import logging
+from .genai_model import GenAIModel
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -24,24 +26,86 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Activity patterns for regex matching
-ACTIVITY_PATTERNS = {
-    'Food': [
-        r'(?:ate|had|consumed|bought)\s+(\d+)?\s*(?:beef|meat|burger|steak|chicken|fish|vegetarian|vegan)',
-        r'(?:drank|had)\s+(\d+)?\s*(?:coffee|tea|milk|soda)'
-    ],
-    'Transport': [
-        r'(?:took|used|drove)\s+(\d+)?\s*(?:km|miles)?\s*(?:uber|taxi|car|bus|train|bike|walk)',
-        r'(?:flew|traveled)\s+(\d+)?\s*(?:km|miles)?\s*(?:plane|flight)'
-    ],
-    'Energy': [
-        r'(?:used|ran)\s+(\d+)?\s*(?:hours?|hrs?)?\s*(?:AC|heater|light|appliance)',
-        r'(?:consumed|used)\s+(\d+)?\s*(?:kWh|watts?)?\s*(?:electricity|power)'
-    ],
-    'Shopping': [
-        r'(?:bought|purchased)\s+(\d+)?\s*(?:plastic|reusable|bag|item)',
-        r'(?:shopped|bought)\s+(\d+)?\s*(?:clothes|electronics|furniture)'
-    ]
+# Load environment variables
+load_dotenv("env1.env")
+# Initialize GenAI Model
+API_KEY = os.getenv("GOOGLE_API_KEY")
+genai_model = GenAIModel(api_key=API_KEY)
+
+# Default schemas
+EMISSION_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "emission_record": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "category": {"type": "string"},
+                    "type": {"type": "string"},
+                    "activity": {"type": "string"},
+                    "quantity": {"type": "number"},
+                    "unit": {"type": "string"},
+                    "co2e_per_unit": {"type": "number"}
+                },
+                "required": ["category", "activity", "type", "unit", "quantity", "co2e_per_unit"]
+            }
+        }
+    },
+    "required": ["emission_record"]
+}
+
+TASK_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "tasks": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {"type": "string"},
+                    "priority": {"type": "string"},
+                    "category": {"type": "string"},
+                    "estimated_time": {"type": "string"}
+                },
+                "required": ["description", "priority"]
+            }
+        }
+    },
+    "required": ["tasks"]
+}
+
+SUGGESTION_SCHEMA_extra = {
+    "type": "object",
+    "properties": {
+        "suggestions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"},
+                    "description": {"type": "string"},
+                    "category": {"type": "string"},
+                    "impact": {"type": "string"}
+                },
+                "required": ["title", "description"]
+            }
+        }
+    },
+    "required": ["suggestions"]
+}
+
+SUGGESTION_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "suggestions": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "required": ["suggestions"]
 }
 
 @app.post("/analyze/receipt")
@@ -63,57 +127,65 @@ async def analyze_receipt(file: UploadFile = File(...)):
             raise HTTPException(status_code=500, detail="OCR processing failed")
         
         # Process text with regex
-        activities = extract_activities(text)
+        activities = analyze_text(text)
         
-        return {"activities": activities}
+        return activities
     except Exception as e:
         logger.error(f"Error processing receipt: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/analyze/text")
 async def analyze_text(text: str):
-    """Process text input and extract activities"""
+    """Process text input and extract activities using AI model"""
     try:
         if not text.strip():
             raise HTTPException(status_code=400, detail="Text input cannot be empty")
         
-        activities = extract_activities(text)
-        return {"activities": activities}
+        # Use the genai model to analyze emissions
+        result = genai_model.analyze_emissions(
+            text=text,
+            emission_schema=EMISSION_SCHEMA,
+            context_files=[os.path.join("data", "emission_factor.pdf")]
+        )
+        
+        return {"activities": result['emission_record']}
     except Exception as e:
         logger.error(f"Error processing text: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-def extract_activities(text: str) -> List[Dict]:
-    """Extract activities from text using regex patterns"""
-    activities = []
-    text = text.lower()
-    print("Extracting activities from text:")
+@app.post("/extract/tasks")
+async def extract_tasks(text: str):
+    """Extract tasks from text using AI model"""
     try:
-        for category, patterns in ACTIVITY_PATTERNS.items():
-            for pattern in patterns:
-                matches = re.finditer(pattern, text)
-                for match in matches:
-                    try:
-                        quantity = match.group(1) if match.group(1) else "1"
-                        activity_text = match.group(0)
-                        
-                        activities.append({
-                            "text": activity_text,
-                            "category": category,
-                            "quantity": float(quantity),
-                            "co2e": 0.0  # Will be calculated by carbon service
-                        })
-                    except (ValueError, IndexError) as e:
-                        logger.warning(f"Error processing match: {str(e)}")
-                        continue
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="Text input cannot be empty")
         
-        if not activities:
-            logger.warning("No activities found in text")
+        result = genai_model.extract_tasks(
+            text=text,
+            task_schema=TASK_SCHEMA
+        )
         
-        return activities
+        return result
     except Exception as e:
-        logger.error(f"Error in extract_activities: {str(e)}")
-        raise
+        logger.error(f"Error extracting tasks: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/generate/suggestions")
+async def generate_suggestions(text: str):
+    """Generate suggestions based on text using AI model"""
+    try:
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="Text input cannot be empty")
+        
+        result = genai_model.generate_suggestions(
+            text=text,
+            suggestion_schema=SUGGESTION_SCHEMA
+        )
+        return result
+    except Exception as e:
+        logger.error(f"Error generating suggestions: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
     import uvicorn
