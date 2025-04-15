@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+load_dotenv("env1.env")
 
 # Page config
 st.set_page_config(
@@ -40,7 +40,7 @@ def analyze_text(text: str) -> list:
 def main():
     st.title("🌱 Carbonlyzer-AI")
     st.markdown("### Your Personal Carbon Footprint Analyzer")
-    
+    #print(os.getenv("API_PORT"))
     # Input method selection
     input_method = st.radio(
         "Choose input method:",
