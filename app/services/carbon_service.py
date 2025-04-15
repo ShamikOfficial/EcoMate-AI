@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class CarbonCalculator:
     def __init__(self):
         try:
-            self.emission_factors = pd.read_csv('data/emission_factors.csv')
+            self.emission_factors = pd.read_csv('data/emission_factor.csv')
             logger.info("Successfully loaded emission factors")
         except Exception as e:
             logger.error(f"Failed to load emission factors: {str(e)}")
@@ -26,10 +26,11 @@ class CarbonCalculator:
                     factor = self._find_emission_factor(activity['text'], activity['category'])
                     
                     if factor is not None:
-                        co2e = activity['quantity'] * factor['co2e_per_unit']
+                        co2e = float(activity['quantity']) * float(factor['co2e_per_unit'])
                         results.append({
                             'text': activity['text'],
                             'category': activity['category'],
+                            #'type': activity['type'],
                             'co2e': co2e,
                             'quantity': activity['quantity'],
                             'unit': factor['unit']
@@ -66,6 +67,7 @@ class CarbonCalculator:
                 factor_words = set(row['activity'].lower().split())
                 
                 if activity_words.intersection(factor_words):
+                    print(row.to_dict())
                     return row.to_dict()
             
             return None

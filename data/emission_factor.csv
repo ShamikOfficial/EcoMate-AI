@@ -1,0 +1,185 @@
+category,type,activity,unit,co2e_per_unit
+Fuels,Gaseous fuels,Butane,tonnes,3033.38067
+Fuels,Gaseous fuels,Butane,litres,1.74532
+Fuels,Gaseous fuels,Butane,kWh (Net CV),0.24106
+Fuels,Gaseous fuels,Butane,kWh (Gross CV),0.22241
+Fuels,Gaseous fuels,CNG,tonnes,2568.16441
+Fuels,Gaseous fuels,CNG,litres,0.44942
+Fuels,Gaseous fuels,CNG,kWh (Net CV),0.20264
+Fuels,Gaseous fuels,CNG,kWh (Gross CV),0.1829
+Fuels,Gaseous fuels,LNG,tonnes,2590.46441
+Fuels,Gaseous fuels,LNG,litres,1.17216
+Fuels,Gaseous fuels,LNG,kWh (Net CV),0.2044
+Fuels,Gaseous fuels,LNG,kWh (Gross CV),0.18449
+Fuels,Gaseous fuels,LPG,tonnes,2939.36095
+Fuels,Gaseous fuels,LPG,litres,1.55713
+Fuels,Gaseous fuels,LPG,kWh (Net CV),0.23031
+Fuels,Gaseous fuels,LPG,kWh (Gross CV),0.2145
+Fuels,Gaseous fuels,Natural gas,tonnes,2568.16441
+Fuels,Gaseous fuels,Natural gas,cubic metres,2.04542
+Fuels,Gaseous fuels,Natural gas,kWh (Net CV),0.20264
+Fuels,Gaseous fuels,Natural gas,kWh (Gross CV),0.1829
+Fuels,Gaseous fuels,Natural gas (100% mineral blend),tonnes,2590.46441
+Fuels,Gaseous fuels,Natural gas (100% mineral blend),cubic metres,2.06318
+Fuels,Gaseous fuels,Natural gas (100% mineral blend),kWh (Net CV),0.2044
+Fuels,Gaseous fuels,Natural gas (100% mineral blend),kWh (Gross CV),0.18449
+Fuels,Gaseous fuels,Other petroleum gas,tonnes,2578.24647
+Fuels,Gaseous fuels,Other petroleum gas,litres,0.94441
+Fuels,Gaseous fuels,Other petroleum gas,kWh (Net CV),0.19917
+Fuels,Gaseous fuels,Other petroleum gas,kWh (Gross CV),0.18323
+Fuels,Gaseous fuels,Propane,tonnes,2997.63233
+Fuels,Gaseous fuels,Propane,litres,1.54357
+Fuels,Gaseous fuels,Propane,kWh (Net CV),0.23257
+Fuels,Gaseous fuels,Propane,kWh (Gross CV),0.21411
+Fuels,Liquid fuels,Aviation spirit,tonnes,3193.6948
+Fuels,Liquid fuels,Aviation spirit,litres,2.33116
+Fuels,Liquid fuels,Aviation spirit,kWh (Net CV),0.25666
+Fuels,Liquid fuels,Aviation spirit,kWh (Gross CV),0.24382
+Fuels,Liquid fuels,Aviation turbine fuel,tonnes,3178.3652
+Fuels,Liquid fuels,Aviation turbine fuel,litres,2.54269
+Fuels,Liquid fuels,Aviation turbine fuel,kWh (Net CV),0.26061
+Fuels,Liquid fuels,Aviation turbine fuel,kWh (Gross CV),0.24758
+Fuels,Liquid fuels,Burning oil,tonnes,3165.04181
+Fuels,Liquid fuels,Burning oil,litres,2.54015
+Fuels,Liquid fuels,Burning oil,kWh (Net CV),0.25975
+Fuels,Liquid fuels,Burning oil,kWh (Gross CV),0.24677
+Fuels,Liquid fuels,Diesel (average biofuel blend),tonnes,3014.09462
+Fuels,Liquid fuels,Diesel (average biofuel blend),litres,2.51279
+Fuels,Liquid fuels,Diesel (average biofuel blend),kWh (Net CV),0.25403
+Fuels,Liquid fuels,Diesel (average biofuel blend),kWh (Gross CV),0.23902
+Fuels,Liquid fuels,Diesel (100% mineral diesel),tonnes,3203.91143
+Fuels,Liquid fuels,Diesel (100% mineral diesel),litres,2.66155
+Fuels,Liquid fuels,Diesel (100% mineral diesel),kWh (Net CV),0.26808
+Fuels,Liquid fuels,Diesel (100% mineral diesel),kWh (Gross CV),0.25197
+Fuels,Liquid fuels,Fuel oil,tonnes,3228.89019
+Fuels,Liquid fuels,Fuel oil,litres,3.17493
+Fuels,Liquid fuels,Fuel oil,kWh (Net CV),0.28523
+Fuels,Liquid fuels,Fuel oil,kWh (Gross CV),0.26814
+Fuels,Liquid fuels,Gas oil,tonnes,3226.57859
+Fuels,Liquid fuels,Gas oil,litres,2.75541
+Fuels,Liquid fuels,Gas oil,kWh (Net CV),0.27287
+Fuels,Liquid fuels,Gas oil,kWh (Gross CV),0.25649
+Fuels,Liquid fuels,Lubricants,tonnes,3180.99992
+Fuels,Liquid fuels,Lubricants,litres,2.74934
+Fuels,Liquid fuels,Lubricants,kWh (Net CV),0.281
+Fuels,Liquid fuels,Lubricants,kWh (Gross CV),0.26414
+Fuels,Liquid fuels,Naphtha,tonnes,3142.3789
+Fuels,Liquid fuels,Naphtha,litres,2.11894
+Fuels,Liquid fuels,Naphtha,kWh (Net CV),0.24891
+Fuels,Liquid fuels,Naphtha,kWh (Gross CV),0.23647
+Fuels,Liquid fuels,Petrol (average biofuel blend),tonnes,2778.52935
+Fuels,Liquid fuels,Petrol (average biofuel blend),litres,2.0844
+Fuels,Liquid fuels,Petrol (average biofuel blend),kWh (Net CV),0.2324
+Fuels,Liquid fuels,Petrol (average biofuel blend),kWh (Gross CV),0.22013
+Fuels,Liquid fuels,Petrol (100% mineral petrol),tonnes,3154.08213
+Fuels,Liquid fuels,Petrol (100% mineral petrol),litres,2.35372
+Fuels,Liquid fuels,Petrol (100% mineral petrol),kWh (Net CV),0.2546
+Fuels,Liquid fuels,Petrol (100% mineral petrol),kWh (Gross CV),0.24186
+Fuels,Liquid fuels,Processed fuel oils - residual oil,tonnes,3228.89019
+Fuels,Liquid fuels,Processed fuel oils - residual oil,litres,3.17493
+Fuels,Liquid fuels,Processed fuel oils - residual oil,kWh (Net CV),0.28523
+Fuels,Liquid fuels,Processed fuel oils - residual oil,kWh (Gross CV),0.26814
+Fuels,Liquid fuels,Processed fuel oils - distillate oil,tonnes,3226.57859
+Fuels,Liquid fuels,Processed fuel oils - distillate oil,litres,2.75541
+Fuels,Liquid fuels,Processed fuel oils - distillate oil,kWh (Net CV),0.27287
+Fuels,Liquid fuels,Processed fuel oils - distillate oil,kWh (Gross CV),0.25649
+Fuels,Liquid fuels,Refinery miscellaneous,tonnes,2944.32093
+Fuels,Liquid fuels,Refinery miscellaneous,litres,�
+Fuels,Liquid fuels,Refinery miscellaneous,kWh (Net CV),0.25961
+Fuels,Liquid fuels,Refinery miscellaneous,kWh (Gross CV),0.24662
+Fuels,Liquid fuels,Waste oils,tonnes,3219.37916
+Fuels,Liquid fuels,Waste oils,litres,2.74923
+Fuels,Liquid fuels,Waste oils,kWh (Net CV),0.27458
+Fuels,Liquid fuels,Waste oils,kWh (Gross CV),0.25641
+Fuels,Liquid fuels,Marine gas oil,tonnes,3245.30441
+Fuels,Liquid fuels,Marine gas oil,litres,2.77139
+Fuels,Liquid fuels,Marine gas oil,kWh (Net CV),0.27446
+Fuels,Liquid fuels,Marine gas oil,kWh (Gross CV),0.25798
+Fuels,Liquid fuels,Marine fuel oil,tonnes,3154.75334
+Fuels,Liquid fuels,Marine fuel oil,litres,3.10202
+Fuels,Liquid fuels,Marine fuel oil,kWh (Net CV),0.27869
+Fuels,Liquid fuels,Marine fuel oil,kWh (Gross CV),0.26196
+Fuels,Solid fuels,Coal (industrial),tonnes,2399.43994
+Fuels,Solid fuels,Coal (industrial),kWh (Net CV),0.34002
+Fuels,Solid fuels,Coal (industrial),kWh (Gross CV),0.32302
+Fuels,Solid fuels,Coal (electricity generation),tonnes,2262.11448
+Fuels,Solid fuels,Coal (electricity generation),kWh (Net CV),0.33368
+Fuels,Solid fuels,Coal (electricity generation),kWh (Gross CV),0.31699
+Fuels,Solid fuels,Coal (domestic),tonnes,2904.95234
+Fuels,Solid fuels,Coal (domestic),kWh (Net CV),0.36549
+Fuels,Solid fuels,Coal (domestic),kWh (Gross CV),0.34721
+Fuels,Solid fuels,Coking coal,tonnes,3164.65002
+Fuels,Solid fuels,Coking coal,kWh (Net CV),0.37675
+Fuels,Solid fuels,Coking coal,kWh (Gross CV),0.3579
+Fuels,Solid fuels,Petroleum coke,tonnes,3386.57168
+Fuels,Solid fuels,Petroleum coke,kWh (Net CV),0.35886
+Fuels,Solid fuels,Petroleum coke,kWh (Gross CV),0.34092
+Fuels,Solid fuels,Coal (electricity generation - home produced coal only),tonnes,2258.5867
+Fuels,Solid fuels,Coal (electricity generation - home produced coal only),kWh (Net CV),0.33368
+Fuels,Solid fuels,Coal (electricity generation - home produced coal only),kWh (Gross CV),0.31699
+Transport,Cars (by market segment),Mini,km,0.10764
+Transport,Cars (by market segment),Mini,miles,0.17325
+Transport,Cars (by market segment),Supermini,km,0.13178
+Transport,Cars (by market segment),Supermini,miles,0.21209
+Transport,Cars (by market segment),Lower medium,km,0.14288
+Transport,Cars (by market segment),Lower medium,miles,0.22996
+Transport,Cars (by market segment),Upper medium,km,0.16048
+Transport,Cars (by market segment),Upper medium,miles,0.25827
+Transport,Cars (by market segment),Executive,km,0.17001
+Transport,Cars (by market segment),Executive,miles,0.27362
+Transport,Cars (by market segment),Luxury,km,0.20695
+Transport,Cars (by market segment),Luxury,miles,0.33306
+Transport,Cars (by market segment),Sports,km,0.17016
+Transport,Cars (by market segment),Sports,miles,0.27387
+Transport,Cars (by market segment),Dual purpose 4X4,km,0.19757
+Transport,Cars (by market segment),Dual purpose 4X4,miles,0.31797
+Transport,Cars (by market segment),MPV,km,0.17751
+Transport,Cars (by market segment),MPV,miles,0.28569
+Transport,Motorbike,Small,km,0.08319
+Transport,Motorbike,Small,miles,0.13389
+Transport,Motorbike,Medium,km,0.10107
+Transport,Motorbike,Medium,miles,0.16265
+Transport,Motorbike,Large,km,0.13252
+Transport,Motorbike,Large,miles,0.21326
+Transport,Motorbike,Average,km,0.11367
+Transport,Motorbike,Average,miles,0.18293
+Transport,Cars (by size),Small car,km,0.13994
+Transport,Cars (by size),Small car,miles,0.22522
+Transport,Cars (by size),Medium car,km,0.16807
+Transport,Cars (by size),Medium car,miles,0.2705
+Transport,Cars (by size),Large car,km,0.20729
+Transport,Cars (by size),Large car,miles,0.33362
+Transport,Cars (by size),Average car,km,0.16984
+Transport,Cars (by size),Average car,miles,0.27334
+Food,Non-vegetarian,Beef Burger,kg,9
+Food,Non-vegetarian,Lamb Dish,kg,3.6
+Food,Vegetarian,Cheese Slice,kg,0.63
+Food,Non-vegetarian,Pork Chop,kg,1.4
+Food,Non-vegetarian,Chicken Sandwich,kg,0.9
+Food,Non-vegetarian,Boiled Egg,kg,0.27
+Food,Vegetarian,Glass of Milk,kg,0.8
+Food,Vegetarian,Bowl of Rice,kg,0.8
+Food,Vegetarian,Tofu Block,kg,0.3
+Food,Vegetarian,Bean Burrito,kg,0.14
+Food,Vegetarian,Lentil Soup Bowl,kg,0.18
+Food,Vegan,Tomato,kg,0.21
+Food,Vegan,Potato,kg,0.06
+Food,Vegan,Apple,kg,0.08
+Food,Vegan,Banana,kg,0.14
+Food,Vegetarian,Mixed Veg Bowl,kg,0.15
+Food,Vegetarian,Yogurt Cup,item,0.28
+Food,Vegetarian,Chocolate Bar,item,0.95
+Food,Vegetarian,Loaf of Bread,item,0.55
+Food,Non-vegetarian,Croissant,item,0.32
+Food,Vegetarian,Pizza Slice (Cheese),item,1.1
+Food,Non-vegetarian,Fish Fillet,item,0.75
+Food,Non-vegetarian,Shrimp Portion,item,1.32
+Food,Vegan,Orange,item,0.1
+Food,Vegan,Cucumber,item,0.08
+Food,Vegan,Carrot,item,0.03
+Food,Vegan,Avocado,item,0.5
+Food,Vegetarian,Peanut Butter (2 tbsp),item,0.09
+Food,Vegetarian,Almond Milk (Glass),item,0.17
+Food,Vegetarian,Soy Milk (Glass),item,0.23
+Food,Vegetarian,Coffee Cup,item,3.75
+Food,Vegetarian,Tea Cup,item,0.23
