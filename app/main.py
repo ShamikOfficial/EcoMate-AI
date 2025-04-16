@@ -714,6 +714,107 @@ def display_results():
     st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
     
+    # Riskometer
+    # Calculate risk level and fill percentage
+    max_co2 = 24  # Maximum CO2 for 100% fill
+    fill_percentage = min((total_co2 / max_co2) * 100, 100)
+    
+    # Determine risk level and color
+    if total_co2 > 16:
+        risk_level = "HIGH"
+        risk_color = "#F44336"  # Red
+        fill_percentage=fill_percentage-10
+    elif total_co2 > 8:
+        risk_level = "MEDIUM"
+        risk_color = "#FFC107"  # Yellow
+    else:
+        risk_level = "LOW"
+        risk_color = "#4CAF50"  # Green
+    
+    st.markdown("""
+        <style>
+            .riskometer-container {
+                width: 100%;
+                margin: 2rem 0;
+                padding: 1rem;
+                background: rgba(45, 45, 45, 0.8);
+                border-radius: 15px;
+            }
+            .riskometer-title {
+                color: #FFFFFF;
+                font-size: 1.2rem;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            .riskometer-bar-container {
+                width: 100%;
+                height: 30px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+            }
+            .riskometer-fill {
+                height: 100%;
+                border-radius: 15px;
+                transition: width 1s ease-in-out;
+            }
+            .riskometer-marker {
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 2px;
+                background: #FFFFFF;
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            }
+            .riskometer-arrow {
+                position: absolute;
+                top: -20px;
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 20px solid #FFFFFF;
+                transition: left 1s ease-in-out;
+            }
+            .riskometer-labels {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 0.5rem;
+                color: #FFFFFF;
+                font-size: 1rem;
+            }
+            .riskometer-level {
+                color: #FFFFFF;
+                font-size: 1.2rem;
+                text-align: center;
+                margin-top: 1rem;
+                font-weight: bold;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    # Calculate arrow position based on fill percentage
+    arrow_position = fill_percentage
+    
+    st.markdown(f"""
+        <div class="riskometer-container">
+            <div class="riskometer-title">Environmental Impact Level</div>
+            <div class="riskometer-bar-container">
+                <div class="riskometer-fill" style="width: {fill_percentage}%; background: {risk_color};"></div>
+                <div class="riskometer-marker" style="left: 33%;"></div>
+                <div class="riskometer-marker" style="left: 66%;"></div>
+                <div class="riskometer-arrow" style="left: {arrow_position}%;"></div>
+            </div>
+            <div class="riskometer-labels">
+                <span>Low</span>
+                <span>Medium</span>
+                <span>High</span>
+            </div>
+            <div class="riskometer-level" style="color: {risk_color};">Current Level: {risk_level}</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
     # Category breakdown - Modified to fix the FutureWarning
     df = pd.DataFrame(st.session_state.carbon_data)
     fig = px.pie(
