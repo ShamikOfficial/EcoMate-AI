@@ -281,20 +281,20 @@ def main_page():
     st.markdown("""
         <style>
             .input-section {
-                background-color: #f8f9fa;
+                background-color: #2D2D2D;
                 border-radius: 15px;
                 padding: 2rem;
                 margin: 2rem 0;
             }
             .input-title {
-                color: #1B5E20;
+                color: #FFFFFF;
                 font-size: 1.5rem;
                 font-weight: bold;
                 margin-bottom: 1.5rem;
                 text-align: center;
             }
             .input-description {
-                color: #666;
+                color: #CCCCCC;
                 text-align: center;
                 margin-bottom: 2rem;
                 font-size: 1.1rem;
@@ -306,15 +306,26 @@ def main_page():
                 margin-bottom: 2rem;
             }
             .stRadio > div > label {
-                background: white;
-                padding: 1rem 2rem;
+                background: #1B5E20;
+                padding: 1.5rem 3rem;
                 border-radius: 10px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 cursor: pointer;
+                color: #FFFFFF !important;
+                font-weight: 900 !important;
+                font-size: 2rem !important;
+                min-width: 300px;
+                text-align: center;
             }
             .stRadio > div > label[data-baseweb="radio"] {
-                background: #1B5E20;
-                color: white;
+                background: #2E7D32;
+                color: #FFFFFF !important;
+                font-weight: 900 !important;
+                font-size: 2rem !important;
+            }
+            .stRadio > div > label:hover {
+                background: #388E3C;
+                color: #FFFFFF !important;
             }
             .upload-section {
                 text-align: center;
@@ -322,6 +333,7 @@ def main_page():
                 border: 2px dashed #1B5E20;
                 border-radius: 15px;
                 margin: 1rem 0;
+                background: #3D3D3D;
             }
             .upload-icon {
                 font-size: 3rem;
@@ -330,7 +342,7 @@ def main_page():
             }
             .text-input-section {
                 padding: 2rem;
-                background: white;
+                background: #3D3D3D;
                 border-radius: 15px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 margin: 1rem 0;
@@ -340,6 +352,8 @@ def main_page():
                 border-radius: 10px;
                 padding: 1rem;
                 font-size: 1.1rem;
+                background: #2D2D2D;
+                color: #FFFFFF;
             }
             .stTextArea > div > div > textarea:focus {
                 border-color: #2E7D32;
@@ -364,7 +378,7 @@ def main_page():
             .audio-section {
                 text-align: center;
                 padding: 2rem;
-                background: white;
+                background: #3D3D3D;
                 border-radius: 15px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 margin: 1rem 0;
@@ -383,15 +397,16 @@ def main_page():
     
     # Input method selection with enhanced styling
     input_method = st.radio(
-        "Input Method",
+        "Select Input Method",
         ["Upload Receipt", "Text Input", "Audio Input"],
-        horizontal=True
+        horizontal=True,
+        label_visibility="collapsed"
     )
     
     if input_method == "Upload Receipt":
         st.markdown('<div class="upload-section">', unsafe_allow_html=True)
         st.markdown('<div class="upload-icon">📄</div>', unsafe_allow_html=True)
-        st.markdown('<p style="color: #1B5E20; font-size: 1.1rem;">Upload your receipt to analyze your purchases</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem;">Upload your receipt to analyze your purchases</p>', unsafe_allow_html=True)
         uploaded_file = st.file_uploader(
             "Receipt Upload",
             type=['png', 'jpg', 'jpeg'],
@@ -405,7 +420,7 @@ def main_page():
     
     elif input_method == "Text Input":
         st.markdown('<div class="text-input-section">', unsafe_allow_html=True)
-        st.markdown('<p style="color: #1B5E20; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
         user_input = st.text_area(
             "Activity Description",
             placeholder="Describe your daily activities (e.g., 'Had beef burger, took Uber, ran AC for 5 hrs')",
@@ -417,7 +432,7 @@ def main_page():
     else:  # Audio Input
         st.markdown('<div class="audio-section">', unsafe_allow_html=True)
         st.markdown('<div class="audio-icon">🎤</div>', unsafe_allow_html=True)
-        st.markdown('<p style="color: #1B5E20; font-size: 1.1rem; margin-bottom: 1rem;">Record your daily activities</p>', unsafe_allow_html=True)
+        st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1rem;">Record your daily activities</p>', unsafe_allow_html=True)
         audio_file = st.file_uploader(
             "Audio Upload",
             type=['wav', 'mp3', 'ogg'],
@@ -460,17 +475,207 @@ def main_page():
         display_results()
 
 def main():
+    # Set dark theme by default
+    st.markdown("""
+        <style>
+            /* Force dark theme */
+            .stApp {
+                background-color: #1E1E1E;
+                color: #FFFFFF;
+            }
+            /* Override Streamlit's default light theme */
+            .stTextInput > div > div > input,
+            .stTextArea > div > div > textarea,
+            .stSelectbox > div > div > div,
+            .stRadio > div > div > label,
+            .stButton > button {
+                background-color: #2D2D2D;
+                color: #000000 !important;  /* Force dark text color */
+                border-color: #3D3D3D;
+            }
+            /* Ensure text is visible in input fields */
+            .stTextInput > div > div > input::placeholder,
+            .stTextArea > div > div > textarea::placeholder {
+                color: #666666 !important;
+            }
+            .stTextInput > div > div > input:focus,
+            .stTextArea > div > div > textarea:focus {
+                color: #000000 !important;
+            }
+            /* Button styling */
+            .stButton > button {
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+                border: 1px solid #3D3D3D !important;
+            }
+            .stButton > button:hover {
+                background-color: #F0F0F0 !important;
+                color: #000000 !important;
+            }
+            /* Custom dark theme styles */
+            .floating-home-button {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+                color: white;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                font-size: 1.5rem;
+                animation: float 3s ease-in-out infinite;
+            }
+            .floating-home-button:hover {
+                transform: translateY(-5px) scale(1.1);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+            /* Add padding to the main content to prevent overlap */
+            .main-content {
+                padding-top: 60px;
+            }
+            /* Dark theme text colors */
+            .text-color {
+                color: #FFFFFF;
+            }
+            .card-background {
+                background: rgba(45, 45, 45, 0.8);
+            }
+            .background-color {
+                background: rgba(30, 30, 30, 0.9);
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    # Floating home button
+    st.markdown("""
+        <div class="floating-home-button" onclick="window.location.href='#'">🏠</div>
+    """, unsafe_allow_html=True)
+    
+    # Home button functionality
+    if st.button("🏠", key="home_button"):
+        st.session_state.page = 'welcome'
+        st.rerun()
+    
+    # Add padding to prevent content from being hidden behind the fixed button
+    st.markdown('<div class="main-content">', unsafe_allow_html=True)
+    
     if st.session_state.page == 'welcome':
         welcome_page()
     else:
         main_page()
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def display_results():
-    st.header("Your Carbon Footprint Analysis")
+    st.markdown("""
+        <style>
+            .header-text {
+                color: #FFFFFF;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+            }
+            .metric-text {
+                color: #FFFFFF;
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+            .carbon-number {
+                color: #FFFFFF;
+                font-size: 3.5rem;
+                font-weight: 900;
+                text-align: center;
+                margin: 1rem 0;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .carbon-label {
+                color: #FFFFFF;
+                font-size: 1.2rem;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+            .section-title {
+                color: #FFFFFF;
+                font-size: 2rem;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 3px solid #90CAF9;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .card-header {
+                color: #FFFFFF;
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.8rem;
+                border-bottom: 2px solid #90CAF9;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .content-label {
+                color: #FFFFFF;
+                font-size: 0.9rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 0.3rem;
+            }
+            .content-value {
+                color: #FFFFFF;
+                font-size: 1.1rem;
+                font-weight: 500;
+                margin-bottom: 1rem;
+                padding: 0.8rem;
+                background: rgba(45, 45, 45, 0.8);
+                border-radius: 8px;
+                border-left: 3px solid #1976D2;
+            }
+            .suggestion-text {
+                color: #FFFFFF;
+                font-size: 1.1rem;
+                line-height: 1.5;
+            }
+            .suggestion-box {
+                background: rgba(45, 45, 45, 0.8);
+                padding: 1.2rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+                border-left: 4px solid #1976D2;
+                position: relative;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+            .graph-title {
+                color: #FFFFFF;
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="header-text">Your Carbon Footprint Analysis</div>', unsafe_allow_html=True)
     
     # Total CO2e
     total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
-    st.metric("Total Carbon Footprint", f"{total_co2:.2f} kg CO₂e")
+    st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
     
     # Category breakdown - Modified to fix the FutureWarning
     df = pd.DataFrame(st.session_state.carbon_data)
@@ -478,7 +683,7 @@ def display_results():
         df,
         values='co2e',
         names='category',
-        title='Carbon Footprint by Category',
+        title='',
         color_discrete_map={
             'Food': '#FF9999',
             'Transport': '#66B2FF',
@@ -486,10 +691,11 @@ def display_results():
             'Shopping': '#FFCC99'
         }
     ).update_traces(
-        textinfo='percent+label'
+        textinfo='percent+label',
+        textfont=dict(color='#FFFFFF')
     )
     
-    # Optional: Add any additional styling to the figure
+    # Update layout for transparent background
     fig.update_layout(
         showlegend=True,
         legend=dict(
@@ -497,10 +703,17 @@ def display_results():
             yanchor="bottom",
             y=1.02,
             xanchor="right",
-            x=1
+            x=1,
+            font=dict(color='#FFFFFF')
+        ),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(
+            color='#FFFFFF'  # Changed to white for better visibility
         )
     )
     
+    st.markdown('<div class="graph-title" style="text-align: left;">Carbon Footprint by Category</div>', unsafe_allow_html=True)
     st.plotly_chart(fig, use_container_width=True)
     
     # Enhanced styling with better contrast and more lively colors
@@ -518,22 +731,20 @@ def display_results():
 
         /* Section Styling */
         .section-container {
-            background: #FFFFFF;
+            background: rgba(45, 45, 45, 0.8);
             border-radius: 20px;
             padding: 2rem;
             margin: 2rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
         }
 
-        .section-title {
-            color: var(--primary-green);
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid #E8F5E9;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        .section-container:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
         }
 
         /* Card Styling - More Lively Colors */
@@ -543,6 +754,7 @@ def display_results():
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(45, 45, 45, 0.8);
         }
 
         .flash-card:hover {
@@ -551,49 +763,16 @@ def display_results():
         }
 
         /* Activity Card Variations */
-        .activity-card-1 { background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%); }
-        .activity-card-2 { background: linear-gradient(135deg, #E8F5E9 0%, #FFFFFF 100%); }
-        .activity-card-3 { background: linear-gradient(135deg, #F3E5F5 0%, #FFFFFF 100%); }
-        .activity-card-4 { background: linear-gradient(135deg, #E0F2F1 0%, #FFFFFF 100%); }
+        .activity-card-1 { background: rgba(45, 45, 45, 0.8); }
+        .activity-card-2 { background: rgba(45, 45, 45, 0.8); }
+        .activity-card-3 { background: rgba(45, 45, 45, 0.8); }
+        .activity-card-4 { background: rgba(45, 45, 45, 0.8); }
 
         /* Insight Card Variations */
-        .insight-card-1 { background: linear-gradient(135deg, #E8EAF6 0%, #FFFFFF 100%); }
-        .insight-card-2 { background: linear-gradient(135deg, #FFF3E0 0%, #FFFFFF 100%); }
-        .insight-card-3 { background: linear-gradient(135deg, #FCE4EC 0%, #FFFFFF 100%); }
-        .insight-card-4 { background: linear-gradient(135deg, #E0F7FA 0%, #FFFFFF 100%); }
-
-        .card-header {
-            color: #1B5E20;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Content Styling with Better Contrast */
-        .content-label {
-            color: #1B5E20;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.3rem;
-        }
-
-        .content-value {
-            color: #000000;
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            border-left: 3px solid #2E7D32;
-        }
+        .insight-card-1 { background: rgba(45, 45, 45, 0.8); }
+        .insight-card-2 { background: rgba(45, 45, 45, 0.8); }
+        .insight-card-3 { background: rgba(45, 45, 45, 0.8); }
+        .insight-card-4 { background: rgba(45, 45, 45, 0.8); }
 
         /* Impact Badge Styling - More Vibrant */
         .impact-badge {
@@ -610,45 +789,28 @@ def display_results():
 
         .impact-very-high {
             background: #FF5252;
-            color: white;
+            color: #FFFFFF;
         }
 
         .impact-high {
             background: #FF7043;
-            color: white;
+            color: #FFFFFF;
         }
 
         .impact-medium {
             background: #FFA726;
-            color: white;
+            color: #FFFFFF;
         }
 
         .impact-low {
             background: #66BB6A;
-            color: white;
-        }
-
-        /* Suggestion Box Styling - Improved Contrast */
-        .suggestion-box {
-            background: #FFFFFF;
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            border-left: 4px solid #2E7D32;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .suggestion-text {
-            color: #000000;
-            font-size: 1.1rem;
-            line-height: 1.5;
+            color: #FFFFFF;
         }
 
         /* Divider Styling */
         .activity-divider {
             height: 2px;
-            background: linear-gradient(90deg, transparent, #E8F5E9, transparent);
+            background: linear-gradient(90deg, transparent, #90CAF9, transparent);
             margin: 2rem 0;
         }
         </style>
