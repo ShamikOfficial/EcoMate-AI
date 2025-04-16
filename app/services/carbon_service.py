@@ -54,11 +54,13 @@ class CarbonCalculator:
                         results.append({
                             'text': activity['activity'],
                             'category': activity['category'],
-                            'type': activity['type'],
+                            'type': activity['type_obj'],
                             'co2e_per_unit': activity['co2e_per_unit'],
                             'co2e': co2e,
                             'quantity': activity['quantity'],
-                            'unit': activity['unit']
+                            'unit': activity['unit'],
+                            'co2e_impact_level': activity['co2e_impact_level'],
+                            'suggestion': activity['suggestion']
                         })
                     else:
                         logger.warning(f"No emission factor found for activity: {activity['text']}")
@@ -79,24 +81,27 @@ class CarbonCalculator:
         try:
             # Convert activities to a more readable format for the AI model
             activity_summary = []
+            suggestions=[]
             for activity in activities:
-                summary = (
-                    f"{activity['text']} "
-                    f"(Category: {activity['category']}, "
-                    f"CO2e: {activity['co2e']:.2f} kg)"
-                )
-                activity_summary.append(summary)
+                suggestions.append(activity['suggestion'])
+            #     summary = (
+            #         f"{activity['text']} "
+            #         f"(Category: {activity['category']}, "
+            #         f"CO2e: {activity['co2e']:.2f} kg)"
+            #     )
+            #     activity_summary.append(summary)
             
-            # Join all activities into a single text
-            activities_text = "\n".join(activity_summary)
+            # # Join all activities into a single text
+            # activities_text = "\n".join(activity_summary)
             
-            # Generate suggestions using the GenAI model
-            result = genai_model.generate_suggestions(
-                text=activities_text,
-                suggestion_schema=SUGGESTION_SCHEMA
-            )
+            # # Generate suggestions using the GenAI model
+            # result = genai_model.generate_suggestions(
+            #     text=activities_text,
+            #     suggestion_schema=SUGGESTION_SCHEMA
+            # )
             
-            return result.get('suggestions', [])
+            # return result.get('suggestions', [])
+            return suggestions
         except Exception as e:
             logger.error(f"Error generating suggestions: {str(e)}")
             return []

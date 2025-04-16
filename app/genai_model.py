@@ -24,18 +24,7 @@ class GenAIModel:
         context_files: Optional[List[str]] = None,
         temperature: float = 0.0
     ) -> Dict[str, Any]:
-        """
-        Generate content based on the prompt and schema.
-        
-        Args:
-            prompt (str): The input prompt for the model
-            schema (Dict[str, Any]): JSON schema for the output format
-            context_files (Optional[List[str]]): List of file paths to provide as context
-            temperature (float): Controls randomness in the output (0.0 to 1.0)
-            
-        Returns:
-            Dict[str, Any]: Structured response based on the schema
-        """
+
         try:
             # Prepare the content list with prompt
             content = [prompt]
@@ -65,22 +54,20 @@ class GenAIModel:
             raise Exception(f"Error in content generation: {str(e)}")
             
     def extract_tasks(self, text: str, task_schema: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Extract tasks from text using a custom schema.
+        prompt = f'''
+        You are a smart carbon emission expert who will give the below details from the daily task of a person.
+        Extract tasks and relevant information from the following text.
+        Return the information in a structured format according to the provided schema and below description.
+        category,type,activity as best match from emission pdf file provided. If not found give closest result for these attributes.
+        quantity: Amount or quantity of activity extracted. If not found, then give normalized quantity by default.
+        unit: S.I. unit of the task
+        co2e_per_unit: Extract co2e_per_unit basis pdf emission file provided. If not in file, give best estimate.
+        co2e_impact_level: strictly categorize into the following 4 category: (LOW),(MEDIUM),(HIGH),(VERY HIGH) based on category. If not able to identify, then give LOW by default.
+        suggestion: according to the co2e_impact_level, give a suggestion for an alternative task with low co2 impact.
         
-        Args:
-            text (str): Input text to analyze
-            task_schema (Dict[str, Any]): Schema for task extraction
-            
-        Returns:
-            Dict[str, Any]: Extracted tasks based on the schema
-        """
-        prompt = f'''Extract tasks and relevant information from the following text.
-        Return the information in a structured format according to the provided schema.
-
-        Text: {text}
+        InputText: {text}
         '''
-        return self.generate_content(prompt, task_schema)
+        return self.generate_content(prompt, task_schema,context_files='data/emission_factor.pdf')
         
     def generate_suggestions(self, text: str, suggestion_schema: Dict[str, Any]) -> Dict[str, Any]:
 

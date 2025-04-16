@@ -27,13 +27,15 @@ EMISSION_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "category": {"type": "string"},
-                    "type": {"type": "string"},
+                    "type_obj": {"type": "string"},
                     "activity": {"type": "string"},
                     "quantity": {"type": "number"},
                     "unit": {"type": "string"},
-                    "co2e_per_unit": {"type": "number"}
+                    "co2e_per_unit": {"type": "number"},
+                    "co2e_impact_level":{"type":"string"},
+                    "suggestion":{"type": "string"}
                 },
-                "required": ["category", "activity", "type", "unit", "quantity", "co2e_per_unit"]
+                "required": ["category", "activity", "type_obj", "unit", "quantity", "co2e_per_unit","co2e_impact_level","suggestion"]
             }
         }
     },
@@ -436,6 +438,7 @@ def main_page():
                     from services.carbon_service import CarbonCalculator
                     calculator = CarbonCalculator()
                     results = calculator.calculate_carbon_footprint(activities)
+                    print(results)
                     suggestions = calculator.get_sustainability_suggestions(results)
 
                     # Update session state
@@ -500,190 +503,222 @@ def display_results():
     
     st.plotly_chart(fig, use_container_width=True)
     
-    # Detailed breakdown with themed cards
+    # Enhanced styling with better contrast and more lively colors
     st.markdown("""
         <style>
-            @keyframes slideIn {
-                from { transform: translateY(20px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-5px); }
-                100% { transform: translateY(0px); }
-            }
-            .breakdown-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2.5rem;
-                padding: 2rem;
-                margin: 1rem 0;
-            }
-            .breakdown-card {
-                border-radius: 15px;
-                padding: 2rem;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                animation: slideIn 0.5s ease-out;
-                transition: all 0.3s ease;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                margin: 0.5rem 0;
-            }
-            .breakdown-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            }
-            .breakdown-icon {
-                font-size: 2rem;
-                margin-bottom: 1.5rem;
-                animation: float 3s ease-in-out infinite;
-            }
-            .breakdown-content {
-                font-size: 1.1rem;
-                line-height: 1.6;
-                flex-grow: 1;
-                margin-top: 0.5rem;
-            }
-            .breakdown-header {
-                font-size: 1.3rem;
-                font-weight: bold;
-                margin-bottom: 1rem;
-            }
-            .breakdown-metric {
-                font-size: 1.8rem;
-                font-weight: bold;
-                margin-top: 1.5rem;
-                padding: 1rem;
-                border-radius: 8px;
-                text-align: center;
-            }
-            .high-impact {
-                background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
-                border-left: 5px solid #D32F2F;
-                color: #B71C1C;
-            }
-            .medium-impact {
-                background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-                border-left: 5px solid #F57C00;
-                color: #E65100;
-            }
-            .low-impact {
-                background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-                border-left: 5px solid #388E3C;
-                color: #1B5E20;
-            }
+        /* Modern Vibrant Color Palette */
+        :root {
+            --primary-green: #2E7D32;
+            --primary-teal: #00796B;
+            --primary-blue: #1976D2;
+            --primary-purple: #6A1B9A;
+            --accent-orange: #F57C00;
+            --accent-pink: #C2185B;
+        }
+
+        /* Section Styling */
+        .section-container {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: var(--primary-green);
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #E8F5E9;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card Styling - More Lively Colors */
+        .flash-card {
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flash-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Activity Card Variations */
+        .activity-card-1 { background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%); }
+        .activity-card-2 { background: linear-gradient(135deg, #E8F5E9 0%, #FFFFFF 100%); }
+        .activity-card-3 { background: linear-gradient(135deg, #F3E5F5 0%, #FFFFFF 100%); }
+        .activity-card-4 { background: linear-gradient(135deg, #E0F2F1 0%, #FFFFFF 100%); }
+
+        /* Insight Card Variations */
+        .insight-card-1 { background: linear-gradient(135deg, #E8EAF6 0%, #FFFFFF 100%); }
+        .insight-card-2 { background: linear-gradient(135deg, #FFF3E0 0%, #FFFFFF 100%); }
+        .insight-card-3 { background: linear-gradient(135deg, #FCE4EC 0%, #FFFFFF 100%); }
+        .insight-card-4 { background: linear-gradient(135deg, #E0F7FA 0%, #FFFFFF 100%); }
+
+        .card-header {
+            color: #1B5E20;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Content Styling with Better Contrast */
+        .content-label {
+            color: #1B5E20;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .content-value {
+            color: #000000;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            border-left: 3px solid #2E7D32;
+        }
+
+        /* Impact Badge Styling - More Vibrant */
+        .impact-badge {
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-very-high {
+            background: #FF5252;
+            color: white;
+        }
+
+        .impact-high {
+            background: #FF7043;
+            color: white;
+        }
+
+        .impact-medium {
+            background: #FFA726;
+            color: white;
+        }
+
+        .impact-low {
+            background: #66BB6A;
+            color: white;
+        }
+
+        /* Suggestion Box Styling - Improved Contrast */
+        .suggestion-box {
+            background: #FFFFFF;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border-left: 4px solid #2E7D32;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .suggestion-text {
+            color: #000000;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Divider Styling */
+        .activity-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #E8F5E9, transparent);
+            margin: 2rem 0;
+        }
         </style>
     """, unsafe_allow_html=True)
-    
-    st.header("📊 Detailed Breakdown")
-    st.markdown('<div class="breakdown-container">', unsafe_allow_html=True)
-    
-    for item in st.session_state.carbon_data:
-        # Determine impact level based on CO2e
-        co2e = item['co2e']
-        if co2e > 5:  # High impact
-            impact_class = "high-impact"
-            icon = "⚠️"
-        elif co2e > 2:  # Medium impact
-            impact_class = "medium-impact"
-            icon = "ℹ️"
-        else:  # Low impact
-            impact_class = "low-impact"
-            icon = "✅"
+
+    # Section Container
+    st.markdown('<div class="section-container">', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🌱 Activity Impact Analysis</div>', unsafe_allow_html=True)
+
+    # Create flash cards for each activity
+    for idx, activity in enumerate(st.session_state.carbon_data):
+        cols = st.columns(2)
         
-        st.markdown(f"""
-            <div class="breakdown-card {impact_class}">
-                <div class="breakdown-icon">{icon}</div>
-                <div class="breakdown-header">{item['text']}</div>
-                <div class="breakdown-content">
-                    <div><strong>Category:</strong> {item['category']}</div>
-                    <div><strong>Quantity:</strong> {item['quantity']} {item.get('unit', 'item')}</div>
-                </div>
-                <div class="breakdown-metric">
-                    CO₂e: {item['co2e']:.2f} kg
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Suggestions with individual flash cards
-    if st.session_state.suggestions:
-        st.markdown("""
-            <style>
-                @keyframes slideIn {
-                    from { transform: translateY(20px); opacity: 0; }
-                    to { transform: translateY(0); opacity: 1; }
-                }
-                @keyframes float {
-                    0% { transform: translateY(0px); }
-                    50% { transform: translateY(-5px); }
-                    100% { transform: translateY(0px); }
-                }
-                .suggestions-container {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 3.5rem;  /* Increased gap between cards */
-                    padding: 2.5rem;  /* Increased padding around container */
-                    margin: 2rem 0;  /* Added margin around container */
-                }
-                .suggestion-card {
-                    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-                    border-radius: 15px;
-                    padding: 2.5rem;  /* Increased padding inside cards */
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    border-left: 5px solid #1B5E20;
-                    animation: slideIn 0.5s ease-out;
-                    transition: all 0.3s ease;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    margin: 0.5rem 0;
-                }
-                .suggestion-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-                }
-                .suggestion-icon {
-                    font-size: 2.5rem;  /* Increased icon size */
-                    margin-bottom: 2rem;  /* Increased margin below icon */
-                    color: #1B5E20;
-                    animation: float 3s ease-in-out infinite;
-                }
-                .suggestion-content {
-                    color: #1B5E20;
-                    font-size: 1.1rem;
-                    line-height: 1.8;  /* Increased line height */
-                    flex-grow: 1;
-                    margin-top: 1rem;  /* Added margin above content */
-                }
-                .suggestion-header {
-                    font-size: 1.4rem;  /* Increased header size */
-                    font-weight: bold;
-                    margin-bottom: 1.5rem;  /* Increased margin below header */
-                    color: #1B5E20;
-                }
-            </style>
-        """, unsafe_allow_html=True)
+        # Map impact levels
+        impact_level = str(activity.get('co2e_impact_level', '')).lower()
+        impact_mapping = {
+            '1': 'LOW',
+            '2': 'MEDIUM',
+            '3': 'HIGH',
+            '4': 'VERY HIGH',
+            'low': 'LOW',
+            'medium': 'MEDIUM',
+            'high': 'HIGH',
+            'very high': 'VERY HIGH',
+            'very_high': 'VERY HIGH'
+        }
+        display_impact = impact_mapping.get(impact_level, 'MEDIUM')
         
-        st.header("🌿 Sustainability Suggestions")
-        st.markdown('<div class="suggestions-container">', unsafe_allow_html=True)
-        
-        for i, suggestion in enumerate(st.session_state.suggestions):
-            icon = "💡" if i % 3 == 0 else "🌱" if i % 3 == 1 else "♻️"
-            header = "Smart Tip" if i % 3 == 0 else "Green Living" if i % 3 == 1 else "Eco Action"
+        # Activity Details Card
+        with cols[0]:
+            card_variation = (idx % 4) + 1
+            st.markdown(f'<div class="flash-card activity-card-{card_variation}">', unsafe_allow_html=True)
+            st.markdown('<div class="card-header">📊 Activity Details</div>', unsafe_allow_html=True)
             
-            st.markdown(f"""
-                <div class="suggestion-card">
-                    <div class="suggestion-icon">{icon}</div>
-                    <div class="suggestion-header">{header}</div>
-                    <div class="suggestion-content">{suggestion}</div>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="content-label">Activity</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="content-value">{activity["text"]}</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="content-label">Category</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="content-value">{activity["category"]}</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="content-label">Quantity</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="content-value">{activity["quantity"]} {activity.get("unit", "")}</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="content-label">CO₂e Impact</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="content-value">{activity["co2e"]:.2f} kg</div>', unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        # Sustainability Insight Card
+        with cols[1]:
+            st.markdown(f'<div class="flash-card insight-card-{card_variation}">', unsafe_allow_html=True)
+            st.markdown('<div class="card-header">💡 Sustainability Insight</div>', unsafe_allow_html=True)
+            
+            st.markdown('<div class="content-label">Impact Level</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="impact-badge impact-{display_impact.lower().replace(" ", "-")}">{display_impact}</div>', 
+                      unsafe_allow_html=True)
+            
+            st.markdown('<div class="content-label">Suggestion</div>', unsafe_allow_html=True)
+            suggestion = activity.get('suggestion', 'Consider more sustainable alternatives for this activity.')
+            st.markdown(f'<div class="suggestion-box"><div class="suggestion-text">{suggestion}</div></div>', 
+                      unsafe_allow_html=True)
+            
+            st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('</div>', unsafe_allow_html=True)
-    
+        # Add divider between activities (except for the last one)
+        if idx < len(st.session_state.carbon_data) - 1:
+            st.markdown('<div class="activity-divider"></div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
     # Impact comparison with colorful flash cards
     st.markdown("""
         <style>
