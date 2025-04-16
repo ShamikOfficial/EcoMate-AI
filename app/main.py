@@ -16,7 +16,7 @@ load_dotenv("env1.env")
 # Initialize GenAI Model
 API_KEY = os.getenv("GOOGLE_API_KEY")
 genai_model = GenAIModel(api_key=API_KEY)
-print(API_KEY)
+
 # Define schemas (moved from api.py)
 EMISSION_SCHEMA = {
     "type": "object",
@@ -251,7 +251,12 @@ def welcome_page():
             
             # Create a form to handle both Enter key and button click
             with st.form("name_form"):
-                name = st.text_input("", placeholder="Enter your name", key="name_input", label_visibility="collapsed")
+                name = st.text_input(
+                    "Name",
+                    placeholder="Enter your name",
+                    key="name_input",
+                    label_visibility="collapsed"
+                )
                 submitted = st.form_submit_button("Get Started")
                 
                 if submitted or name:  # This will trigger on both button click and Enter key
@@ -376,10 +381,9 @@ def main_page():
     
     # Input method selection with enhanced styling
     input_method = st.radio(
-        "",
+        "Input Method",
         ["Upload Receipt", "Text Input", "Audio Input"],
-        horizontal=True,
-        label_visibility="collapsed"
+        horizontal=True
     )
     
     if input_method == "Upload Receipt":
@@ -387,7 +391,7 @@ def main_page():
         st.markdown('<div class="upload-icon">📄</div>', unsafe_allow_html=True)
         st.markdown('<p style="color: #1B5E20; font-size: 1.1rem;">Upload your receipt to analyze your purchases</p>', unsafe_allow_html=True)
         uploaded_file = st.file_uploader(
-            "",
+            "Receipt Upload",
             type=['png', 'jpg', 'jpeg'],
             label_visibility="collapsed"
         )
@@ -401,9 +405,9 @@ def main_page():
         st.markdown('<div class="text-input-section">', unsafe_allow_html=True)
         st.markdown('<p style="color: #1B5E20; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
         user_input = st.text_area(
-            "",
-            placeholder="e.g., 'Had beef burger for lunch, took Uber to work, ran AC for 5 hours'",
-            height=150,
+            "Activity Description",
+            placeholder="Describe your daily activities (e.g., 'Had beef burger, took Uber, ran AC for 5 hrs')",
+            height=100,
             label_visibility="collapsed"
         )
         st.markdown('</div>', unsafe_allow_html=True)
@@ -413,7 +417,7 @@ def main_page():
         st.markdown('<div class="audio-icon">🎤</div>', unsafe_allow_html=True)
         st.markdown('<p style="color: #1B5E20; font-size: 1.1rem; margin-bottom: 1rem;">Record your daily activities</p>', unsafe_allow_html=True)
         audio_file = st.file_uploader(
-            "",
+            "Audio Upload",
             type=['wav', 'mp3', 'ogg'],
             label_visibility="collapsed"
         )
@@ -461,219 +465,40 @@ def main():
 def display_results():
     st.header("Your Carbon Footprint Analysis")
     
-    # Total CO2e with enhanced styling
+    # Total CO2e
     total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
+    st.metric("Total Carbon Footprint", f"{total_co2:.2f} kg CO₂e")
     
-    st.markdown("""
-        <style>
-            .total-footprint-container {
-                background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
-                border-radius: 20px;
-                padding: 2rem;
-                margin: 2rem 0;
-                text-align: center;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                border: 2px solid rgba(255, 255, 255, 0.1);
-                animation: pulse 2s infinite;
-            }
-            .total-footprint-title {
-                font-size: 1.8rem;
-                color: #E8F5E9;
-                margin-bottom: 1rem;
-                font-weight: 600;
-            }
-            .total-footprint-value {
-                font-size: 4rem;
-                font-weight: 800;
-                color: #FFFFFF;
-                margin: 1rem 0;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            }
-            .total-footprint-unit {
-                font-size: 1.5rem;
-                color: #E8F5E9;
-                margin-top: 0.5rem;
-            }
-            @keyframes pulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.02); }
-                100% { transform: scale(1); }
-            }
-            .eco-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                animation: float 3s ease-in-out infinite;
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"""
-        <div class="total-footprint-container">
-            <div class="eco-icon">🌱</div>
-            <div class="total-footprint-title">Your Total Carbon Footprint</div>
-            <div class="total-footprint-value">{total_co2:.2f}</div>
-            <div class="total-footprint-unit">kg CO₂e</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Category breakdown
+    # Category breakdown - Modified to fix the FutureWarning
     df = pd.DataFrame(st.session_state.carbon_data)
+    fig = px.pie(
+        df,
+        values='co2e',
+        names='category',
+        title='Carbon Footprint by Category',
+        color_discrete_map={
+            'Food': '#FF9999',
+            'Transport': '#66B2FF',
+            'Energy': '#99FF99',
+            'Shopping': '#FFCC99'
+        }
+    ).update_traces(
+        textinfo='percent+label'
+    )
     
-    # Create two columns for the charts
-    col1, col2 = st.columns(2)
+    # Optional: Add any additional styling to the figure
+    fig.update_layout(
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
+    )
     
-    with col1:
-        # Pie chart
-        fig_pie = px.pie(
-            df,
-            values='co2e',
-            names='category',
-            title='Carbon Footprint by Category',
-            color='category',
-            color_discrete_map={
-                'Food': '#FF6B6B',      # Bright coral
-                'Transport': '#4ECDC4',  # Bright turquoise
-                'Energy': '#45B7D1',     # Bright blue
-                'Shopping': '#96CEB4'    # Soft green
-            }
-        )
-        
-        # Update layout for better aesthetics
-        fig_pie.update_layout(
-            title={
-                'text': "Carbon Footprint by Category",
-                'y': 0.95,
-                'x': 0.5,
-                'xanchor': 'center',
-                'yanchor': 'top',
-                'font': {
-                    'size': 24,
-                    'family': "Arial, sans-serif",
-                    'color': '#FFFFFF'
-                }
-            },
-            font={
-                'size': 16,
-                'family': "Arial, sans-serif",
-                'color': '#FFFFFF'
-            },
-            legend={
-                'title': {
-                    'text': 'Categories',
-                    'font': {
-                        'size': 20,
-                        'family': "Arial, sans-serif",
-                        'color': '#FFFFFF'
-                    }
-                },
-                'font': {
-                    'size': 16,
-                    'family': "Arial, sans-serif"
-                },
-                'orientation': 'h',
-                'yanchor': "bottom",
-                'y': -0.2,
-                'xanchor': "center",
-                'x': 0.5
-            },
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            margin=dict(t=100, b=100, l=50, r=50),
-            height=600,
-            showlegend=False  # Hide legend since we're using labels
-        )
-        
-        # Update traces for better visibility
-        fig_pie.update_traces(
-            textposition='outside',
-            textinfo='percent+label',
-            textfont={
-                'size': 20,
-                'family': "Arial, sans-serif",
-                'color': '#FFFFFF'
-            },
-            hovertemplate='<b>%{label}</b><br>CO₂e: <span style="font-size: 20px;">%{value:.2f} kg</span><br>Percentage: <span style="font-size: 20px;">%{percent:.1%}</span><extra></extra>',
-            marker=dict(
-                line=dict(color='#ffffff', width=2),
-                colors=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-            ),
-            pull=[0.1, 0, 0, 0],
-            rotation=45
-        )
-        
-        st.plotly_chart(fig_pie, use_container_width=True)
-    
-    with col2:
-        # Bar chart
-        fig_bar = px.bar(
-            df,
-            x='co2e',
-            y='category',
-            orientation='h',
-            title='Carbon Footprint Comparison',
-            color='category',
-            color_discrete_map={
-                'Food': '#FF6B6B',      # Bright coral
-                'Transport': '#4ECDC4',  # Bright turquoise
-                'Energy': '#45B7D1',     # Bright blue
-                'Shopping': '#96CEB4'    # Soft green
-            }
-        )
-        
-        # Update layout for better aesthetics
-        fig_bar.update_layout(
-            title={
-                'text': "Carbon Footprint Comparison",
-                'y': 0.95,
-                'x': 0.5,
-                'xanchor': 'center',
-                'yanchor': 'top',
-                'font': {
-                    'size': 24,
-                    'family': "Arial, sans-serif",
-                    'color': '#FFFFFF'
-                }
-            },
-            font={
-                'size': 16,
-                'family': "Arial, sans-serif",
-                'color': '#FFFFFF'
-            },
-            xaxis_title="CO₂e (kg)",
-            yaxis_title="Category",
-            paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            margin=dict(t=100, b=100, l=50, r=50),
-            height=600,
-            showlegend=False
-        )
-        
-        # Update traces for better visibility
-        fig_bar.update_traces(
-            hovertemplate='<b>%{y}</b><br>CO₂e: <span style="font-size: 20px;">%{x:.2f} kg</span><extra></extra>',
-            marker=dict(
-                line=dict(color='#ffffff', width=2)
-            ),
-            textfont=dict(size=20),
-            textposition='auto'
-        )
-        
-        # Update axes
-        fig_bar.update_xaxes(
-            gridcolor='rgba(255, 255, 255, 0.1)',
-            zerolinecolor='rgba(255, 255, 255, 0.1)'
-        )
-        fig_bar.update_yaxes(
-            gridcolor='rgba(255, 255, 255, 0.1)',
-            zerolinecolor='rgba(255, 255, 255, 0.1)'
-        )
-        
-        st.plotly_chart(fig_bar, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
     
     # Detailed breakdown with themed cards
     st.markdown("""
