@@ -667,6 +667,32 @@ def display_results():
                 text-align: center;
                 margin-bottom: 1rem;
             }
+            .confetti {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9999;
+            }
+            .confetti-piece {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background-color: #f00;
+                opacity: 0;
+            }
+            @keyframes confetti-fall {
+                0% {
+                    transform: translateY(-100vh) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
         </style>
     """, unsafe_allow_html=True)
     
@@ -674,6 +700,37 @@ def display_results():
     
     # Total CO2e
     total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
+    
+    # Add congratulatory message if carbon emission is 0
+    if abs(total_co2) < 0.1:  # Using a small epsilon to account for floating point precision
+        st.markdown("""
+            <div id="congrats-message" style="
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(46, 125, 50, 0.9);
+                color: white;
+                padding: 1rem;
+                text-align: center;
+                z-index: 1000;
+                opacity: 1;
+                transition: opacity 0.5s ease-out;
+            ">
+                <span style="font-size: 1.2rem;">🎉 Congratulations! Your activities have no carbon emission. Thanks for Saving our world and being a good example!!!</span>
+            </div>
+            <script>
+                // Auto-close after 5 seconds
+                setTimeout(function() {
+                    var element = document.getElementById('congrats-message');
+                    element.style.opacity = '0';
+                    setTimeout(function() {
+                        element.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            </script>
+        """, unsafe_allow_html=True)
+    
     st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
     
@@ -837,7 +894,7 @@ def display_results():
             'very high': 'VERY HIGH',
             'very_high': 'VERY HIGH'
         }
-        display_impact = impact_mapping.get(impact_level, 'MEDIUM')
+        display_impact = impact_mapping.get(impact_level, 'LOW')
         
         # Activity Details Card
         with cols[0]:
