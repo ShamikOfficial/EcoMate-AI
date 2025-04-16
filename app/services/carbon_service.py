@@ -76,32 +76,4 @@ class CarbonCalculator:
             logger.error(f"Error in calculate_carbon_footprint: {str(e)}")
             raise
     
-    def get_sustainability_suggestions(self, activities: List[Dict]) -> List[str]:
-        """Generate sustainability suggestions directly using GenAI model"""
-        try:
-            # Convert activities to a more readable format for the AI model
-            activity_summary = []
-            suggestions=[]
-            for activity in activities:
-                suggestions.append(activity['suggestion'])
-            #     summary = (
-            #         f"{activity['text']} "
-            #         f"(Category: {activity['category']}, "
-            #         f"CO2e: {activity['co2e']:.2f} kg)"
-            #     )
-            #     activity_summary.append(summary)
-            
-            # # Join all activities into a single text
-            # activities_text = "\n".join(activity_summary)
-            
-            # # Generate suggestions using the GenAI model
-            # result = genai_model.generate_suggestions(
-            #     text=activities_text,
-            #     suggestion_schema=SUGGESTION_SCHEMA
-            # )
-            
-            # return result.get('suggestions', [])
-            return suggestions
-        except Exception as e:
-            logger.error(f"Error generating suggestions: {str(e)}")
-            return []
+    

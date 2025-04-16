@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from genai_model import GenAIModel  # Import the GenAI model directly
 import pytesseract
 import google.generativeai as genai
-
+from typing import Dict, Any, Optional, Union, List
 # Load environment variables
 load_dotenv("env1.env")
 
@@ -188,13 +188,13 @@ if 'carbon_data' not in st.session_state:
 if 'suggestions' not in st.session_state:
     st.session_state.suggestions = []
 
-def analyze_text(text: str) -> list:
+def analyze_text(text: str,context_files:Optional[List[str]] = []) -> list:
     """Analyze text directly using GenAI model"""
     try:
-        result = genai_model.analyze_emissions(
+        result = genai_model.extract_tasks(
             text=text,
-            emission_schema=EMISSION_SCHEMA,
-            context_files=[os.path.join("data", "emission_factor.pdf")]
+            schema=EMISSION_SCHEMA,
+            context_files=[os.path.join("data", "emission_factor.pdf")]+context_files
         )
         return result['emission_record']
     except Exception as e:
@@ -212,15 +212,15 @@ def analyze_receipt(image) -> list:
 
 def welcome_page():
     st.markdown("""
-        <div class="welcome-section">
+        <div class="welcome-section" style="padding: 2rem 2rem;">
             <div class="leaf-decoration leaf-1">🌿</div>
             <div class="leaf-decoration leaf-2">🍃</div>
             <div class="leaf-decoration leaf-3">🌱</div>
             <div class="leaf-decoration leaf-4">🌿</div>
             <div style='text-align: center;'>
-                <div class="eco-icon">🌱</div>
-                <h1 class="main-title">EcoMate-AI</h1>
-                <h2 class="slogan">Small Swaps. Big Impact.</h2>
+                <div class="eco-icon" style="font-size: 2rem;">🌱</div>
+                <h1 class="main-title" style="font-size: 2.5rem;">EcoMate-AI</h1>
+                <h2 class="slogan" style="font-size: 1.5rem;">Small Swaps. Big Impact.</h2>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -402,7 +402,10 @@ def main_page():
         horizontal=True,
         label_visibility="collapsed"
     )
-    
+    attached_file_path=[]
+    user_input=None
+    uploaded_file=None
+    audio_file=None
     if input_method == "Upload Receipt":
         st.markdown('<div class="upload-section">', unsafe_allow_html=True)
         st.markdown('<div class="upload-icon">📄</div>', unsafe_allow_html=True)
@@ -413,9 +416,25 @@ def main_page():
             label_visibility="collapsed"
         )
         if uploaded_file is not None:
+            
+            user_input=f"Extract text from Image attached:{uploaded_file.name}"
+            # Create cache directory if it doesn't exist
+            cache_dir = os.path.join('data', 'cache')
+            os.makedirs(cache_dir, exist_ok=True)
+            
+            # Save the uploaded file in cache
+            file_path = os.path.join(cache_dir, uploaded_file.name)
+            attached_file_path.append(file_path)
+            with open(file_path, 'wb') as f:
+                f.write(uploaded_file.getbuffer())
+            
+            # Display the saved image
             image = Image.open(uploaded_file)
-            st.image(image, caption='Uploaded Receipt', use_column_width=True)
-            # TODO: Process image with OCR
+            st.image(image, caption='Uploaded Receipt', width=200)
+            
+            # Show the relative path
+            st.markdown(f'<p style="color: #FFFFFF; font-size: 1rem;">Image saved at: {file_path}</p>', unsafe_allow_html=True)
+            
         st.markdown('</div>', unsafe_allow_html=True)
     
     elif input_method == "Text Input":
@@ -445,29 +464,33 @@ def main_page():
     
     if st.button("Analyze", key="analyze_button"):
         if input_method == "Text Input" and user_input:
-            with st.spinner("Analyzing your activities..."):
+            pass
+                
+        elif input_method == "Upload Receipt" and uploaded_file:
+            pass
+            #st.info("Receipt analysis coming soon!")
+        elif input_method == "Audio Input" and audio_file:
+            st.info("Audio analysis coming soon!")
+        else:
+            st.warning("Please provide input to analyze")
+
+        with st.spinner("Analyzing your activities..."):
+            if user_input:
                 # Get activities from backend
-                activities = analyze_text(user_input)
+                activities = analyze_text(user_input,context_files=attached_file_path)
+                for each_attached_file_path in attached_file_path:
+                    if os.path.exists(each_attached_file_path):
+                        os.remove(each_attached_file_path)
                 if activities:
                     # Calculate carbon footprint
                     from services.carbon_service import CarbonCalculator
                     calculator = CarbonCalculator()
                     results = calculator.calculate_carbon_footprint(activities)
-                    print(results)
-                    suggestions = calculator.get_sustainability_suggestions(results)
-
+                    
                     # Update session state
                     st.session_state.carbon_data = results
-                    st.session_state.suggestions = suggestions
                 else:
                     st.warning("No activities were detected in your input. Please try again with more specific details.")
-        elif input_method == "Upload Receipt" and uploaded_file:
-            st.info("Receipt analysis coming soon!")
-        elif input_method == "Audio Input" and audio_file:
-            st.info("Audio analysis coming soon!")
-        else:
-            st.warning("Please provide input to analyze")
-    
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Results section
@@ -513,39 +536,6 @@ def main():
                 color: #000000 !important;
             }
             /* Custom dark theme styles */
-            .floating-home-button {
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
-                color: white;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                z-index: 1000;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-                font-size: 1.5rem;
-                animation: float 3s ease-in-out infinite;
-            }
-            .floating-home-button:hover {
-                transform: translateY(-5px) scale(1.1);
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-            /* Add padding to the main content to prevent overlap */
-            .main-content {
-                padding-top: 60px;
-            }
-            /* Dark theme text colors */
             .text-color {
                 color: #FFFFFF;
             }
@@ -557,16 +547,6 @@ def main():
             }
         </style>
     """, unsafe_allow_html=True)
-    
-    # Floating home button
-    st.markdown("""
-        <div class="floating-home-button" onclick="window.location.href='#'">🏠</div>
-    """, unsafe_allow_html=True)
-    
-    # Home button functionality
-    if st.button("🏠", key="home_button"):
-        st.session_state.page = 'welcome'
-        st.rerun()
     
     # Add padding to prevent content from being hidden behind the fixed button
     st.markdown('<div class="main-content">', unsafe_allow_html=True)

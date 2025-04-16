@@ -53,10 +53,12 @@ class GenAIModel:
         except Exception as e:
             raise Exception(f"Error in content generation: {str(e)}")
             
-    def extract_tasks(self, text: str, task_schema: Dict[str, Any]) -> Dict[str, Any]:
+    def extract_tasks(self, text: str, schema: Dict[str, Any],context_files: Optional[List[str]] = None) -> Dict[str, Any]:
         prompt = f'''
         You are a smart carbon emission expert who will give the below details from the daily task of a person.
-        Extract tasks and relevant information from the following text.
+        Extract tasks and relevant information from the following text. 
+        If you are provided any image or doc other than emission_factor.pdf, use it to extract text from it and use that as your input source text.
+        
         Return the information in a structured format according to the provided schema and below description.
         category,type,activity as best match from emission pdf file provided. If not found give closest result for these attributes.
         quantity: Amount or quantity of activity extracted. If not found, then give normalized quantity by default.
@@ -67,18 +69,9 @@ class GenAIModel:
         
         InputText: {text}
         '''
-        return self.generate_content(prompt, task_schema,context_files='data/emission_factor.pdf')
+        return self.generate_content(prompt, schema,context_files=context_files)
         
-    def generate_suggestions(self, text: str, suggestion_schema: Dict[str, Any]) -> Dict[str, Any]:
 
-        prompt = f'''Analyze the following text and provide relevant suggestions.
-                Return the suggestions in a structured format according to the provided schema. Also only give suggestion if necessary. If task is already an optimal carbon emission compliant task, no need suggestion unnecessary.
-                Make sure each suggestion is not more than 10-20 words.
-
-                Text: {text}
-                '''
-        return self.generate_content(prompt, suggestion_schema)
-        
     def analyze_emissions(self, text: str, emission_schema: Dict[str, Any], context_files: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Analyze emissions from activities described in the text.
