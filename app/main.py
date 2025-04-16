@@ -5,11 +5,40 @@ from PIL import Image
 import io
 import json
 import os
-import requests
 from dotenv import load_dotenv
+from genai_model import GenAIModel  # Import the GenAI model directly
+import pytesseract
+import google.generativeai as genai
 
 # Load environment variables
 load_dotenv("env1.env")
+
+# Initialize GenAI Model
+API_KEY = os.getenv("GOOGLE_API_KEY")
+genai_model = GenAIModel(api_key=API_KEY)
+print(API_KEY)
+# Define schemas (moved from api.py)
+EMISSION_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "emission_record": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "category": {"type": "string"},
+                    "type": {"type": "string"},
+                    "activity": {"type": "string"},
+                    "quantity": {"type": "number"},
+                    "unit": {"type": "string"},
+                    "co2e_per_unit": {"type": "number"}
+                },
+                "required": ["category", "activity", "type", "unit", "quantity", "co2e_per_unit"]
+            }
+        }
+    },
+    "required": ["emission_record"]
+}
 
 # Page config
 st.set_page_config(
@@ -158,16 +187,25 @@ if 'suggestions' not in st.session_state:
     st.session_state.suggestions = []
 
 def analyze_text(text: str) -> list:
-    """Send text to backend for analysis"""
+    """Analyze text directly using GenAI model"""
     try:
-        response = requests.post(
-            "http://localhost:8000/analyze/text",
-            params={"text": text}
+        result = genai_model.analyze_emissions(
+            text=text,
+            emission_schema=EMISSION_SCHEMA,
+            context_files=[os.path.join("data", "emission_factor.pdf")]
         )
-        response.raise_for_status()
-        return response.json()["activities"]
+        return result['emission_record']
     except Exception as e:
         st.error(f"Error analyzing text: {str(e)}")
+        return []
+
+def analyze_receipt(image) -> list:
+    """Process receipt image and extract activities"""
+    try:
+        text = pytesseract.image_to_string(image)
+        return analyze_text(text)
+    except Exception as e:
+        st.error(f"Error processing receipt: {str(e)}")
         return []
 
 def welcome_page():
