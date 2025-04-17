@@ -850,9 +850,129 @@ def display_results():
             color='#FFFFFF'  # Changed to white for better visibility
         )
     )
+    total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
     
-    st.markdown('<div class="graph-title" style="text-align: left;">Carbon Footprint by Category</div>', unsafe_allow_html=True)
-    st.plotly_chart(fig, use_container_width=True)
+    # Create metrics row (keep existing code)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Carbon Footprint", f"{total_co2:.2f} kg CO₂e")
+    with col2:
+        st.metric("Daily Average", f"{total_co2/1:.2f} kg CO₂e/day")
+    with col3:
+        global_average = 12
+        percentage_diff = ((total_co2 - global_average) / global_average) * 100
+        st.metric("Compared to Global Average", 
+                 f"{total_co2:.2f} kg CO₂e",
+                 f"{percentage_diff:+.1f}%",
+                 delta_color="inverse")
+
+    # Create two columns for charts
+    col1, col2 = st.columns(2)
+
+    # Pie Chart with conditional display
+    with col1:
+        st.subheader("Distribution by Category")
+        if total_co2 > 0:
+            # Regular pie chart for non-zero emissions
+            df = pd.DataFrame(st.session_state.carbon_data)
+            fig_pie = px.pie(
+                df,
+                values='co2e',
+                names='category',
+                title='Carbon Footprint Distribution',
+                color='category',
+                color_discrete_map={
+                    'Food': '#FF9999',
+                    'Transport': '#66B2FF',
+                    'Energy': '#99FF99',
+                    'Shopping': '#FFCC99'
+                }
+            )
+        else:
+            # Zero emission pie chart (all green)
+            fig_pie = px.pie(
+                values=[1],  # Single value for full circle
+                names=['Zero Emission'],
+                title='Carbon Footprint Distribution',
+                color_discrete_sequence=['#4CAF50']  # Green color
+            )
+            
+        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+        fig_pie.update_layout(
+            showlegend=True,
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=-0.2,
+                xanchor="center",
+                x=0.5
+            ),
+            paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+            plot_bgcolor='rgba(0,0,0,0)',   # Transparent plot area
+            # annotations=[
+            #     dict(
+            #         text="Zero Carbon Emission!" if total_co2 == 0 else "",
+            #         x=0.5,
+            #         y=0.5,
+            #         font_size=16,
+            #         font_color='#1B5E20',
+            #         showarrow=False,
+            #         font_family="Arial"
+            #     )
+            # ]
+        )
+        st.plotly_chart(fig_pie, use_container_width=True, config={'displayModeBar': False})  # Hide the mode bar for cleaner look
+
+    # Bar Chart (keep existing code)
+    with col2:
+        st.subheader("Emissions by Activity")
+        if total_co2 > 0:
+            df = pd.DataFrame(st.session_state.carbon_data)
+            fig_bar = px.bar(
+                df,
+                x='co2e',
+                y='text',
+                orientation='h',
+                color='category',
+                color_discrete_map={
+                    'Food': '#FF9999',
+                    'Transport': '#66B2FF',
+                    'Energy': '#99FF99',
+                    'Shopping': '#FFCC99'
+                },
+                title='Emissions by Individual Activity'
+            )
+            fig_bar.update_layout(
+                xaxis_title="CO₂e (kg)",
+                yaxis_title="Activity",
+                showlegend=True,
+                legend_title="Category",
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=-0.5,
+                    xanchor="center",
+                    x=0.5
+                ),
+                height=400,
+                paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                plot_bgcolor='rgba(0,0,0,0)',   # Transparent plot area
+            )
+            fig_bar.update_traces(texttemplate='%{x:.1f} kg', textposition='outside')
+            st.plotly_chart(fig_bar, use_container_width=True)
+        else:
+            # Display a message for zero emissions
+            st.markdown(
+                """
+                <div style='text-align: center; padding: 20px; color: 'black'; background: #E8F5E9; border-radius: 10px;'>
+                    <h3>No Emissions Recorded!</h3>
+                    <p>Great job maintaining zero carbon emissions!</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    # st.markdown('<div class="graph-title" style="text-align: left;">Carbon Footprint by Category</div>', unsafe_allow_html=True)
+    # st.plotly_chart(fig, use_container_width=True)
     
     # Enhanced styling with better contrast and more lively colors
     st.markdown("""
@@ -957,7 +1077,7 @@ def display_results():
     # Section Container
     st.markdown('<div class="section-container">', unsafe_allow_html=True)
     st.markdown('<div class="section-title">🌱 Activity Impact Analysis</div>', unsafe_allow_html=True)
-
+    
     # Create flash cards for each activity
     for idx, activity in enumerate(st.session_state.carbon_data):
         cols = st.columns(2)
