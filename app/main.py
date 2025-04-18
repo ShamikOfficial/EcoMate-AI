@@ -273,124 +273,227 @@ def welcome_page():
 def main_page():
     # Welcome banner with user's name
     st.markdown(f"""
-        <div style='background-color: #1B5E20; padding: 2rem; border-radius: 15px; margin-bottom: 2rem;'>
-            <h2 style='color: white; margin: 0; text-align: center;'>Welcome, {st.session_state.user_name}! 👋</h2>
-            <p style='color: #E8F5E9; text-align: center; margin: 0.5rem 0 0;'>Let's analyze your carbon footprint together</p>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
         <style>
-            .input-section {
-                background-color: #2D2D2D;
-                border-radius: 15px;
-                padding: 2rem;
-                margin: 2rem 0;
-            }
-            .input-title {
+            @keyframes slideUp {{
+                from {{ transform: translateY(30px); opacity: 0; }}
+                to {{ transform: translateY(0); opacity: 1; }}
+            }}
+            @keyframes sparkle {{
+                0% {{ opacity: 0.5; transform: scale(1); }}
+                50% {{ opacity: 1; transform: scale(1.2); }}
+                100% {{ opacity: 0.5; transform: scale(1); }}
+            }}
+            .fun-banner {{
+                background: radial-gradient(circle at top left, #81C784, #388E3C);
+                padding: 3rem 2rem;
+                border-radius: 25px;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+                margin-bottom: 2.5rem;
+                position: relative;
+                animation: slideUp 1s ease;
+                overflow: hidden;
+            }}
+            .fun-banner h2 {{
+                font-size: 2.8rem;
+                font-weight: 900;
                 color: #FFFFFF;
+                text-align: center;
+                margin: 0;
+                letter-spacing: 1px;
+                text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+                position: relative;
+                z-index: 2;
+            }}
+            .fun-banner p {{
                 font-size: 1.5rem;
-                font-weight: bold;
-                margin-bottom: 1.5rem;
-                text-align: center;
-            }
-            .input-description {
-                color: #CCCCCC;
-                text-align: center;
-                margin-bottom: 2rem;
-                font-size: 1.1rem;
-            }
-            .stRadio > div {
-                display: flex;
-                justify-content: center;
-                gap: 2rem;
-                margin-bottom: 2rem;
-            }
-            .stRadio > div > label {
-                background: #1B5E20;
-                padding: 1.5rem 3rem;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                cursor: pointer;
-                color: #FFFFFF !important;
-                font-weight: 900 !important;
-                font-size: 2rem !important;
-                min-width: 300px;
-                text-align: center;
-            }
-            .stRadio > div > label[data-baseweb="radio"] {
-                background: #2E7D32;
-                color: #FFFFFF !important;
-                font-weight: 900 !important;
-                font-size: 2rem !important;
-            }
-            .stRadio > div > label:hover {
-                background: #388E3C;
-                color: #FFFFFF !important;
-            }
-            .upload-section {
-                text-align: center;
-                padding: 2rem;
-                border: 2px dashed #1B5E20;
-                border-radius: 15px;
-                margin: 1rem 0;
-                background: #3D3D3D;
-            }
-            .upload-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                color: #1B5E20;
-            }
-            .text-input-section {
-                padding: 2rem;
-                background: #3D3D3D;
-                border-radius: 15px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 1rem 0;
-            }
-            .stTextArea > div > div > textarea {
-                border: 2px solid #1B5E20;
-                border-radius: 10px;
-                padding: 1rem;
-                font-size: 1.1rem;
-                background: #2D2D2D;
-                color: #FFFFFF;
-            }
-            .stTextArea > div > div > textarea:focus {
-                border-color: #2E7D32;
-                box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
-            }
-            .analyze-button {
-                background-color: #1B5E20;
-                color: white;
-                border: none;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                font-size: 1.1rem;
-                font-weight: bold;
-                cursor: pointer;
-                width: 100%;
+                color: #F1F8E9;
                 text-align: center;
                 margin-top: 1rem;
-            }
-            .analyze-button:hover {
-                background-color: #2E7D32;
-            }
-            .audio-section {
-                text-align: center;
-                padding: 2rem;
-                background: #3D3D3D;
-                border-radius: 15px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 1rem 0;
-            }
-            .audio-icon {
-                font-size: 3rem;
-                margin-bottom: 1rem;
-                color: #1B5E20;
-            }
+                z-index: 2;
+                position: relative;
+                font-weight: 500;
+            }}
+            .emoji-sparkle {{
+                position: absolute;
+                font-size: 2.5rem;
+                animation: sparkle 3s ease-in-out infinite;
+                opacity: 0.6;
+            }}
+            .sparkle-1 {{ top: 15%; left: 5%; animation-delay: 0s; }}
+            .sparkle-2 {{ top: 40%; right: 8%; animation-delay: 1.5s; }}
+            .sparkle-3 {{ bottom: 10%; left: 10%; animation-delay: 2.5s; }}
+            .sparkle-4 {{ bottom: 25%; right: 12%; animation-delay: 3s; }}
         </style>
+
+        <div class="fun-banner">
+            <div class="emoji-sparkle sparkle-1">🌿</div>
+            <div class="emoji-sparkle sparkle-2">✨</div>
+            <div class="emoji-sparkle sparkle-3">🌱</div>
+            <div class="emoji-sparkle sparkle-4">🍀</div>
+            <h2>Hey {st.session_state.user_name}! 🌟</h2>
+            <p>Ready to make eco-friendly choices that matter? Let’s dive in! 🌍💪</p>
+        </div>
     """, unsafe_allow_html=True)
+
+
+
+    st.markdown("""
+        <style>
+        /* Fade and bounce in */
+        @keyframes fadeInBounce {
+            0% { opacity: 0; transform: translateY(20px); }
+            60% { transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glowing border pulse */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        .input-section {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            animation: fadeInBounce 1s ease;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .input-title {
+            color: #FFFFFF;
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .input-description {
+            color: #E8F5E9;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        /* Input radio buttons */
+        .stRadio > div {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stRadio > div > label {
+            background: #66BB6A;
+            padding: 1.2rem 2.5rem;
+            border-radius: 15px;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            color: white !important;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            animation: fadeInBounce 1s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stRadio > div > label[data-baseweb="radio"] {
+            background: #43A047;
+            border: 3px solid #C8E6C9;
+            animation: pulse-glow 2.5s infinite;
+        }
+
+        .stRadio > div > label:hover {
+            background: #388E3C;
+            transform: scale(1.05);
+        }
+
+        /* Upload section styling */
+        .upload-section {
+            text-align: center;
+            padding: 2rem;
+            border: 3px dashed #81C784;
+            border-radius: 20px;
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #81C784;
+            margin-bottom: 1rem;
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* Text input section */
+        .text-input-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            margin: 1rem 0;
+            animation: fadeInBounce 1s ease;
+        }
+
+        .stTextArea > div > div > textarea {
+            border: 2px solid #81C784;
+            border-radius: 12px;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            background: #2D2D2D;
+            color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .stTextArea > div > div > textarea:focus {
+            border-color: #A5D6A7;
+            box-shadow: 0 0 10px #A5D6A7;
+        }
+
+        /* Analyze button */
+        .analyze-button {
+            background-color: #66BB6A;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .analyze-button:hover {
+            background-color: #81C784;
+        }
+
+        /* Audio section */
+        .audio-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin: 1rem 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-icon {
+            font-size: 3rem;
+            color: #66BB6A;
+            margin-bottom: 1rem;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    
     
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     st.markdown('<div class="input-title">📊 Your Personal Carbon Footprint Analyzer</div>', unsafe_allow_html=True)
