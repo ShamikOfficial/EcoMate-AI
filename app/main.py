@@ -781,7 +781,7 @@ def display_results():
             }}
             .summary-grid {{
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
                 margin-bottom: 1rem;
                 flex-grow: 1;
@@ -847,7 +847,7 @@ def display_results():
                 border-radius: 20px;
                 display: inline-block;
                 font-weight: bold;
-                font-size: 2 rem;
+                font-size: 1.4rem;
                 box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
                 text-align: center;
                 margin: 0.3rem 0;
@@ -879,29 +879,7 @@ def display_results():
             </div>
 
             <div class="summary-grid">
-                <div class="summary-column">
-                    <div class="column-title">📊 Current Snapshot</div>
-                    <div class="summary-card">
-                        <h4>🌍 Daily CO₂ Emissions</h4>
-                        <p>{co2:.2f} kg</p>
-                    </div>
-                    <div class="summary-card">
-                        <h4>📊 Compared to Global Avg</h4>
-                        <p>{percent_diff:+.1f}%</p>
-                    </div>
-                    <div class="summary-card">
-                        <h4>📱 Smartphones Produced</h4>
-                        <p>{smartphones:.1f}</p>
-                    </div>
-                    <div class="summary-card">
-                        <h4>👕 T-Shirts Manufactured</h4>
-                        <p>{tshirts:.1f}</p>
-                    </div>
-                    <div class="summary-card">
-                        <h4>🚗 Car Kilometers</h4>
-                        <p>{car_km:.1f} km</p>
-                    </div>
-                </div>
+                
 
                 <div class="summary-column">
                     <div class="column-title">📈 Projected if Current Continues</div>
@@ -958,7 +936,7 @@ def display_results():
         </div>
         """
 
-    components.html(generate_dynamic_summary(total_co2), height=1000)
+    components.html(generate_dynamic_summary(total_co2), height=1100)
     # Riskometer
     # Calculate risk level and fill percentage with exponential scaling
     max_co2 = 24  # Maximum CO2 for 100% fill
