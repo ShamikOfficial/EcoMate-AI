@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from genai_model import GenAIModel  # Import the GenAI model directly
 import pytesseract
 import google.generativeai as genai
+import streamlit.components.v1 as components
 from typing import Dict, Any, Optional, Union, List
 # Load environment variables
 load_dotenv("env1.env")
@@ -1242,7 +1243,175 @@ def display_results():
         </div>
     """, unsafe_allow_html=True)
     
+    # Detailed Explanation Section
+    st.markdown("""
+        <style>
+            .summary-section {
+                margin-top: 2rem;
+                background: rgba(45, 45, 45, 0.9);
+                padding: 2rem;
+                border-radius: 20px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+            .summary-title {
+                font-size: 1.8rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+                color: #E8F5E9;
+            }
+            .summary-text {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: #FFFFFF;
+            }
+        </style>
+        <div class="summary-section">
+            <div class="summary-title">📘 What Do These Equivalents Mean?</div>
+            <div class="summary-text">
+                To help you understand the real-world impact of your carbon footprint, we've translated your total emissions into familiar items:
+                <br><br>
+                <strong>📱 Smartphones:</strong> The carbon cost of producing a single smartphone is roughly <code>404 kg CO₂e</code>. By comparing your activities to this, you can gauge the hidden emissions behind everyday tech.
+                <br><br>
+                <strong>👕 T-Shirts:</strong> Manufacturing a cotton t-shirt can emit about <code>190 kg CO₂e</code>, factoring in water usage, transport, and production. This comparison helps you reflect on clothing consumption's hidden footprint.
+                <br><br>
+                <strong>🚗 Car Kilometers:</strong> Driving a standard car emits around <code>200 g CO₂e per km</code>. This helps visualize how far you'd need to drive to equal your daily impact — great for translating emissions into tangible distance.
+                <br><br>
+                These equivalents help make abstract numbers like "12.34 kg CO₂e" more relatable. By tying emissions to real-world objects, you can better understand the scale of your actions and discover which habits might be worth adjusting for a greener lifestyle.
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
     st.markdown('</div>', unsafe_allow_html=True)
+
+    def generate_dynamic_summary(co2: float) -> str:
+        global_average = 12
+        smartphones = co2 * 1000 / 404
+        tshirts = co2 * 1000 / 190
+        car_km = co2 * 1000 / 200
+        percent_diff = ((co2 - global_average) / global_average) * 100
+
+        if co2 < 4:
+            behavior_tag = "EXCELLENT 🌟"
+            tone = "👏 You're far below the global average! Your lifestyle is highly sustainable."
+            bg_gradient = "linear-gradient(135deg, #43cea2, #185a9d)"
+        elif co2 < 10:
+            behavior_tag = "GOOD 🌿"
+            tone = "👍 You're doing well! A few mindful changes can make your impact even greener."
+            bg_gradient = "linear-gradient(135deg, #8BC34A, #558B2F)"
+        elif co2 < 16:
+            behavior_tag = "CONCERNING ⚠️"
+            tone = "⚠️ You're above the average. It's a good time to explore greener alternatives."
+            bg_gradient = "linear-gradient(135deg, #FFC107, #FF9800)"
+        else:
+            behavior_tag = "CRITICAL 🚨"
+            tone = "🚨 Your carbon footprint is quite high. Small consistent changes can help reverse this trend."
+            bg_gradient = "linear-gradient(135deg, #EF5350, #B71C1C)"
+
+        return f"""
+        <style>
+            .summary-box {{
+                background: {bg_gradient};
+                color: white;
+                padding: 2rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                font-family: 'Segoe UI', sans-serif;
+                animation: fadeIn 1s ease-in-out;
+            }}
+            .summary-header {{
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                font-size: 1.8rem;
+                font-weight: bold;
+                margin-bottom: 0.8rem;
+            }}
+            .summary-tone {{
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+            }}
+            .summary-grid {{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }}
+            .summary-card {{
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            }}
+            .summary-card h4 {{
+                margin: 0;
+                font-size: 1.1rem;
+                font-weight: bold;
+            }}
+            .summary-card p {{
+                margin: 0.3rem 0 0;
+                font-size: 1rem;
+            }}
+            .impact-badge {{
+                background-color: rgba(255, 255, 255, 0.2);
+                padding: 0.5rem 1.2rem;
+                border-radius: 20px;
+                display: inline-block;
+                font-weight: bold;
+                font-size: 1rem;
+                box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
+                text-align: center;
+            }}
+            .impact-footer {{
+                text-align: right;
+                font-size: 1.1rem;
+            }}
+            @keyframes fadeIn {{
+                from {{ opacity: 0; transform: translateY(20px); }}
+                to {{ opacity: 1; transform: translateY(0); }}
+            }}
+        </style>
+
+        <div class="summary-box">
+            <div class="summary-header">🧠 Personalized Sustainability Reflection</div>
+            <div class="summary-tone">{tone}</div>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4>🌍 Daily CO₂ Emissions</h4>
+                    <p>{co2:.2f} kg</p>
+                </div>
+                <div class="summary-card">
+                    <h4>📊 Compared to Global Avg</h4>
+                    <p>{percent_diff:+.1f}%</p>
+                </div>
+                <div class="summary-card">
+                    <h4>📱 Smartphones Produced</h4>
+                    <p>{smartphones:.1f}</p>
+                </div>
+                <div class="summary-card">
+                    <h4>👕 T-Shirts Manufactured</h4>
+                    <p>{tshirts:.1f}</p>
+                </div>
+                <div class="summary-card">
+                    <h4>🚗 Car Kilometers</h4>
+                    <p>{car_km:.1f} km</p>
+                </div>
+            </div>
+
+            <div class="impact-footer">
+                Your current status: <span class="impact-badge">{behavior_tag}</span>
+            </div>
+        </div>
+        """
+
+    components.html(generate_dynamic_summary(total_co2), height=550)
+
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+
 
 if __name__ == "__main__":
     main() 
