@@ -716,15 +716,21 @@ def display_results():
     st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
     
     # Riskometer
-    # Calculate risk level and fill percentage
+    # Calculate risk level and fill percentage with exponential scaling
     max_co2 = 24  # Maximum CO2 for 100% fill
-    fill_percentage = min((total_co2 / max_co2) * 100, 100)
+    base = 2  # Exponential base for more dramatic scaling
+    
+    # Calculate exponential fill percentage
+    if total_co2 <= 0:
+        fill_percentage = 0
+    else:
+        # Exponential scaling: percentage = (base^(x/max) - 1) * 100
+        fill_percentage = min((pow(base, total_co2/max_co2) - 1) * 100, 100)
     
     # Determine risk level and color
     if total_co2 > 16:
         risk_level = "HIGH"
         risk_color = "#F44336"  # Red
-        fill_percentage=fill_percentage-10
     elif total_co2 > 8:
         risk_level = "MEDIUM"
         risk_color = "#FFC107"  # Yellow
