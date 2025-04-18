@@ -1415,6 +1415,91 @@ def display_results():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # Assign CO2 values using real-time user data
+    current_co2 = total_co2
+    projected_co2_current = current_co2 * 365
+    projected_co2_suggested = projected_co2_current * 0.7  # Assume 30% reduction
+
+    # Keep this right above the new components.html block
+    smartphone_kg = 404
+    tshirt_kg = 190
+    car_g_per_km = 200
+
+    # Place this near the end of display_results()
+    components.html(f"""
+    <style>
+    .card-grid {{
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 3rem;
+    }}
+    .card-column {{
+        flex: 1;
+        min-width: 250px;
+    }}
+    .card {{
+        background: #2D2D2D;
+        color: red;
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }}
+    .card h4 {{
+        margin: 0;
+        font-size: 1.1rem;
+        color: #90CAF9;
+    }}
+    .card p {{
+        font-size: 1.6rem;
+        font-weight: bold;
+        font-family: 'Segoe UI', sans-serif;
+        margin-top: 0.3rem;
+    }}
+    .column-title {{
+        font-size: 1.4rem;
+        color: black;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 2px solid #90CAF9;
+        padding-bottom: 0.5rem;
+    }}
+    </style>
+
+    <div class="card-grid">
+        <div class="card-column">
+            <div class="column-title">📊 Current Snapshot</div>
+            <div class="card"><h4>🌍 Daily CO₂ Emissions</h4><p>{current_co2:.2f} kg</p></div>
+            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-37.3%</p></div>
+            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(current_co2 * 1000 / smartphone_kg):.1f}</p></div>
+            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(current_co2 * 1000 / tshirt_kg):.1f}</p></div>
+            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(current_co2 * 1000 / car_g_per_km):.1f} km</p></div>
+        </div>
+
+        <div class="card-column">
+            <div class="column-title">📈 Projected if Current Continues</div>
+            <div class="card"><h4>🌍 CO₂ (Annual)</h4><p>{projected_co2_current:.2f} kg</p></div>
+            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-37.3%</p></div>
+            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(projected_co2_current * 1000 / smartphone_kg):.1f}</p></div>
+            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(projected_co2_current * 1000 / tshirt_kg):.1f}</p></div>
+            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(projected_co2_current * 1000 / car_g_per_km):.1f} km</p></div>
+        </div>
+
+        <div class="card-column">
+            <div class="column-title">🌿 Projected with Green Suggestions</div>
+            <div class="card"><h4>🌍 CO₂ (Annual)</h4><p>{projected_co2_suggested:.2f} kg</p></div>
+            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-60.0%</p></div>
+            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(projected_co2_suggested * 1000 / smartphone_kg):.1f}</p></div>
+            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(projected_co2_suggested * 1000 / tshirt_kg):.1f}</p></div>
+            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(projected_co2_suggested * 1000 / car_g_per_km):.1f} km</p></div>
+        </div>
+    </div>
+    """, height=900)
+
 
 
 
