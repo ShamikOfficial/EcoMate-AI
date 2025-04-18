@@ -712,9 +712,253 @@ def display_results():
             </script>
         """, unsafe_allow_html=True)
     
-    st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
-    
+    # st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
+    # st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
+
+    def generate_dynamic_summary(co2: float) -> str:
+        global_average = 12
+        smartphones = co2 * 1000 / 404
+        tshirts = co2 * 1000 / 190
+        car_km = co2 * 1000 / 200
+        percent_diff = ((co2 - global_average) / global_average) * 100
+
+        # Calculate projections
+        projected_co2_current = co2 * 365
+        projected_co2_suggested = projected_co2_current * 0.7  # 30% reduction
+
+        if co2 < 4:
+            behavior_tag = "EXCELLENT 🌟"
+            tone = "👏 You're far below the global average! Your lifestyle is highly sustainable."
+            bg_gradient = "linear-gradient(135deg, #43cea2, #185a9d)"
+            status_color = "#4CAF50"
+            status_icon = "🌟"
+        elif co2 < 10:
+            behavior_tag = "GOOD 🌿"
+            tone = "👍 You're doing well! A few mindful changes can make your impact even greener."
+            bg_gradient = "linear-gradient(135deg, #8BC34A, #558B2F)"
+            status_color = "#8BC34A"
+            status_icon = "🌿"
+        elif co2 < 16:
+            behavior_tag = "CONCERNING ⚠️"
+            tone = "⚠️ You're above the average. It's a good time to explore greener alternatives."
+            bg_gradient = "linear-gradient(135deg, #FFC107, #FF9800)"
+            status_color = "#FFC107"
+            status_icon = "⚠️"
+        else:
+            behavior_tag = "CRITICAL 🚨"
+            tone = "🚨 Your carbon footprint is quite high. Small consistent changes can help reverse this trend."
+            bg_gradient = "linear-gradient(135deg, #EF5350, #B71C1C)"
+            status_color = "#F44336"
+            status_icon = "🚨"
+
+        return f"""
+        <style>
+            .summary-box {{
+                background: {bg_gradient};
+                color: white;
+                padding: 1.5rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                font-family: 'Segoe UI', sans-serif;
+                animation: fadeIn 1s ease-in-out;
+                display: flex;
+                flex-direction: column;
+                margin: 0.5rem;
+                position: relative;
+                overflow: visible;
+            }}
+            .summary-header {{
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }}
+            .summary-tone {{
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }}
+            .summary-grid {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                margin-bottom: 1rem;
+                flex-grow: 1;
+            }}
+            .summary-column {{
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1rem;
+                border-radius: 12px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                display: flex;
+                flex-direction: column;
+            }}
+            .column-title {{
+                font-size: 1.1rem;
+                font-weight: bold;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.3rem;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                text-align: center;
+            }}
+            .summary-card {{
+                background: rgba(255, 255, 255, 0.05);
+                padding: 0.8rem;
+                border-radius: 8px;
+                margin-bottom: 0.8rem;
+                flex-grow: 1;
+            }}
+            .summary-card h4 {{
+                margin: 0;
+                font-size: 0.9rem;
+                font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+            }}
+            .summary-card p {{
+                margin: 0.2rem 0 0;
+                font-size: 1.1rem;
+                font-weight: bold;
+            }}
+            .status-section {{
+                background: rgba(255, 255, 255, 0.1);
+                padding: 1rem;
+                border-radius: 12px;
+                margin-bottom: 1rem;
+                text-align: center;
+            }}
+            .status-icon {{
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }}
+            .status-title {{
+                font-size: 1.3rem;
+                font-weight: bold;
+                margin-bottom: 0.3rem;
+            }}
+            .status-description {{
+                font-size: 1rem;
+                opacity: 0.9;
+                margin-bottom: 0.3rem;
+            }}
+            .impact-badge {{
+                background-color: rgba(255, 255, 255, 0.2);
+                padding: 0.4rem 0.8rem;
+                border-radius: 20px;
+                display: inline-block;
+                font-weight: bold;
+                font-size: 2 rem;
+                box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
+                text-align: center;
+                margin: 0.3rem 0;
+            }}
+            .impact-footer {{
+                text-align: center;
+                font-size: 1rem;
+                margin-top: 1rem;
+                padding: 1rem 0;
+                border-top: 2px solid rgba(255, 255, 255, 0.2);
+                position: relative;
+                z-index: 1;
+            }}
+            @keyframes fadeIn {{
+                from {{ opacity: 0; transform: translateY(20px); }}
+                to {{ opacity: 1; transform: translateY(0); }}
+            }}
+        </style>
+
+        <div class="summary-box">
+            <div class="summary-header">🧠 Personalized Sustainability Reflection</div>
+            <div class="summary-tone">{tone}</div>
+
+            <div class="status-section">
+                <div class="status-icon">{status_icon}</div>
+                <div class="status-title">Current Status</div>
+                <div class="status-description">Your carbon footprint is currently at <span class="impact-badge">{co2:.2f} kg CO₂e</span> per day</div>
+                <div class="status-description">This is {abs(percent_diff):.1f}% {"below" if percent_diff < 0 else "above"} the global average</div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-column">
+                    <div class="column-title">📊 Current Snapshot</div>
+                    <div class="summary-card">
+                        <h4>🌍 Daily CO₂ Emissions</h4>
+                        <p>{co2:.2f} kg</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📊 Compared to Global Avg</h4>
+                        <p>{percent_diff:+.1f}%</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📱 Smartphones Produced</h4>
+                        <p>{smartphones:.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>👕 T-Shirts Manufactured</h4>
+                        <p>{tshirts:.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>🚗 Car Kilometers</h4>
+                        <p>{car_km:.1f} km</p>
+                    </div>
+                </div>
+
+                <div class="summary-column">
+                    <div class="column-title">📈 Projected if Current Continues</div>
+                    <div class="summary-card">
+                        <h4>🌍 Annual CO₂ Emissions</h4>
+                        <p>{projected_co2_current:.2f} kg</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📊 Compared to Global Avg</h4>
+                        <p>{percent_diff:+.1f}%</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📱 Smartphones Produced</h4>
+                        <p>{(projected_co2_current * 1000 / 404):.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>👕 T-Shirts Manufactured</h4>
+                        <p>{(projected_co2_current * 1000 / 190):.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>🚗 Car Kilometers</h4>
+                        <p>{(projected_co2_current * 1000 / 200):.1f} km</p>
+                    </div>
+                </div>
+
+                <div class="summary-column">
+                    <div class="column-title">🌿 Projected with Green Suggestions</div>
+                    <div class="summary-card">
+                        <h4>🌍 Annual CO₂ Emissions</h4>
+                        <p>{projected_co2_suggested:.2f} kg</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📊 Compared to Global Avg</h4>
+                        <p>{(projected_co2_suggested/365 - global_average)/global_average*100:+.1f}%</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>📱 Smartphones Produced</h4>
+                        <p>{(projected_co2_suggested * 1000 / 404):.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>👕 T-Shirts Manufactured</h4>
+                        <p>{(projected_co2_suggested * 1000 / 190):.1f}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>🚗 Car Kilometers</h4>
+                        <p>{(projected_co2_suggested * 1000 / 200):.1f} km</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="impact-footer">
+                Your current status: <span class="impact-badge">{behavior_tag}</span>
+            </div>
+        </div>
+        """
+
+    components.html(generate_dynamic_summary(total_co2), height=1000)
     # Riskometer
     # Calculate risk level and fill percentage with exponential scaling
     max_co2 = 24  # Maximum CO2 for 100% fill
@@ -980,7 +1224,7 @@ def display_results():
             )
     # st.markdown('<div class="graph-title" style="text-align: left;">Carbon Footprint by Category</div>', unsafe_allow_html=True)
     # st.plotly_chart(fig, use_container_width=True)
-    
+   
     # Enhanced styling with better contrast and more lively colors
     st.markdown("""
         <style>
@@ -1289,216 +1533,7 @@ def display_results():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    def generate_dynamic_summary(co2: float) -> str:
-        global_average = 12
-        smartphones = co2 * 1000 / 404
-        tshirts = co2 * 1000 / 190
-        car_km = co2 * 1000 / 200
-        percent_diff = ((co2 - global_average) / global_average) * 100
-
-        if co2 < 4:
-            behavior_tag = "EXCELLENT 🌟"
-            tone = "👏 You're far below the global average! Your lifestyle is highly sustainable."
-            bg_gradient = "linear-gradient(135deg, #43cea2, #185a9d)"
-        elif co2 < 10:
-            behavior_tag = "GOOD 🌿"
-            tone = "👍 You're doing well! A few mindful changes can make your impact even greener."
-            bg_gradient = "linear-gradient(135deg, #8BC34A, #558B2F)"
-        elif co2 < 16:
-            behavior_tag = "CONCERNING ⚠️"
-            tone = "⚠️ You're above the average. It's a good time to explore greener alternatives."
-            bg_gradient = "linear-gradient(135deg, #FFC107, #FF9800)"
-        else:
-            behavior_tag = "CRITICAL 🚨"
-            tone = "🚨 Your carbon footprint is quite high. Small consistent changes can help reverse this trend."
-            bg_gradient = "linear-gradient(135deg, #EF5350, #B71C1C)"
-
-        return f"""
-        <style>
-            .summary-box {{
-                background: {bg_gradient};
-                color: white;
-                padding: 2rem;
-                border-radius: 20px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-                font-family: 'Segoe UI', sans-serif;
-                animation: fadeIn 1s ease-in-out;
-            }}
-            .summary-header {{
-                display: flex;
-                align-items: center;
-                gap: 0.8rem;
-                font-size: 1.8rem;
-                font-weight: bold;
-                margin-bottom: 0.8rem;
-            }}
-            .summary-tone {{
-                font-size: 1.2rem;
-                margin-bottom: 2rem;
-            }}
-            .summary-grid {{
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1.5rem;
-                margin-bottom: 2rem;
-            }}
-            .summary-card {{
-                background: rgba(255, 255, 255, 0.1);
-                padding: 1rem 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            }}
-            .summary-card h4 {{
-                margin: 0;
-                font-size: 1.1rem;
-                font-weight: bold;
-            }}
-            .summary-card p {{
-                margin: 0.3rem 0 0;
-                font-size: 1rem;
-            }}
-            .impact-badge {{
-                background-color: rgba(255, 255, 255, 0.2);
-                padding: 0.5rem 1.2rem;
-                border-radius: 20px;
-                display: inline-block;
-                font-weight: bold;
-                font-size: 1rem;
-                box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
-                text-align: center;
-            }}
-            .impact-footer {{
-                text-align: right;
-                font-size: 1.1rem;
-            }}
-            @keyframes fadeIn {{
-                from {{ opacity: 0; transform: translateY(20px); }}
-                to {{ opacity: 1; transform: translateY(0); }}
-            }}
-        </style>
-
-        <div class="summary-box">
-            <div class="summary-header">🧠 Personalized Sustainability Reflection</div>
-            <div class="summary-tone">{tone}</div>
-
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <h4>🌍 Daily CO₂ Emissions</h4>
-                    <p>{co2:.2f} kg</p>
-                </div>
-                <div class="summary-card">
-                    <h4>📊 Compared to Global Avg</h4>
-                    <p>{percent_diff:+.1f}%</p>
-                </div>
-                <div class="summary-card">
-                    <h4>📱 Smartphones Produced</h4>
-                    <p>{smartphones:.1f}</p>
-                </div>
-                <div class="summary-card">
-                    <h4>👕 T-Shirts Manufactured</h4>
-                    <p>{tshirts:.1f}</p>
-                </div>
-                <div class="summary-card">
-                    <h4>🚗 Car Kilometers</h4>
-                    <p>{car_km:.1f} km</p>
-                </div>
-            </div>
-
-            <div class="impact-footer">
-                Your current status: <span class="impact-badge">{behavior_tag}</span>
-            </div>
-        </div>
-        """
-
-    components.html(generate_dynamic_summary(total_co2), height=550)
-
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # Assign CO2 values using real-time user data
-    current_co2 = total_co2
-    projected_co2_current = current_co2 * 365
-    projected_co2_suggested = projected_co2_current * 0.7  # Assume 30% reduction
-
-    # Keep this right above the new components.html block
-    smartphone_kg = 404
-    tshirt_kg = 190
-    car_g_per_km = 200
-
-    # Place this near the end of display_results()
-    components.html(f"""
-    <style>
-    .card-grid {{
-        display: flex;
-        justify-content: space-between;
-        gap: 2rem;
-        flex-wrap: wrap;
-        margin-top: 3rem;
-    }}
-    .card-column {{
-        flex: 1;
-        min-width: 250px;
-    }}
-    .card {{
-        background: #2D2D2D;
-        color: red;
-        border-radius: 12px;
-        padding: 1.2rem 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        animation: fadeIn 0.5s ease-in-out;
-    }}
-    .card h4 {{
-        margin: 0;
-        font-size: 1.1rem;
-        color: #90CAF9;
-    }}
-    .card p {{
-        font-size: 1.6rem;
-        font-weight: bold;
-        font-family: 'Segoe UI', sans-serif;
-        margin-top: 0.3rem;
-    }}
-    .column-title {{
-        font-size: 1.4rem;
-        color: black;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        text-align: center;
-        border-bottom: 2px solid #90CAF9;
-        padding-bottom: 0.5rem;
-    }}
-    </style>
-
-    <div class="card-grid">
-        <div class="card-column">
-            <div class="column-title">📊 Current Snapshot</div>
-            <div class="card"><h4>🌍 Daily CO₂ Emissions</h4><p>{current_co2:.2f} kg</p></div>
-            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-37.3%</p></div>
-            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(current_co2 * 1000 / smartphone_kg):.1f}</p></div>
-            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(current_co2 * 1000 / tshirt_kg):.1f}</p></div>
-            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(current_co2 * 1000 / car_g_per_km):.1f} km</p></div>
-        </div>
-
-        <div class="card-column">
-            <div class="column-title">📈 Projected if Current Continues</div>
-            <div class="card"><h4>🌍 CO₂ (Annual)</h4><p>{projected_co2_current:.2f} kg</p></div>
-            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-37.3%</p></div>
-            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(projected_co2_current * 1000 / smartphone_kg):.1f}</p></div>
-            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(projected_co2_current * 1000 / tshirt_kg):.1f}</p></div>
-            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(projected_co2_current * 1000 / car_g_per_km):.1f} km</p></div>
-        </div>
-
-        <div class="card-column">
-            <div class="column-title">🌿 Projected with Green Suggestions</div>
-            <div class="card"><h4>🌍 CO₂ (Annual)</h4><p>{projected_co2_suggested:.2f} kg</p></div>
-            <div class="card"><h4>📊 Compared to Global Avg</h4><p>-60.0%</p></div>
-            <div class="card"><h4>📱 Smartphones Produced</h4><p>{(projected_co2_suggested * 1000 / smartphone_kg):.1f}</p></div>
-            <div class="card"><h4>👕 T-Shirts Manufactured</h4><p>{(projected_co2_suggested * 1000 / tshirt_kg):.1f}</p></div>
-            <div class="card"><h4>🚗 Car Kilometers</h4><p>{(projected_co2_suggested * 1000 / car_g_per_km):.1f} km</p></div>
-        </div>
-    </div>
-    """, height=900)
+    
 
 
 
