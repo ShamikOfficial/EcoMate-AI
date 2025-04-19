@@ -14,8 +14,8 @@ A sustainability-focused AI application that analyzes your carbon footprint from
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/carbonlyzer-ai.git
-cd carbonlyzer-ai
+git clone https://github.com/ShamikOfficial/EcoMate-AI.git
+cd EcoMate-AI
 ```
 
 2. Create a virtual environment and install dependencies:
@@ -25,17 +25,8 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-3. Install Tesseract OCR:
-- Windows: Download and install from https://github.com/UB-Mannheim/tesseract/wiki
-- Linux: `sudo apt-get install tesseract-ocr`
-- macOS: `brew install tesseract`
 
-4. Download spaCy model:
-```bash
-python -m spacy download en_core_web_sm
-```
-
-5. Set up environment variables:
+3. Set up environment variables:
 ```bash
 cp .env.example .env
 # Edit .env with your OpenAI API key if using GPT-4
@@ -43,12 +34,7 @@ cp .env.example .env
 
 ## Running the Application
 
-1. Start the FastAPI backend:
-```bash
-uvicorn app.api:app --reload
-```
-
-2. In a new terminal, start the Streamlit frontend:
+1. In a new terminal, start the Streamlit frontend:
 ```bash
 streamlit run app/main.py
 ```
@@ -68,9 +54,10 @@ streamlit run app/main.py
 
 ```
 carbonlyzer-ai/
-├── app/                    # Application code
+├── app/                   # Application code
 │   ├── main.py            # Streamlit frontend
 │   ├── api.py             # FastAPI backend
+│   ├── genai_model.py     # GenAI backend
 │   ├── services/          # Core services
 │   └── utils/             # Utility functions
 ├── data/                  # Data files
