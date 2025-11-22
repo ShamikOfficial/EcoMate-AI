@@ -848,31 +848,104 @@ def display_results():
     
     st.markdown("""
         <style>
-            /* Navigation Menubar - Fixed position below Streamlit's default menubar */
+            /* Navigation Menubar - Fixed position at top, covering Streamlit's menubar */
             .nav-menubar {
                 position: fixed;
-                top: 3.5rem; /* Position below Streamlit's default menubar (typically 3.5rem/56px) */
+                top: 0; /* Start from the very top */
                 left: 0;
                 right: 0;
-                background: rgba(30, 30, 30, 0.98);
+                background: rgba(30, 30, 30, 0.98); /* Match the theme color */
                 backdrop-filter: blur(10px);
-                padding: 1rem 2rem;
+                padding: 3.5rem 2rem 1rem 2rem; /* Top padding for Streamlit menubar area, then menu items */
                 z-index: 999;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
                 border-bottom: 2px solid rgba(76, 175, 80, 0.3);
                 width: 100%;
                 box-sizing: border-box;
             }
-            /* Add padding to body to account for both Streamlit's menubar and our custom navbar */
+            /* Add padding to body to account for our custom navbar */
             .main .block-container {
-                padding-top: 9rem; /* Streamlit menubar (3.5rem) + our menubar (5.5rem) */
+                padding-top: 9rem; /* Streamlit menubar area (3.5rem) + our menubar content (5.5rem) */
             }
             .nav-menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-menu-left {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 1.5rem;
                 flex-wrap: wrap;
+                flex: 1;
+            }
+            .nav-menu-right {
+                display: flex;
+                align-items: center;
+                margin-left: auto;
+            }
+            /* Glowing Report Ready Button */
+            .report-ready-button {
+                padding: 0.6rem 1.5rem;
+                background: linear-gradient(135deg, #4CAF50, #66BB6A);
+                border: 2px solid #81C784;
+                border-radius: 25px;
+                color: #FFFFFF;
+                font-size: 0.95rem;
+                font-weight: 700;
+                text-decoration: none;
+                white-space: nowrap;
+                pointer-events: none; /* Non-clickable */
+                cursor: default;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.6),
+                            0 0 40px rgba(76, 175, 80, 0.4),
+                            0 0 60px rgba(76, 175, 80, 0.2);
+                animation: glow-pulse 2s ease-in-out infinite;
+                z-index: 1;
+            }
+            .report-ready-button > * {
+                position: relative;
+                z-index: 2;
+            }
+            @keyframes glow-pulse {
+                0%, 100% {
+                    box-shadow: 0 0 20px rgba(76, 175, 80, 0.6),
+                                0 0 40px rgba(76, 175, 80, 0.4),
+                                0 0 60px rgba(76, 175, 80, 0.2);
+                }
+                50% {
+                    box-shadow: 0 0 30px rgba(76, 175, 80, 0.8),
+                                0 0 60px rgba(76, 175, 80, 0.6),
+                                0 0 90px rgba(76, 175, 80, 0.4);
+                }
+            }
+            .report-ready-button::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(
+                    45deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent
+                );
+                animation: shine 3s infinite;
+            }
+            @keyframes shine {
+                0% {
+                    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+                }
+                100% {
+                    transform: translateX(100%) translateY(100%) rotate(45deg);
+                }
             }
             .nav-item {
                 padding: 0.6rem 1.2rem;
@@ -899,19 +972,32 @@ def display_results():
             /* Responsive design for mobile */
             @media (max-width: 768px) {
                 .nav-menubar {
-                    padding: 0.8rem 1rem;
+                    padding: 3.5rem 1rem 0.8rem 1rem;
                 }
                 .nav-menu {
+                    flex-direction: column;
                     gap: 0.8rem;
+                }
+                .nav-menu-left {
+                    gap: 0.8rem;
+                }
+                .nav-menu-right {
+                    margin-left: 0;
+                    width: 100%;
+                    justify-content: center;
                 }
                 .nav-item {
                     padding: 0.5rem 0.8rem;
                     font-size: 0.8rem;
                 }
+                .report-ready-button {
+                    padding: 0.5rem 1.2rem;
+                    font-size: 0.85rem;
+                }
             }
-            /* Section anchors with offset for both Streamlit's menubar and our custom navbar */
+            /* Section anchors with offset for our custom navbar */
             .section-anchor {
-                scroll-margin-top: 150px; /* Streamlit menubar (56px) + our menubar (80px) + buffer */
+                scroll-margin-top: 136px; /* Streamlit menubar area (56px) + our menubar content (80px) */
                 display: block;
             }
             /* Ensure smooth scrolling is enabled */
@@ -1041,10 +1127,15 @@ def display_results():
     st.markdown("""
         <div class="nav-menubar">
             <div class="nav-menu">
-                <a href="#overview" class="nav-item">📊 Overview</a>
-                <a href="#riskometer" class="nav-item">⚠️ Impact Level</a>
-                <a href="#statistics" class="nav-item">📊 Statistics</a>
-                <a href="#analysis" class="nav-item">🌱 Analysis</a>
+                <div class="nav-menu-left">
+                    <a href="#overview" class="nav-item">📊 Overview</a>
+                    <a href="#riskometer" class="nav-item">⚠️ Impact Level</a>
+                    <a href="#statistics" class="nav-item">📊 Statistics</a>
+                    <a href="#analysis" class="nav-item">🌱 Analysis</a>
+                </div>
+                <div class="nav-menu-right">
+                    <div class="report-ready-button">✨ Report Ready</div>
+                </div>
             </div>
         </div>
         <script>
@@ -1059,9 +1150,9 @@ def display_results():
                             const targetId = this.getAttribute('href').substring(1);
                             const targetElement = document.getElementById(targetId);
                             if (targetElement) {
-                                const streamlitNavbarHeight = 56; // Streamlit's default menubar height
-                                const customNavbarHeight = 80; // Our custom navbar height
-                                const totalNavbarHeight = streamlitNavbarHeight + customNavbarHeight;
+                                const streamlitNavbarArea = 56; // Streamlit's default menubar area (covered by black)
+                                const customNavbarContent = 80; // Our custom navbar content height
+                                const totalNavbarHeight = streamlitNavbarArea + customNavbarContent;
                                 const elementPosition = targetElement.getBoundingClientRect().top;
                                 const offsetPosition = elementPosition + window.pageYOffset - totalNavbarHeight;
                                 
@@ -1086,6 +1177,36 @@ def display_results():
                 setTimeout(initSmoothScroll, 100);
                 setTimeout(initSmoothScroll, 500);
             })();
+            
+            // Auto-scroll to overview section when report is ready
+            function scrollToOverview() {
+                const overviewElement = document.getElementById('overview');
+                if (overviewElement) {
+                    const streamlitNavbarArea = 56;
+                    const customNavbarContent = 80;
+                    const totalNavbarHeight = streamlitNavbarArea + customNavbarContent;
+                    const elementPosition = overviewElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - totalNavbarHeight;
+                    
+                    window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            
+            // Scroll after page loads and content is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(scrollToOverview, 300);
+                });
+            } else {
+                setTimeout(scrollToOverview, 300);
+            }
+            
+            // Also try after Streamlit reruns
+            setTimeout(scrollToOverview, 500);
+            setTimeout(scrollToOverview, 1000);
         </script>
     """, unsafe_allow_html=True)
     
