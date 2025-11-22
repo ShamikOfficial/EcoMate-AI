@@ -53,6 +53,23 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
+        /* Global background and text color fixes */
+        .stApp {
+            background-color: #1E1E1E !important;
+        }
+        .main .block-container {
+            background-color: #1E1E1E !important;
+            padding-top: 2rem;
+        }
+        /* Ensure form labels are visible */
+        .stForm label {
+            color: #FFFFFF !important;
+        }
+        /* Ensure error messages are visible */
+        .stAlert {
+            color: #FFFFFF !important;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -121,46 +138,48 @@ st.markdown("""
             animation: fadeIn 1s ease-out 0.6s;
         }
         .stTextInput > div > div > input {
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            font-size: 1.2rem;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            padding: 1rem 1.5rem !important;
+            font-size: 1.2rem !important;
             transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
+            background-color: rgba(45, 45, 45, 0.9) !important;
+            color: #FFFFFF !important;
             backdrop-filter: blur(5px);
         }
         .stTextInput > div > div > input:focus {
-            border-color: #E8F5E9;
-            box-shadow: 0 0 0 3px rgba(232, 245, 233, 0.3);
-            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #E8F5E9 !important;
+            box-shadow: 0 0 0 3px rgba(232, 245, 233, 0.3) !important;
+            background-color: rgba(45, 45, 45, 0.95) !important;
+            color: #FFFFFF !important;
         }
         .stTextInput > div > div > input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.7) !important;
         }
         .stTextInput > div > div > label {
-            font-size: 1.1rem;
-            color: #E8F5E9;
-            font-weight: 500;
+            font-size: 1.1rem !important;
+            color: #E8F5E9 !important;
+            font-weight: 500 !important;
         }
         .stButton > button {
             width: 100%;
             margin: 1.5rem auto 0;
             display: block;
-            background-color: #E8F5E9;
-            color: #1B5E20;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            background-color: #E8F5E9 !important;
+            color: #1B5E20 !important;
+            border: none !important;
+            padding: 1rem 2rem !important;
+            border-radius: 12px !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
             animation: fadeIn 1s ease-out 0.9s;
         }
         .stButton > button:hover {
-            background-color: white;
+            background-color: #FFFFFF !important;
+            color: #1B5E20 !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
@@ -234,20 +253,26 @@ def welcome_page():
             st.markdown("""
                 <style>
                     .stTextInput > div > div > input {
-                        background-color: rgba(255, 255, 255, 0.1);
-                        border: 2px solid rgba(255, 255, 255, 0.3);
-                        border-radius: 12px;
-                        color: white;
-                        font-size: 1.2rem;
-                        text-align: center;
-                        padding: 1rem;
+                        background-color: rgba(45, 45, 45, 0.9) !important;
+                        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+                        border-radius: 12px !important;
+                        color: #FFFFFF !important;
+                        font-size: 1.2rem !important;
+                        text-align: center !important;
+                        padding: 1rem !important;
                     }
                     .stTextInput > div > div > input:focus {
-                        border-color: #E8F5E9;
-                        box-shadow: 0 0 0 2px rgba(232, 245, 233, 0.3);
+                        border-color: #E8F5E9 !important;
+                        box-shadow: 0 0 0 2px rgba(232, 245, 233, 0.3) !important;
+                        background-color: rgba(45, 45, 45, 0.95) !important;
+                        color: #FFFFFF !important;
                     }
                     .stTextInput > div > div > input::placeholder {
-                        color: rgba(255, 255, 255, 0.7);
+                        color: rgba(255, 255, 255, 0.7) !important;
+                    }
+                    .stTextInput > div > div > label {
+                        color: #E8F5E9 !important;
+                        font-weight: 500 !important;
                     }
                 </style>
             """, unsafe_allow_html=True)
@@ -334,7 +359,7 @@ def main_page():
             <p>Ready to make eco-friendly choices that matter? Let’s dive in! 🌍💪</p>
         </div>
     """, unsafe_allow_html=True)
-
+    
 
 
     st.markdown("""
@@ -444,35 +469,48 @@ def main_page():
         }
 
         .stTextArea > div > div > textarea {
-            border: 2px solid #81C784;
-            border-radius: 12px;
-            padding: 1.2rem;
-            font-size: 1.1rem;
-            background: #2D2D2D;
-            color: white;
+            border: 2px solid #81C784 !important;
+            border-radius: 12px !important;
+            padding: 1.2rem !important;
+            font-size: 1.1rem !important;
+            background: #2D2D2D !important;
+            color: #FFFFFF !important;
             transition: all 0.3s ease-in-out;
         }
 
         .stTextArea > div > div > textarea:focus {
-            border-color: #A5D6A7;
-            box-shadow: 0 0 10px #A5D6A7;
+            border-color: #A5D6A7 !important;
+            box-shadow: 0 0 10px #A5D6A7 !important;
+            background: #2D2D2D !important;
+            color: #FFFFFF !important;
+        }
+        
+        .stTextArea > div > div > textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        .stTextArea > div > div > label {
+            color: #FFFFFF !important;
+            font-weight: 500 !important;
         }
 
         /* Analyze button */
-        .analyze-button {
-            background-color: #66BB6A;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 1rem;
+        .stButton > button {
+            background-color: #66BB6A !important;
+            color: #FFFFFF !important;
+            padding: 1rem 2rem !important;
+            border-radius: 12px !important;
+            font-size: 1.2rem !important;
+            font-weight: 700 !important;
+            margin-top: 1rem !important;
             cursor: pointer;
             transition: background 0.3s ease;
+            border: none !important;
         }
 
-        .analyze-button:hover {
-            background-color: #81C784;
+        .stButton > button:hover {
+            background-color: #81C784 !important;
+            color: #FFFFFF !important;
         }
 
         /* Audio section */
@@ -502,7 +540,7 @@ def main_page():
     # Input method selection with enhanced styling
     input_method = st.radio(
         "Select Input Method",
-        ["Upload Receipt", "Text Input", "Audio Input"],
+        ["Text Input", "Upload Receipt", "Audio Input"],
         horizontal=True,
         label_visibility="collapsed"
     )
@@ -510,7 +548,18 @@ def main_page():
     user_input=None
     uploaded_file=None
     audio_file=None
-    if input_method == "Upload Receipt":
+    if input_method == "Text Input":
+        st.markdown('<div class="text-input-section">', unsafe_allow_html=True)
+        st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
+        user_input = st.text_area(
+            "Activity Description",
+            placeholder="Describe your daily activities (e.g., 'Had beef burger, took Uber, ran AC for 5 hrs')",
+            height=100,
+            label_visibility="collapsed"
+        )
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    elif input_method == "Upload Receipt":
         st.markdown('<div class="upload-section">', unsafe_allow_html=True)
         st.markdown('<div class="upload-icon">📄</div>', unsafe_allow_html=True)
         st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem;">Upload your receipt to analyze your purchases</p>', unsafe_allow_html=True)
@@ -541,17 +590,6 @@ def main_page():
             
         st.markdown('</div>', unsafe_allow_html=True)
     
-    elif input_method == "Text Input":
-        st.markdown('<div class="text-input-section">', unsafe_allow_html=True)
-        st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
-        user_input = st.text_area(
-            "Activity Description",
-            placeholder="Describe your daily activities (e.g., 'Had beef burger, took Uber, ran AC for 5 hrs')",
-            height=100,
-            label_visibility="collapsed"
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
-    
     else:  # Audio Input
         st.markdown('<div class="audio-section">', unsafe_allow_html=True)
         st.markdown('<div class="audio-icon">🎤</div>', unsafe_allow_html=True)
@@ -566,22 +604,52 @@ def main_page():
             # TODO: Process audio with speech-to-text
         st.markdown('</div>', unsafe_allow_html=True)
     
+    # Add JavaScript to scroll down when spinner appears
+    st.markdown("""
+        <script>
+            (function() {
+                function scrollToSpinner() {
+                    // Wait for spinner to appear, then scroll
+                    setTimeout(function() {
+                        const spinner = document.querySelector('[data-testid="stSpinner"]');
+                        if (spinner) {
+                            const spinnerPosition = spinner.getBoundingClientRect().top;
+                            const streamlitNavbarHeight = 56;
+                            const customNavbarHeight = 80;
+                            const totalNavbarHeight = streamlitNavbarHeight + customNavbarHeight;
+                            const scrollPosition = window.pageYOffset + spinnerPosition - totalNavbarHeight - 50;
+                            window.scrollTo({ top: Math.max(0, scrollPosition), behavior: 'smooth' });
+                        } else {
+                            // Fallback: scroll down by a fixed amount
+                            window.scrollBy({ top: 300, behavior: 'smooth' });
+                        }
+                    }, 200);
+                }
+                
+                // Watch for spinner appearance
+                const observer = new MutationObserver(function() {
+                    const spinner = document.querySelector('[data-testid="stSpinner"]');
+                    if (spinner && !window.spinnerScrolled) {
+                        window.spinnerScrolled = true;
+                        scrollToSpinner();
+                    }
+                });
+                
+                observer.observe(document.body, { childList: true, subtree: true });
+                
+                // Also check immediately in case spinner already exists
+                if (document.querySelector('[data-testid="stSpinner"]')) {
+                    scrollToSpinner();
+                }
+            })();
+        </script>
+    """, unsafe_allow_html=True)
+    
     if st.button("Analyze", key="analyze_button"):
         if input_method == "Text Input" and user_input:
-            pass
-                
-        elif input_method == "Upload Receipt" and uploaded_file:
-            pass
-            #st.info("Receipt analysis coming soon!")
-        elif input_method == "Audio Input" and audio_file:
-            st.info("Audio analysis coming soon!")
-        else:
-            st.warning("Please provide input to analyze")
-
-        with st.spinner("Analyzing your activities..."):
-            if user_input:
+            with st.spinner("Analyzing your activities..."):
                 # Get activities from backend
-                activities = analyze_text(user_input,context_files=attached_file_path)
+                activities = analyze_text(user_input, context_files=attached_file_path)
                 for each_attached_file_path in attached_file_path:
                     if os.path.exists(each_attached_file_path):
                         os.remove(each_attached_file_path)
@@ -590,11 +658,33 @@ def main_page():
                     from services.carbon_service import CarbonCalculator
                     calculator = CarbonCalculator()
                     results = calculator.calculate_carbon_footprint(activities)
-                    
+
                     # Update session state
                     st.session_state.carbon_data = results
                 else:
                     st.warning("No activities were detected in your input. Please try again with more specific details.")
+                
+        elif input_method == "Upload Receipt" and uploaded_file:
+            with st.spinner("Analyzing your receipt..."):
+                # Get activities from backend
+                activities = analyze_text(user_input, context_files=attached_file_path)
+                for each_attached_file_path in attached_file_path:
+                    if os.path.exists(each_attached_file_path):
+                        os.remove(each_attached_file_path)
+                if activities:
+                    # Calculate carbon footprint
+                    from services.carbon_service import CarbonCalculator
+                    calculator = CarbonCalculator()
+                    results = calculator.calculate_carbon_footprint(activities)
+
+                    # Update session state
+                    st.session_state.carbon_data = results
+                else:
+                    st.warning("No activities were detected in your receipt. Please try again with a clearer image.")
+        elif input_method == "Audio Input" and audio_file:
+            st.info("Audio analysis coming soon!")
+        else:
+            st.warning("Please provide input to analyze")
     st.markdown('</div>', unsafe_allow_html=True)
     
     # Results section
@@ -610,26 +700,36 @@ def main():
                 background-color: #1E1E1E;
                 color: #FFFFFF;
             }
-            /* Override Streamlit's default light theme */
-            .stTextInput > div > div > input,
-            .stTextArea > div > div > textarea,
-            .stSelectbox > div > div > div,
-            .stRadio > div > div > label,
-            .stButton > button {
-                background-color: #2D2D2D;
-                color: #000000 !important;  /* Force dark text color */
-                border-color: #3D3D3D;
+            /* Override Streamlit's default light theme - ensure white text on dark background */
+            .stTextInput > div > div > input {
+                background-color: #2D2D2D !important;
+                color: #FFFFFF !important;
+                border-color: #3D3D3D !important;
+            }
+            .stTextArea > div > div > textarea {
+                background-color: #2D2D2D !important;
+                color: #FFFFFF !important;
+                border-color: #3D3D3D !important;
+            }
+            .stSelectbox > div > div > div {
+                background-color: #2D2D2D !important;
+                color: #FFFFFF !important;
+                border-color: #3D3D3D !important;
+            }
+            .stRadio > div > div > label {
+                color: #FFFFFF !important;
             }
             /* Ensure text is visible in input fields */
             .stTextInput > div > div > input::placeholder,
             .stTextArea > div > div > textarea::placeholder {
-                color: #666666 !important;
+                color: rgba(255, 255, 255, 0.7) !important;
             }
             .stTextInput > div > div > input:focus,
             .stTextArea > div > div > textarea:focus {
-                color: #000000 !important;
+                color: #FFFFFF !important;
+                background-color: #2D2D2D !important;
             }
-            /* Button styling */
+            /* Button styling - white background with dark text for visibility */
             .stButton > button {
                 background-color: #FFFFFF !important;
                 color: #000000 !important;
@@ -662,9 +762,166 @@ def main():
     
     st.markdown('</div>', unsafe_allow_html=True)
 
+def validate_and_sanitize_carbon_data(carbon_data: List[Dict]) -> List[Dict]:
+    """
+    Validate and sanitize carbon data to handle edge cases.
+    
+    Args:
+        carbon_data: List of carbon emission dictionaries
+        
+    Returns:
+        List of validated and sanitized carbon emission dictionaries
+    """
+    if not carbon_data or not isinstance(carbon_data, list):
+        return []
+    
+    MAX_CO2E_PER_ITEM = 10000  # Maximum reasonable CO2e per item in kg
+    MAX_TOTAL_CO2E = 1000000   # Maximum reasonable total CO2e in kg
+    
+    validated_data = []
+    
+    for item in carbon_data:
+        if not isinstance(item, dict):
+            continue
+            
+        try:
+            # Extract and validate co2e
+            co2e = item.get('co2e', 0)
+            if not isinstance(co2e, (int, float)):
+                try:
+                    co2e = float(co2e)
+                except (ValueError, TypeError):
+                    co2e = 0
+            
+            # Cap ridiculously large numbers
+            if co2e > MAX_CO2E_PER_ITEM:
+                co2e = MAX_CO2E_PER_ITEM
+            
+            # Ensure non-negative
+            if co2e < 0:
+                co2e = 0
+            
+            # Validate other required fields
+            validated_item = {
+                'co2e': co2e,
+                'text': str(item.get('text', item.get('activity', 'Unknown Activity'))),
+                'category': str(item.get('category', 'Unknown')),
+                'quantity': float(item.get('quantity', 0)) if isinstance(item.get('quantity'), (int, float)) else 0,
+                'unit': str(item.get('unit', '')),
+                'co2e_impact_level': str(item.get('co2e_impact_level', '1')),
+                'suggestion': str(item.get('suggestion', 'Consider alternatives'))
+            }
+            
+            validated_data.append(validated_item)
+            
+        except Exception as e:
+            # Skip invalid items
+            continue
+    
+    # Check total CO2e
+    total_co2 = sum(item['co2e'] for item in validated_data)
+    if total_co2 > MAX_TOTAL_CO2E:
+        # Scale down proportionally if total is too large
+        scale_factor = MAX_TOTAL_CO2E / total_co2
+        for item in validated_data:
+            item['co2e'] = item['co2e'] * scale_factor
+    
+    return validated_data
+
+
 def display_results():
+    # Validate and sanitize data first
+    try:
+        if not hasattr(st.session_state, 'carbon_data') or not st.session_state.carbon_data:
+            st.error("⚠️ No carbon data available. Please analyze your activities first.")
+            return
+        
+        st.session_state.carbon_data = validate_and_sanitize_carbon_data(st.session_state.carbon_data)
+        
+        if not st.session_state.carbon_data:
+            st.error("⚠️ No valid carbon data found. Please try analyzing again.")
+            return
+            
+    except Exception as e:
+        st.error(f"⚠️ Error validating data: {str(e)}")
+        return
+    
     st.markdown("""
         <style>
+            /* Navigation Menubar - Fixed position below Streamlit's default menubar */
+            .nav-menubar {
+                position: fixed;
+                top: 3.5rem; /* Position below Streamlit's default menubar (typically 3.5rem/56px) */
+                left: 0;
+                right: 0;
+                background: rgba(30, 30, 30, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 1rem 2rem;
+                z-index: 999;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+                width: 100%;
+                box-sizing: border-box;
+            }
+            /* Add padding to body to account for both Streamlit's menubar and our custom navbar */
+            .main .block-container {
+                padding-top: 9rem; /* Streamlit menubar (3.5rem) + our menubar (5.5rem) */
+            }
+            .nav-menu {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-item {
+                padding: 0.6rem 1.2rem;
+                background: rgba(76, 175, 80, 0.2);
+                border: 1px solid rgba(76, 175, 80, 0.4);
+                border-radius: 20px;
+                color: #FFFFFF;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+            .nav-item:hover {
+                background: rgba(76, 175, 80, 0.4);
+                border-color: rgba(76, 175, 80, 0.6);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+            }
+            .nav-item:active {
+                transform: translateY(0);
+            }
+            /* Responsive design for mobile */
+            @media (max-width: 768px) {
+                .nav-menubar {
+                    padding: 0.8rem 1rem;
+                }
+                .nav-menu {
+                    gap: 0.8rem;
+                }
+                .nav-item {
+                    padding: 0.5rem 0.8rem;
+                    font-size: 0.8rem;
+                }
+            }
+            /* Section anchors with offset for both Streamlit's menubar and our custom navbar */
+            .section-anchor {
+                scroll-margin-top: 150px; /* Streamlit menubar (56px) + our menubar (80px) + buffer */
+                display: block;
+            }
+            /* Ensure smooth scrolling is enabled */
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                scroll-behavior: smooth;
+            }
+            
             .header-text {
                 color: #FFFFFF;
                 font-size: 2rem;
@@ -780,54 +1037,158 @@ def display_results():
         </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<div class="header-text">Your Carbon Footprint Analysis</div>', unsafe_allow_html=True)
+    # Navigation Menubar
+    st.markdown("""
+        <div class="nav-menubar">
+            <div class="nav-menu">
+                <a href="#overview" class="nav-item">📊 Overview</a>
+                <a href="#riskometer" class="nav-item">⚠️ Impact Level</a>
+                <a href="#statistics" class="nav-item">📊 Statistics</a>
+                <a href="#analysis" class="nav-item">🌱 Analysis</a>
+            </div>
+        </div>
+        <script>
+            (function() {
+                // Wait for DOM to be ready
+                function initSmoothScroll() {
+                    // Smooth scroll with offset for fixed navbar
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const targetId = this.getAttribute('href').substring(1);
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                const streamlitNavbarHeight = 56; // Streamlit's default menubar height
+                                const customNavbarHeight = 80; // Our custom navbar height
+                                const totalNavbarHeight = streamlitNavbarHeight + customNavbarHeight;
+                                const elementPosition = targetElement.getBoundingClientRect().top;
+                                const offsetPosition = elementPosition + window.pageYOffset - totalNavbarHeight;
+                                
+                                // Use smooth scroll
+                                window.scrollTo({
+                                    top: Math.max(0, offsetPosition),
+                                    behavior: 'smooth'
+                                });
+                            }
+                        });
+                    });
+                }
+                
+                // Initialize when DOM is ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initSmoothScroll);
+                } else {
+                    initSmoothScroll();
+                }
+                
+                // Re-initialize after Streamlit reruns (for dynamic content)
+                setTimeout(initSmoothScroll, 100);
+                setTimeout(initSmoothScroll, 500);
+            })();
+        </script>
+    """, unsafe_allow_html=True)
     
-    # Total CO2e
-    total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
+    st.markdown('<div id="overview" class="section-anchor"><div class="header-text">Your Carbon Footprint Analysis</div></div>', unsafe_allow_html=True)
+    
+    # Calculate total CO2e with error handling
+    try:
+        total_co2 = sum(item.get('co2e', 0) for item in st.session_state.carbon_data)
+        # Ensure total_co2 is a valid number
+        if not isinstance(total_co2, (int, float)) or not (0 <= total_co2 <= 1000000):
+            total_co2 = 0
+    except Exception as e:
+        st.warning(f"⚠️ Error calculating total CO2: {str(e)}")
+        total_co2 = 0
     
     # Add congratulatory message if carbon emission is 0
-    if abs(total_co2) < 0.1:  # Using a small epsilon to account for floating point precision
-        st.markdown("""
-            <div id="congrats-message" style="
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: rgba(46, 125, 50, 0.9);
-                color: white;
-                padding: 1rem;
-                text-align: center;
-                z-index: 1000;
-                opacity: 1;
-                transition: opacity 0.5s ease-out;
-            ">
-                <span style="font-size: 1.2rem;">🎉 Congratulations! Your activities have no carbon emission. Thanks for Saving our world and being a good example!!!</span>
-            </div>
-            <script>
-                // Auto-close after 5 seconds
-                setTimeout(function() {
-                    var element = document.getElementById('congrats-message');
-                    element.style.opacity = '0';
+    try:
+        if abs(total_co2) < 0.1:  # Using a small epsilon to account for floating point precision
+            st.markdown("""
+                <div id="congrats-message" style="
+                    position: fixed;
+                    top: 136px; /* Streamlit menubar (56px) + our menubar (80px) */
+                    left: 0;
+                    right: 0;
+                    background: rgba(46, 125, 50, 0.9);
+                    color: white;
+                    padding: 1rem;
+                    text-align: center;
+                    z-index: 998;
+                    opacity: 1;
+                    transition: opacity 0.5s ease-out;
+                ">
+                    <span style="font-size: 1.2rem;">🎉 Congratulations! Your activities have no carbon emission. Thanks for Saving our world and being a good example!!!</span>
+                </div>
+                <script>
+                    // Auto-close after 5 seconds
                     setTimeout(function() {
-                        element.style.display = 'none';
-                    }, 500);
-                }, 5000);
-            </script>
-        """, unsafe_allow_html=True)
+                        var element = document.getElementById('congrats-message');
+                        element.style.opacity = '0';
+                        setTimeout(function() {
+                            element.style.display = 'none';
+                        }, 500);
+                    }, 5000);
+                </script>
+            """, unsafe_allow_html=True)
+    except Exception as e:
+        pass  # Silently handle any errors in congratulatory message
     
     # st.markdown('<div class="carbon-label">Total Carbon Footprint</div>', unsafe_allow_html=True)
     # st.markdown(f'<div class="carbon-number">{total_co2:.2f} kg CO₂e</div>', unsafe_allow_html=True)
 
     def generate_dynamic_summary(co2: float) -> str:
+        # Validate input
+        if not isinstance(co2, (int, float)) or co2 < 0:
+            co2 = 0
+        if co2 > 1000000:  # Cap at reasonable maximum
+            co2 = 1000000
+        
         global_average = 12
-        smartphones = co2 * 1000 / 404
-        tshirts = co2 * 1000 / 190
-        car_km = co2 * 1000 / 200
-        percent_diff = ((co2 - global_average) / global_average) * 100
+        
+        # Calculate equivalents with error handling
+        try:
+            smartphones = (co2 * 1000 / 404) if co2 > 0 else 0
+            if not isinstance(smartphones, (int, float)) or smartphones < 0:
+                smartphones = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            smartphones = 0
+        
+        try:
+            tshirts = (co2 * 1000 / 190) if co2 > 0 else 0
+            if not isinstance(tshirts, (int, float)) or tshirts < 0:
+                tshirts = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            tshirts = 0
+        
+        try:
+            car_km = (co2 * 1000 / 200) if co2 > 0 else 0
+            if not isinstance(car_km, (int, float)) or car_km < 0:
+                car_km = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            car_km = 0
+        
+        try:
+            percent_diff = ((co2 - global_average) / global_average) * 100
+            if not isinstance(percent_diff, (int, float)):
+                percent_diff = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            percent_diff = 0
 
-        # Calculate projections
-        projected_co2_current = co2 * 365
-        projected_co2_suggested = projected_co2_current * 0.7  # 30% reduction
+        # Calculate projections with validation
+        try:
+            projected_co2_current = co2 * 365
+            if not isinstance(projected_co2_current, (int, float)) or projected_co2_current < 0:
+                projected_co2_current = 0
+        except (ValueError, TypeError):
+            projected_co2_current = 0
+        
+        try:
+            projected_co2_suggested = projected_co2_current * 0.7  # 30% reduction
+            if not isinstance(projected_co2_suggested, (int, float)) or projected_co2_suggested < 0:
+                projected_co2_suggested = 0
+        except (ValueError, TypeError):
+            projected_co2_suggested = 0
 
         if co2 < 4:
             behavior_tag = "EXCELLENT 🌟"
@@ -1039,270 +1400,308 @@ def display_results():
         </div>
         """
 
-    components.html(generate_dynamic_summary(total_co2), height=1100)
-    # Riskometer
-    # Calculate risk level and fill percentage with exponential scaling
-    max_co2 = 24  # Maximum CO2 for 100% fill
-    base = 2  # Exponential base for more dramatic scaling
+    # Overview Summary Section
+    try:
+        st.markdown('<div id="sustainability" class="section-anchor"></div>', unsafe_allow_html=True)
+        if total_co2 >= 0 and total_co2 <= 1000000:  # Valid range check
+            components.html(generate_dynamic_summary(total_co2), height=1100)
+        else:
+            st.warning("⚠️ Unable to display summary due to invalid data.")
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying overview summary: {str(e)}")
     
-    # Calculate exponential fill percentage
-    if total_co2 <= 0:
-        fill_percentage = 0
-    else:
-        # Exponential scaling: percentage = (base^(x/max) - 1) * 100
-        fill_percentage = min((pow(base, total_co2/max_co2) - 1) * 100, 100)
-    
-    # Determine risk level and color
-    if total_co2 > 16:
-        risk_level = "HIGH"
-        risk_color = "#F44336"  # Red
-    elif total_co2 > 8:
-        risk_level = "MEDIUM"
-        risk_color = "#FFC107"  # Yellow
-    else:
-        risk_level = "LOW"
-        risk_color = "#4CAF50"  # Green
-    
-    st.markdown("""
-        <style>
-            .riskometer-container {
-                width: 100%;
-                margin: 2rem 0;
-                padding: 1rem;
-                background: rgba(45, 45, 45, 0.8);
-                border-radius: 15px;
-            }
-            .riskometer-title {
-                color: #FFFFFF;
-                font-size: 1.2rem;
-                text-align: center;
-                margin-bottom: 1rem;
-            }
-            .riskometer-bar-container {
-                width: 100%;
-                height: 30px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 15px;
-                position: relative;
-                overflow: hidden;
-            }
-            .riskometer-fill {
-                height: 100%;
-                border-radius: 15px;
-                transition: width 1s ease-in-out;
-            }
-            .riskometer-marker {
-                position: absolute;
-                top: 0;
-                height: 100%;
-                width: 2px;
-                background: #FFFFFF;
-                box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-            }
-            .riskometer-arrow {
-                position: absolute;
-                top: -20px;
-                width: 0;
-                height: 0;
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                border-bottom: 20px solid #FFFFFF;
-                transition: left 1s ease-in-out;
-            }
-            .riskometer-labels {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 0.5rem;
-                color: #FFFFFF;
-                font-size: 1rem;
-            }
-            .riskometer-level {
-                color: #FFFFFF;
-                font-size: 1.2rem;
-                text-align: center;
-                margin-top: 1rem;
-                font-weight: bold;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    # Calculate arrow position based on fill percentage
-    arrow_position = fill_percentage
-    
-    st.markdown(f"""
-        <div class="riskometer-container">
-            <div class="riskometer-title">Environmental Impact Level</div>
-            <div class="riskometer-bar-container">
-                <div class="riskometer-fill" style="width: {fill_percentage}%; background: {risk_color};"></div>
-                <div class="riskometer-marker" style="left: 33%;"></div>
-                <div class="riskometer-marker" style="left: 66%;"></div>
-                <div class="riskometer-arrow" style="left: {arrow_position}%;"></div>
-            </div>
-            <div class="riskometer-labels">
-                <span>Low</span>
-                <span>Medium</span>
-                <span>High</span>
-            </div>
-            <div class="riskometer-level" style="color: {risk_color};">Current Level: {risk_level}</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Category breakdown - Modified to fix the FutureWarning
-    df = pd.DataFrame(st.session_state.carbon_data)
-    fig = px.pie(
-        df,
-        values='co2e',
-        names='category',
-        title='',
-        color_discrete_map={
-            'Food': '#FF9999',
-            'Transport': '#66B2FF',
-            'Energy': '#99FF99',
-            'Shopping': '#FFCC99'
-        }
-    ).update_traces(
-        textinfo='percent+label',
-        textfont=dict(color='#FFFFFF')
-    )
-    
-    # Update layout for transparent background
-    fig.update_layout(
-        showlegend=True,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="right",
-            x=1,
-            font=dict(color='#FFFFFF')
-        ),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(
-            color='#FFFFFF'  # Changed to white for better visibility
-        )
-    )
-    total_co2 = sum(item['co2e'] for item in st.session_state.carbon_data)
-    
-    # Create metrics row (keep existing code)
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total Carbon Footprint", f"{total_co2:.2f} kg CO₂e")
-    with col2:
-        st.metric("Daily Average", f"{total_co2/1:.2f} kg CO₂e/day")
-    with col3:
-        global_average = 12
-        percentage_diff = ((total_co2 - global_average) / global_average) * 100
-        st.metric("Compared to Global Average", 
-                 f"{total_co2:.2f} kg CO₂e",
-                 f"{percentage_diff:+.1f}%",
-                 delta_color="inverse")
-
-    # Create two columns for charts
-    col1, col2 = st.columns(2)
-
-    # Pie Chart with conditional display
-    with col1:
-        st.subheader("Distribution by Category")
-        if total_co2 > 0:
-            # Regular pie chart for non-zero emissions
-            df = pd.DataFrame(st.session_state.carbon_data)
-            fig_pie = px.pie(
-                df,
-                values='co2e',
-                names='category',
-                title='Carbon Footprint Distribution',
-                color='category',
-                color_discrete_map={
-                    'Food': '#FF9999',
-                    'Transport': '#66B2FF',
-                    'Energy': '#99FF99',
-                    'Shopping': '#FFCC99'
+    # Riskometer Section
+    try:
+        # Calculate risk level and fill percentage with exponential scaling
+        max_co2 = 24  # Maximum CO2 for 100% fill
+        base = 2  # Exponential base for more dramatic scaling
+        
+        # Validate total_co2 before calculations
+        if not isinstance(total_co2, (int, float)) or total_co2 < 0:
+            total_co2 = 0
+        
+        # Calculate exponential fill percentage
+        if total_co2 <= 0:
+            fill_percentage = 0
+        else:
+            # Exponential scaling: percentage = (base^(x/max) - 1) * 100
+            try:
+                fill_percentage = min((pow(base, total_co2/max_co2) - 1) * 100, 100)
+                if not isinstance(fill_percentage, (int, float)) or fill_percentage < 0:
+                    fill_percentage = 0
+                if fill_percentage > 100:
+                    fill_percentage = 100
+            except (OverflowError, ValueError):
+                fill_percentage = 100
+        
+        # Determine risk level and color
+        if total_co2 > 16:
+            risk_level = "HIGH"
+            risk_color = "#F44336"  # Red
+        elif total_co2 > 8:
+            risk_level = "MEDIUM"
+            risk_color = "#FFC107"  # Yellow
+        else:
+            risk_level = "LOW"
+            risk_color = "#4CAF50"  # Green
+        
+        st.markdown("""
+            <style>
+                .riskometer-container {
+                    width: 100%;
+                    margin: 2rem 0;
+                    padding: 1rem;
+                    background: rgba(45, 45, 45, 0.8);
+                    border-radius: 15px;
                 }
-            )
-        else:
-            # Zero emission pie chart (all green)
-            fig_pie = px.pie(
-                values=[1],  # Single value for full circle
-                names=['Zero Emission'],
-                title='Carbon Footprint Distribution',
-                color_discrete_sequence=['#4CAF50']  # Green color
-            )
-            
-        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
-        fig_pie.update_layout(
-            showlegend=True,
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=-0.2,
-                xanchor="center",
-                x=0.5
-            ),
-            paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
-            plot_bgcolor='rgba(0,0,0,0)',   # Transparent plot area
-            # annotations=[
-            #     dict(
-            #         text="Zero Carbon Emission!" if total_co2 == 0 else "",
-            #         x=0.5,
-            #         y=0.5,
-            #         font_size=16,
-            #         font_color='#1B5E20',
-            #         showarrow=False,
-            #         font_family="Arial"
-            #     )
-            # ]
-        )
-        st.plotly_chart(fig_pie, use_container_width=True, config={'displayModeBar': False})  # Hide the mode bar for cleaner look
-
-    # Bar Chart (keep existing code)
-    with col2:
-        st.subheader("Emissions by Activity")
-        if total_co2 > 0:
-            df = pd.DataFrame(st.session_state.carbon_data)
-            fig_bar = px.bar(
-                df,
-                x='co2e',
-                y='text',
-                orientation='h',
-                color='category',
-                color_discrete_map={
-                    'Food': '#FF9999',
-                    'Transport': '#66B2FF',
-                    'Energy': '#99FF99',
-                    'Shopping': '#FFCC99'
-                },
-                title='Emissions by Individual Activity'
-            )
-            fig_bar.update_layout(
-                xaxis_title="CO₂e (kg)",
-                yaxis_title="Activity",
-                showlegend=True,
-                legend_title="Category",
-                legend=dict(
-                    orientation="h",
-                    yanchor="bottom",
-                    y=-0.5,
-                    xanchor="center",
-                    x=0.5
-                ),
-                height=400,
-                paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
-                plot_bgcolor='rgba(0,0,0,0)',   # Transparent plot area
-            )
-            fig_bar.update_traces(texttemplate='%{x:.1f} kg', textposition='outside')
-            st.plotly_chart(fig_bar, use_container_width=True)
-        else:
-            # Display a message for zero emissions
-            st.markdown(
-                """
-                <div style='text-align: center; padding: 20px; color: 'black'; background: #E8F5E9; border-radius: 10px;'>
-                    <h3>No Emissions Recorded!</h3>
-                    <p>Great job maintaining zero carbon emissions!</p>
+                .riskometer-title {
+                    color: #FFFFFF;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    margin-bottom: 1rem;
+                }
+                .riskometer-bar-container {
+                    width: 100%;
+                    height: 30px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 15px;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .riskometer-fill {
+                    height: 100%;
+                    border-radius: 15px;
+                    transition: width 1s ease-in-out;
+                }
+                .riskometer-marker {
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    width: 2px;
+                    background: #FFFFFF;
+                    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+                }
+                .riskometer-arrow {
+                    position: absolute;
+                    top: -20px;
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 20px solid #FFFFFF;
+                    transition: left 1s ease-in-out;
+                }
+                .riskometer-labels {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 0.5rem;
+                    color: #FFFFFF;
+                    font-size: 1rem;
+                }
+                .riskometer-level {
+                    color: #FFFFFF;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    margin-top: 1rem;
+                    font-weight: bold;
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        
+        # Calculate arrow position based on fill percentage
+        arrow_position = max(0, min(100, fill_percentage))  # Clamp between 0 and 100
+        
+        st.markdown(f"""
+            <div id="riskometer" class="section-anchor"></div>
+            <div class="riskometer-container">
+                <div class="riskometer-title">Environmental Impact Level</div>
+                <div class="riskometer-bar-container">
+                    <div class="riskometer-fill" style="width: {fill_percentage}%; background: {risk_color};"></div>
+                    <div class="riskometer-marker" style="left: 33%;"></div>
+                    <div class="riskometer-marker" style="left: 66%;"></div>
+                    <div class="riskometer-arrow" style="left: {arrow_position}%;"></div>
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+                <div class="riskometer-labels">
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+                </div>
+                <div class="riskometer-level" style="color: {risk_color};">Current Level: {risk_level}</div>
+            </div>
+        """, unsafe_allow_html=True)
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying impact level: {str(e)}")
+    
+    # Metrics Section
+    try:
+        # Recalculate total_co2 for metrics (in case it was modified)
+        total_co2 = sum(item.get('co2e', 0) for item in st.session_state.carbon_data)
+        if not isinstance(total_co2, (int, float)) or total_co2 < 0:
+            total_co2 = 0
+        
+        # Create metrics row
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Carbon Footprint", f"{total_co2:.2f} kg CO₂e")
+        with col2:
+            st.metric("Daily Average", f"{total_co2/1:.2f} kg CO₂e/day")
+        with col3:
+            global_average = 12
+            try:
+                percentage_diff = ((total_co2 - global_average) / global_average) * 100
+                if not isinstance(percentage_diff, (int, float)):
+                    percentage_diff = 0
+            except (ZeroDivisionError, ValueError, TypeError):
+                percentage_diff = 0
+            st.metric("Compared to Global Average", 
+                     f"{total_co2:.2f} kg CO₂e",
+                     f"{percentage_diff:+.1f}%",
+                     delta_color="inverse")
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying metrics: {str(e)}")
+
+    # Statistics Section - Combined Distribution and Activities
+    try:
+        st.markdown('<div id="statistics" class="section-anchor"></div>', unsafe_allow_html=True)
+        st.markdown('<h2 style="color: #FFFFFF; font-size: 2rem; font-weight: bold; text-align: center; margin: 2rem 0;">📊 Statistics</h2>', unsafe_allow_html=True)
+        
+        # Validate data before creating charts
+        if not st.session_state.carbon_data:
+            st.warning("⚠️ No data available for statistics.")
+        else:
+            # Create two columns for charts
+            col1, col2 = st.columns(2)
+
+            # Pie Chart with conditional display
+            with col1:
+                try:
+                    st.subheader("Distribution by Category")
+                    if total_co2 > 0 and len(st.session_state.carbon_data) > 0:
+                        # Regular pie chart for non-zero emissions
+                        df = pd.DataFrame(st.session_state.carbon_data)
+                        
+                        # Validate DataFrame
+                        if 'co2e' not in df.columns or 'category' not in df.columns:
+                            st.warning("⚠️ Missing required data columns for pie chart.")
+                        else:
+                            # Filter out invalid values
+                            df = df[df['co2e'] > 0].copy()
+                            
+                            if len(df) > 0:
+                                fig_pie = px.pie(
+                                    df,
+                                    values='co2e',
+                                    names='category',
+                                    title='Carbon Footprint Distribution',
+                                    color='category',
+                                    color_discrete_map={
+                                        'Food': '#FF9999',
+                                        'Transport': '#66B2FF',
+                                        'Energy': '#99FF99',
+                                        'Shopping': '#FFCC99'
+                                    }
+                                )
+                                fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+                                fig_pie.update_layout(
+                                    showlegend=True,
+                                    legend=dict(
+                                        orientation="h",
+                                        yanchor="bottom",
+                                        y=-0.2,
+                                        xanchor="center",
+                                        x=0.5
+                                    ),
+                                    paper_bgcolor='rgba(0,0,0,0)',
+                                    plot_bgcolor='rgba(0,0,0,0)',
+                                )
+                                st.plotly_chart(fig_pie, use_container_width=True, config={'displayModeBar': False})
+                            else:
+                                st.info("No valid data points for pie chart.")
+                    else:
+                        # Zero emission pie chart (all green)
+                        fig_pie = px.pie(
+                            values=[1],
+                            names=['Zero Emission'],
+                            title='Carbon Footprint Distribution',
+                            color_discrete_sequence=['#4CAF50']
+                        )
+                        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+                        fig_pie.update_layout(
+                            showlegend=False,
+                            paper_bgcolor='rgba(0,0,0,0)',
+                            plot_bgcolor='rgba(0,0,0,0)',
+                        )
+                        st.plotly_chart(fig_pie, use_container_width=True, config={'displayModeBar': False})
+                except Exception as e:
+                    st.warning(f"⚠️ Error displaying pie chart: {str(e)}")
+
+            # Bar Chart
+            with col2:
+                try:
+                    st.subheader("Emissions by Activity")
+                    if total_co2 > 0 and len(st.session_state.carbon_data) > 0:
+                        df = pd.DataFrame(st.session_state.carbon_data)
+                        
+                        # Validate DataFrame
+                        if 'co2e' not in df.columns or 'text' not in df.columns or 'category' not in df.columns:
+                            st.warning("⚠️ Missing required data columns for bar chart.")
+                        else:
+                            # Filter out invalid values
+                            df = df[df['co2e'] > 0].copy()
+                            
+                            if len(df) > 0:
+                                # Limit number of activities shown to prevent overcrowding
+                                df = df.nlargest(20, 'co2e')
+                                
+                                fig_bar = px.bar(
+                                    df,
+                                    x='co2e',
+                                    y='text',
+                                    orientation='h',
+                                    color='category',
+                                    color_discrete_map={
+                                        'Food': '#FF9999',
+                                        'Transport': '#66B2FF',
+                                        'Energy': '#99FF99',
+                                        'Shopping': '#FFCC99'
+                                    },
+                                    title='Emissions by Individual Activity'
+                                )
+                                fig_bar.update_layout(
+                                    xaxis_title="CO₂e (kg)",
+                                    yaxis_title="Activity",
+                                    showlegend=True,
+                                    legend_title="Category",
+                                    legend=dict(
+                                        orientation="h",
+                                        yanchor="bottom",
+                                        y=-0.5,
+                                        xanchor="center",
+                                        x=0.5
+                                    ),
+                                    height=400,
+                                    paper_bgcolor='rgba(0,0,0,0)',
+                                    plot_bgcolor='rgba(0,0,0,0)',
+                                )
+                                fig_bar.update_traces(texttemplate='%{x:.1f} kg', textposition='outside')
+                                st.plotly_chart(fig_bar, use_container_width=True)
+                            else:
+                                st.info("No valid data points for bar chart.")
+                    else:
+                        # Display a message for zero emissions
+                        st.markdown(
+                            """
+                            <div style='text-align: center; padding: 20px; color: black; background: #E8F5E9; border-radius: 10px;'>
+                                <h3>No Emissions Recorded!</h3>
+                                <p>Great job maintaining zero carbon emissions!</p>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+                except Exception as e:
+                    st.warning(f"⚠️ Error displaying bar chart: {str(e)}")
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying statistics section: {str(e)}")
     # st.markdown('<div class="graph-title" style="text-align: left;">Carbon Footprint by Category</div>', unsafe_allow_html=True)
     # st.plotly_chart(fig, use_container_width=True)
    
@@ -1427,195 +1826,255 @@ def display_results():
         </style>
     """, unsafe_allow_html=True)
 
-    # Display the main header outside the expander
-    st.markdown('<div class="section-header">🌱 Activity Impact Analysis</div>', unsafe_allow_html=True)
+    # Activity Impact Analysis Section
+    try:
+        # Display the main header outside the expander
+        st.markdown('<div id="analysis" class="section-anchor"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">🌱 Activity Impact Analysis</div>', unsafe_allow_html=True)
 
-    # Get the number of tasks
-    num_tasks = len(st.session_state.carbon_data)
+        # Get the number of tasks
+        num_tasks = len(st.session_state.carbon_data) if st.session_state.carbon_data else 0
 
-    # Create the expander with task count in the header
-    with st.expander(f"📋 {num_tasks} Activities Analyzed", expanded=True):
-        # Create compact rows for each activity
-        for idx, activity in enumerate(st.session_state.carbon_data):
-            # Map impact levels and get color class
-            impact_level = str(activity.get('co2e_impact_level', '')).lower()
-            impact_mapping = {
-                '1': ('LOW', 'low'),
-                '2': ('MEDIUM', 'medium'),
-                '3': ('HIGH', 'high'),
-                '4': ('VERY HIGH', 'very-high'),
-                'low': ('LOW', 'low'),
-                'medium': ('MEDIUM', 'medium'),
-                'high': ('HIGH', 'high'),
-                'very high': ('VERY HIGH', 'very-high'),
-                'very_high': ('VERY HIGH', 'very-high')
-            }
-            display_impact, impact_class = impact_mapping.get(impact_level, ('LOW', 'low'))
-            
-            st.markdown(f"""
-                <div class="activity-card card-{impact_class}">
-                    <button class="impact-button button-{impact_class}">{display_impact}</button>
-                    <div class="activity-line">
-                        <span class="activity-label">Activity:</span>
-                        <span class="activity-value">{activity["text"]}</span>
-                        <span class="activity-label">Category:</span>
-                        <span class="activity-value">{activity["category"]}</span>
-                    </div>
-                    <div class="activity-line">
-                        <span class="activity-label">Quantity:</span>
-                        <span class="activity-value">{activity["quantity"]} {activity.get("unit", "")}</span>
-                        <span class="activity-label">CO₂e:</span>
-                        <span class="activity-value">{activity["co2e"]:.2f} kg</span>
-                    </div>
-                    <div class="suggestion-line">
-                        <span class="activity-label">Suggestion:</span>
-                        <span class="activity-value">{activity.get('suggestion', 'Consider alternatives')}</span>
-                    </div>
-                </div>
-            """, unsafe_allow_html=True)
+        if num_tasks == 0:
+            st.info("No activities to display.")
+        else:
+            # Create the expander with task count in the header
+            with st.expander(f"📋 {num_tasks} Activities Analyzed", expanded=True):
+                # Create compact rows for each activity
+                for idx, activity in enumerate(st.session_state.carbon_data):
+                    try:
+                        # Validate activity data
+                        if not isinstance(activity, dict):
+                            continue
+                        
+                        # Map impact levels and get color class
+                        impact_level = str(activity.get('co2e_impact_level', '1')).lower()
+                        impact_mapping = {
+                            '1': ('LOW', 'low'),
+                            '2': ('MEDIUM', 'medium'),
+                            '3': ('HIGH', 'high'),
+                            '4': ('VERY HIGH', 'very-high'),
+                            'low': ('LOW', 'low'),
+                            'medium': ('MEDIUM', 'medium'),
+                            'high': ('HIGH', 'high'),
+                            'very high': ('VERY HIGH', 'very-high'),
+                            'very_high': ('VERY HIGH', 'very-high')
+                        }
+                        display_impact, impact_class = impact_mapping.get(impact_level, ('LOW', 'low'))
+                        
+                        # Get safe values with defaults
+                        activity_text = str(activity.get("text", activity.get("activity", "Unknown Activity")))
+                        category = str(activity.get("category", "Unknown"))
+                        quantity = activity.get("quantity", 0)
+                        unit = str(activity.get("unit", ""))
+                        co2e = activity.get("co2e", 0)
+                        suggestion = str(activity.get('suggestion', 'Consider alternatives'))
+                        
+                        # Validate co2e
+                        if not isinstance(co2e, (int, float)) or co2e < 0:
+                            co2e = 0
+                        
+                        st.markdown(f"""
+                            <div class="activity-card card-{impact_class}">
+                                <button class="impact-button button-{impact_class}">{display_impact}</button>
+                                <div class="activity-line">
+                                    <span class="activity-label">Activity:</span>
+                                    <span class="activity-value">{activity_text}</span>
+                                    <span class="activity-label">Category:</span>
+                                    <span class="activity-value">{category}</span>
+                                </div>
+                                <div class="activity-line">
+                                    <span class="activity-label">Quantity:</span>
+                                    <span class="activity-value">{quantity} {unit}</span>
+                                    <span class="activity-label">CO₂e:</span>
+                                    <span class="activity-value">{co2e:.2f} kg</span>
+                                </div>
+                                <div class="suggestion-line">
+                                    <span class="activity-label">Suggestion:</span>
+                                    <span class="activity-value">{suggestion}</span>
+                                </div>
+                            </div>
+                        """, unsafe_allow_html=True)
+                    except Exception as e:
+                        # Skip this activity if there's an error
+                        continue
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying activity analysis: {str(e)}")
 
     # Impact comparison with colorful flash cards
-    st.markdown("""
-        <style>
-            @keyframes slideIn {
-                from { transform: translateY(20px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-5px); }
-                100% { transform: translateY(0px); }
-            }
-            .impact-container {
-                display: flex;
-                justify-content: space-between;
-                gap: 2rem;
-                padding: 2rem;
-                margin: 2rem 0;
-            }
-            .impact-card {
-                flex: 1;
-                border-radius: 15px;
-                padding: 2rem;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                animation: slideIn 0.5s ease-out;
-                transition: all 0.3s ease;
-                min-width: 250px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .impact-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            }
-            .impact-icon {
-                font-size: 2.5rem;
-                margin-bottom: 1.5rem;
-                animation: float 3s ease-in-out infinite;
-            }
-            .impact-title {
-                font-size: 1.2rem;
-                font-weight: bold;
-                margin-bottom: 1rem;
-                color: #FFFFFF;
-            }
-            .impact-value {
-                font-size: 2.5rem;
-                font-weight: bold;
-                margin: 1.5rem 0;
-                color: #FFFFFF;
-            }
-            .impact-description {
-                font-size: 1.2rem;
-                color: rgba(255, 255, 255, 0.9);
-                margin-top: 1.5rem;
-            }
-            .impact-card-1 {
-                background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-            }
-            .impact-card-2 {
-                background: linear-gradient(135deg, #4ECDC4 0%, #6EE7E7 100%);
-            }
-            .impact-card-3 {
-                background: linear-gradient(135deg, #45B7D1 0%, #7AD7F0 100%);
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    st.header("🌍 Impact Comparison")
-    st.markdown('<div class="impact-container">', unsafe_allow_html=True)
-    
-    # Smartphones card
-    st.markdown(f"""
-        <div class="impact-card impact-card-1">
-            <div class="impact-icon">📱</div>
-            <div class="impact-title">Smartphones</div>
-            <div class="impact-value">{(total_co2 * 1000 / 404):.1f}</div>
-            <div class="impact-description">Equivalent to manufacturing this many smartphones (404 kg CO₂e each)</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # T-shirts card
-    st.markdown(f"""
-        <div class="impact-card impact-card-2">
-            <div class="impact-icon">👕</div>
-            <div class="impact-title">T-shirts</div>
-            <div class="impact-value">{(total_co2 * 1000 / 190):.1f}</div>
-            <div class="impact-description">Equivalent to manufacturing this many t-shirts (190 kg CO₂e each)</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # Car kilometers card
-    st.markdown(f"""
-        <div class="impact-card impact-card-3">
-            <div class="impact-icon">🚗</div>
-            <div class="impact-title">Car Kilometers</div>
-            <div class="impact-value">{(total_co2 * 1000 / 200):.1f}</div>
-            <div class="impact-description">Equivalent to driving this many kilometers (200g CO₂e per km)</div>
-        </div>
-    """, unsafe_allow_html=True)
+    try:
+        st.markdown("""
+            <style>
+                @keyframes slideIn {
+                    from { transform: translateY(20px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-5px); }
+                    100% { transform: translateY(0px); }
+                }
+                .impact-container {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 2rem;
+                    padding: 2rem;
+                    margin: 2rem 0;
+                }
+                .impact-card {
+                    flex: 1;
+                    border-radius: 15px;
+                    padding: 2rem;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    animation: slideIn 0.5s ease-out;
+                    transition: all 0.3s ease;
+                    min-width: 250px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+                .impact-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                }
+                .impact-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 1.5rem;
+                    animation: float 3s ease-in-out infinite;
+                }
+                .impact-title {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    margin-bottom: 1rem;
+                    color: #FFFFFF;
+                }
+                .impact-value {
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    margin: 1.5rem 0;
+                    color: #FFFFFF;
+                }
+                .impact-description {
+                    font-size: 1.2rem;
+                    color: rgba(255, 255, 255, 0.9);
+                    margin-top: 1.5rem;
+                }
+                .impact-card-1 {
+                    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+                }
+                .impact-card-2 {
+                    background: linear-gradient(135deg, #4ECDC4 0%, #6EE7E7 100%);
+                }
+                .impact-card-3 {
+                    background: linear-gradient(135deg, #45B7D1 0%, #7AD7F0 100%);
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        
+        st.header("🌍 Impact Comparison")
+        st.markdown('<div class="impact-container">', unsafe_allow_html=True)
+        
+        # Validate total_co2 before calculations
+        if not isinstance(total_co2, (int, float)) or total_co2 < 0:
+            total_co2 = 0
+        
+        # Calculate equivalents with error handling
+        try:
+            smartphones = (total_co2 * 1000 / 404) if total_co2 > 0 else 0
+            if not isinstance(smartphones, (int, float)) or smartphones < 0:
+                smartphones = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            smartphones = 0
+        
+        try:
+            tshirts = (total_co2 * 1000 / 190) if total_co2 > 0 else 0
+            if not isinstance(tshirts, (int, float)) or tshirts < 0:
+                tshirts = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            tshirts = 0
+        
+        try:
+            car_km = (total_co2 * 1000 / 200) if total_co2 > 0 else 0
+            if not isinstance(car_km, (int, float)) or car_km < 0:
+                car_km = 0
+        except (ZeroDivisionError, ValueError, TypeError):
+            car_km = 0
+        
+        # Smartphones card
+        st.markdown(f"""
+            <div class="impact-card impact-card-1">
+                <div class="impact-icon">📱</div>
+                <div class="impact-title">Smartphones</div>
+                <div class="impact-value">{smartphones:.1f}</div>
+                <div class="impact-description">Equivalent to manufacturing this many smartphones (404 kg CO₂e each)</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # T-shirts card
+        st.markdown(f"""
+            <div class="impact-card impact-card-2">
+                <div class="impact-icon">👕</div>
+                <div class="impact-title">T-shirts</div>
+                <div class="impact-value">{tshirts:.1f}</div>
+                <div class="impact-description">Equivalent to manufacturing this many t-shirts (190 kg CO₂e each)</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Car kilometers card
+        st.markdown(f"""
+            <div class="impact-card impact-card-3">
+                <div class="impact-icon">🚗</div>
+                <div class="impact-title">Car Kilometers</div>
+                <div class="impact-value">{car_km:.1f}</div>
+                <div class="impact-description">Equivalent to driving this many kilometers (200g CO₂e per km)</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying impact comparison: {str(e)}")
     
     # Detailed Explanation Section
-    st.markdown("""
-        <style>
-            .summary-section {
-                margin-top: 2rem;
-                background: rgba(45, 45, 45, 0.9);
-                padding: 2rem;
-                border-radius: 20px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            }
-            .summary-title {
-                font-size: 1.8rem;
-                font-weight: bold;
-                margin-bottom: 1rem;
-                color: #E8F5E9;
-            }
-            .summary-text {
-                font-size: 1.1rem;
-                line-height: 1.6;
-                color: #FFFFFF;
-            }
-        </style>
-        <div class="summary-section">
-            <div class="summary-title">📘 What Do These Equivalents Mean?</div>
-            <div class="summary-text">
-                To help you understand the real-world impact of your carbon footprint, we've translated your total emissions into familiar items:
-                <br><br>
-                <strong>📱 Smartphones:</strong> The carbon cost of producing a single smartphone is roughly <code>404 kg CO₂e</code>. By comparing your activities to this, you can gauge the hidden emissions behind everyday tech.
-                <br><br>
-                <strong>👕 T-Shirts:</strong> Manufacturing a cotton t-shirt can emit about <code>190 kg CO₂e</code>, factoring in water usage, transport, and production. This comparison helps you reflect on clothing consumption's hidden footprint.
-                <br><br>
-                <strong>🚗 Car Kilometers:</strong> Driving a standard car emits around <code>200 g CO₂e per km</code>. This helps visualize how far you'd need to drive to equal your daily impact — great for translating emissions into tangible distance.
-                <br><br>
-                These equivalents help make abstract numbers like "12.34 kg CO₂e" more relatable. By tying emissions to real-world objects, you can better understand the scale of your actions and discover which habits might be worth adjusting for a greener lifestyle.
+    try:
+        st.markdown("""
+            <style>
+                .summary-section {
+                    margin-top: 2rem;
+                    background: rgba(45, 45, 45, 0.9);
+                    padding: 2rem;
+                    border-radius: 20px;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                }
+                .summary-title {
+                    font-size: 1.8rem;
+                    font-weight: bold;
+                    margin-bottom: 1rem;
+                    color: #E8F5E9;
+                }
+                .summary-text {
+                    font-size: 1.1rem;
+                    line-height: 1.6;
+                    color: #FFFFFF;
+                }
+            </style>
+            <div class="summary-section">
+                <div class="summary-title">📘 What Do These Equivalents Mean?</div>
+                <div class="summary-text">
+                    To help you understand the real-world impact of your carbon footprint, we've translated your total emissions into familiar items:
+                    <br><br>
+                    <strong>📱 Smartphones:</strong> The carbon cost of producing a single smartphone is roughly <code>404 kg CO₂e</code>. By comparing your activities to this, you can gauge the hidden emissions behind everyday tech.
+                    <br><br>
+                    <strong>👕 T-Shirts:</strong> Manufacturing a cotton t-shirt can emit about <code>190 kg CO₂e</code>, factoring in water usage, transport, and production. This comparison helps you reflect on clothing consumption's hidden footprint.
+                    <br><br>
+                    <strong>🚗 Car Kilometers:</strong> Driving a standard car emits around <code>200 g CO₂e per km</code>. This helps visualize how far you'd need to drive to equal your daily impact — great for translating emissions into tangible distance.
+                    <br><br>
+                    These equivalents help make abstract numbers like "12.34 kg CO₂e" more relatable. By tying emissions to real-world objects, you can better understand the scale of your actions and discover which habits might be worth adjusting for a greener lifestyle.
+                </div>
             </div>
-        </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+    except Exception as e:
+        st.warning(f"⚠️ Error displaying detailed explanation: {str(e)}")
 
     
 
