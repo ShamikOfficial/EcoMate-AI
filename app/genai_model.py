@@ -4,7 +4,7 @@ import os
 import json
 
 class GenAIModel:
-    def __init__(self, api_key: str, model_name: str = "gemini-1.5-flash-latest"):
+    def __init__(self, api_key: str, model_name: str = "gemini-2.0-flash"):
         """
         Initialize the GenAI model with Google's Generative AI.
         
@@ -46,7 +46,7 @@ class GenAIModel:
                     response_schema=schema
                 )
             )
-            
+            print(json.loads(response.text))
             # Parse and return the response
             return json.loads(response.text)
             
