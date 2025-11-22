@@ -296,6 +296,10 @@ def welcome_page():
                         st.error("Please enter your name to continue.")
 
 def main_page():
+    # Initialize input method selection state
+    if 'input_method_selected' not in st.session_state:
+        st.session_state.input_method_selected = None
+    
     # Welcome banner with user's name
     st.markdown(f"""
         <style>
@@ -307,6 +311,28 @@ def main_page():
                 0% {{ opacity: 0.5; transform: scale(1); }}
                 50% {{ opacity: 1; transform: scale(1.2); }}
                 100% {{ opacity: 0.5; transform: scale(1); }}
+            }}
+            @keyframes buttonPulse {{
+                0%, 100% {{
+                    transform: scale(1);
+                    box-shadow: 0 0 30px rgba(76, 175, 80, 0.5),
+                                0 0 60px rgba(76, 175, 80, 0.3),
+                                0 0 90px rgba(76, 175, 80, 0.1);
+                }}
+                50% {{
+                    transform: scale(1.05);
+                    box-shadow: 0 0 40px rgba(76, 175, 80, 0.7),
+                                0 0 80px rgba(76, 175, 80, 0.5),
+                                0 0 120px rgba(76, 175, 80, 0.3);
+                }}
+            }}
+            @keyframes buttonShine {{
+                0% {{
+                    background-position: -200% center;
+                }}
+                100% {{
+                    background-position: 200% center;
+                }}
             }}
             .fun-banner {{
                 background: radial-gradient(circle at top left, #81C784, #388E3C);
@@ -348,6 +374,140 @@ def main_page():
             .sparkle-2 {{ top: 40%; right: 8%; animation-delay: 1.5s; }}
             .sparkle-3 {{ bottom: 10%; left: 10%; animation-delay: 2.5s; }}
             .sparkle-4 {{ bottom: 25%; right: 12%; animation-delay: 3s; }}
+            /* Big Flashy Selection Buttons */
+            .selection-container {{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+                padding: 3rem 2rem;
+                margin: 2rem 0;
+            }}
+            .selection-title {{
+                color: #FFFFFF;
+                font-size: 2.5rem;
+                font-weight: 900;
+                text-align: center;
+                margin-bottom: 1rem;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            }}
+            .selection-subtitle {{
+                color: #E8F5E9;
+                font-size: 1.3rem;
+                text-align: center;
+                margin-bottom: 2rem;
+            }}
+            .button-grid {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+                width: 100%;
+                max-width: 1200px;
+            }}
+            .method-button {{
+                background: linear-gradient(135deg, #4CAF50, #66BB6A);
+                border: 4px solid #81C784;
+                border-radius: 25px;
+                padding: 3rem 2rem;
+                color: #FFFFFF;
+                font-size: 2rem;
+                font-weight: 900;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                animation: buttonPulse 2s ease-in-out infinite;
+                text-decoration: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                min-height: 250px;
+            }}
+            .method-button::before {{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent
+                );
+                transition: left 0.5s;
+            }}
+            .method-button:hover {{
+                transform: scale(1.1) translateY(-5px);
+                box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6),
+                            0 0 60px rgba(76, 175, 80, 0.4);
+                border-color: #A5D6A7;
+            }}
+            .method-button:hover::before {{
+                left: 100%;
+            }}
+            .method-button:active {{
+                transform: scale(1.05) translateY(-2px);
+            }}
+            .method-icon {{
+                font-size: 4rem;
+                margin-bottom: 0.5rem;
+            }}
+            .method-label {{
+                font-size: 2rem;
+                font-weight: 900;
+                letter-spacing: 1px;
+            }}
+            .method-description {{
+                font-size: 1rem;
+                opacity: 0.9;
+                font-weight: 500;
+            }}
+            .button-text {{
+                background: linear-gradient(135deg, #66B2FF, #4A90E2);
+                border-color: #90CAF9;
+            }}
+            .button-text:hover {{
+                box-shadow: 0 15px 40px rgba(102, 178, 255, 0.6),
+                            0 0 60px rgba(102, 178, 255, 0.4);
+            }}
+            .button-image {{
+                background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+                border-color: #FFB3BA;
+            }}
+            .button-image:hover {{
+                box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6),
+                            0 0 60px rgba(255, 107, 107, 0.4);
+            }}
+            .button-audio {{
+                background: linear-gradient(135deg, #9B59B6, #8E44AD);
+                border-color: #BB8FCE;
+            }}
+            .button-audio:hover {{
+                box-shadow: 0 15px 40px rgba(155, 89, 182, 0.6),
+                            0 0 60px rgba(155, 89, 182, 0.4);
+            }}
+            @media (max-width: 768px) {{
+                .button-grid {{
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                }}
+                .method-button {{
+                    padding: 2rem 1.5rem;
+                    min-height: 200px;
+                }}
+                .method-icon {{
+                    font-size: 3rem;
+                }}
+                .method-label {{
+                    font-size: 1.5rem;
+                }}
+            }}
         </style>
 
         <div class="fun-banner">
@@ -356,12 +516,113 @@ def main_page():
             <div class="emoji-sparkle sparkle-3">🌱</div>
             <div class="emoji-sparkle sparkle-4">🍀</div>
             <h2>Hey {st.session_state.user_name}! 🌟</h2>
-            <p>Ready to make eco-friendly choices that matter? Let’s dive in! 🌍💪</p>
+            <p>Ready to make eco-friendly choices that matter? Let's dive in! 🌍💪</p>
         </div>
     """, unsafe_allow_html=True)
     
-
-
+    # Show selection screen if no method selected yet
+    if st.session_state.input_method_selected is None:
+        st.markdown("""
+            <div class="selection-container">
+                <div class="selection-title">Choose Your Input Method</div>
+                <div class="selection-subtitle">Select how you'd like to analyze your carbon footprint below</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Create styled buttons for each method with enhanced CSS
+        st.markdown("""
+            <style>
+                /* Target all buttons in the selection columns */
+                .stButton > button {
+                    min-height: 280px !important;
+                    font-size: 1.8rem !important;
+                    font-weight: 900 !important;
+                    padding: 2.5rem 1.5rem !important;
+                    border-radius: 25px !important;
+                    border: 4px solid !important;
+                    white-space: pre-line !important;
+                    line-height: 1.6 !important;
+                    transition: all 0.3s ease !important;
+                    position: relative !important;
+                    overflow: hidden !important;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+                    animation: buttonPulse 2s ease-in-out infinite !important;
+                }
+                /* Make emojis bigger - target first line which contains emoji */
+                .stButton > button {
+                    font-size: 1.8rem !important;
+                }
+                .stButton > button::first-line {
+                    font-size: 6rem !important;
+                    line-height: 1.3 !important;
+                    display: block !important;
+                    margin-bottom: 0.3rem !important;
+                }
+                .stButton > button:hover {
+                    transform: scale(1.08) translateY(-8px) !important;
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+                }
+                /* Text button styling - blue gradient */
+                div[data-testid*="column"]:nth-of-type(1) .stButton > button {
+                    background: linear-gradient(135deg, #66B2FF, #4A90E2) !important;
+                    border-color: #90CAF9 !important;
+                    color: #FFFFFF !important;
+                }
+                div[data-testid*="column"]:nth-of-type(1) .stButton > button:hover {
+                    box-shadow: 0 20px 50px rgba(102, 178, 255, 0.6),
+                                0 0 80px rgba(102, 178, 255, 0.4) !important;
+                    background: linear-gradient(135deg, #7BC3FF, #5BA0F2) !important;
+                }
+                /* Image button styling - red gradient */
+                div[data-testid*="column"]:nth-of-type(2) .stButton > button {
+                    background: linear-gradient(135deg, #FF6B6B, #FF8E8E) !important;
+                    border-color: #FFB3BA !important;
+                    color: #FFFFFF !important;
+                }
+                div[data-testid*="column"]:nth-of-type(2) .stButton > button:hover {
+                    box-shadow: 0 20px 50px rgba(255, 107, 107, 0.6),
+                                0 0 80px rgba(255, 107, 107, 0.4) !important;
+                    background: linear-gradient(135deg, #FF7B7B, #FF9E9E) !important;
+                }
+                /* Audio button styling - purple gradient */
+                div[data-testid*="column"]:nth-of-type(3) .stButton > button {
+                    background: linear-gradient(135deg, #9B59B6, #8E44AD) !important;
+                    border-color: #BB8FCE !important;
+                    color: #FFFFFF !important;
+                }
+                div[data-testid*="column"]:nth-of-type(3) .stButton > button:hover {
+                    box-shadow: 0 20px 50px rgba(155, 89, 182, 0.6),
+                                0 0 80px rgba(155, 89, 182, 0.4) !important;
+                    background: linear-gradient(135deg, #AB69C6, #9E54BD) !important;
+                }
+                @media (max-width: 768px) {
+                    .stButton > button {
+                        min-height: 220px !important;
+                        font-size: 1.5rem !important;
+                        padding: 2rem 1rem !important;
+                    }
+                }
+            </style>
+        """, unsafe_allow_html=True)
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            if st.button("📝\n\nTEXT\n\nType your activities", key="select_text", use_container_width=True):
+                st.session_state.input_method_selected = "Text Input"
+                st.rerun()
+        with col2:
+            if st.button("📷\n\nIMAGE\n\nUpload a receipt", key="select_image", use_container_width=True):
+                st.session_state.input_method_selected = "Upload Receipt"
+                st.rerun()
+        with col3:
+            if st.button("🎤\n\nAUDIO\n\nRecord your activities", key="select_audio", use_container_width=True):
+                st.session_state.input_method_selected = "Audio Input"
+                st.rerun()
+        
+        return  # Don't show input section yet
+    
+    
+    # Show input section based on selected method
     st.markdown("""
         <style>
         /* Fade and bounce in */
@@ -404,41 +665,6 @@ def main_page():
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 500;
-        }
-
-        /* Input radio buttons */
-        .stRadio > div {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .stRadio > div > label {
-            background: #66BB6A;
-            padding: 1.2rem 2.5rem;
-            border-radius: 15px;
-            font-size: 1.5rem !important;
-            font-weight: 700 !important;
-            color: white !important;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-            animation: fadeInBounce 1s ease;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .stRadio > div > label[data-baseweb="radio"] {
-            background: #43A047;
-            border: 3px solid #C8E6C9;
-            animation: pulse-glow 2.5s infinite;
-        }
-
-        .stRadio > div > label:hover {
-            background: #388E3C;
-            transform: scale(1.05);
         }
 
         /* Upload section styling */
@@ -531,23 +757,48 @@ def main_page():
         </style>
         """, unsafe_allow_html=True)
 
-    
-    
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
-    st.markdown('<div class="input-title">📊 Your Personal Carbon Footprint Analyzer</div>', unsafe_allow_html=True)
-    st.markdown('<div class="input-description">Choose how you\'d like to analyze your carbon footprint</div>', unsafe_allow_html=True)
     
-    # Input method selection with enhanced styling
-    input_method = st.radio(
-        "Select Input Method",
-        ["Text Input", "Upload Receipt", "Audio Input"],
-        horizontal=True,
-        label_visibility="collapsed"
-    )
+    # Show back button to change selection
+    st.markdown("""
+        <style>
+            button[data-testid*="back_to_selection"] {
+                background-color: rgba(100, 100, 100, 0.3) !important;
+                color: #FFFFFF !important;
+                border: 2px solid rgba(255, 255, 255, 0.3) !important;
+                padding: 0.5rem 1.5rem !important;
+                font-size: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            button[data-testid*="back_to_selection"]:hover {
+                background-color: rgba(120, 120, 120, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.5) !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    if st.button("← Back to Selection", key="back_to_selection"):
+        st.session_state.input_method_selected = None
+        st.rerun()
+    
+    # Get selected input method from session state
+    input_method = st.session_state.input_method_selected
+    
+    # Display method-specific title
+    method_titles = {
+        "Text Input": "📝 Text Input - Describe Your Activities",
+        "Upload Receipt": "📷 Image Upload - Upload Your Receipt",
+        "Audio Input": "🎤 Audio Input - Record Your Activities"
+    }
+    title = method_titles.get(input_method, "📊 Your Personal Carbon Footprint Analyzer")
+    st.markdown(f'<div class="input-title">{title}</div>', unsafe_allow_html=True)
+    
+    # Show method-specific input section
     attached_file_path=[]
     user_input=None
     uploaded_file=None
     audio_file=None
+    
     if input_method == "Text Input":
         st.markdown('<div class="text-input-section">', unsafe_allow_html=True)
         st.markdown('<p style="color: #FFFFFF; font-size: 1.1rem; margin-bottom: 1rem;">Describe your daily activities</p>', unsafe_allow_html=True)
@@ -1178,39 +1429,101 @@ def display_results():
                 setTimeout(initSmoothScroll, 500);
             })();
             
-            // Auto-scroll to overview section when report is ready
-            function scrollToOverview() {
-                const overviewElement = document.getElementById('overview');
-                if (overviewElement) {
-                    const streamlitNavbarArea = 56;
-                    const customNavbarContent = 80;
-                    const totalNavbarHeight = streamlitNavbarArea + customNavbarContent;
-                    const elementPosition = overviewElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - totalNavbarHeight;
-                    
-                    window.scrollTo({
-                        top: Math.max(0, offsetPosition),
-                        behavior: 'smooth'
-                    });
-                }
-            }
-            
-            // Scroll after page loads and content is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(scrollToOverview, 300);
-                });
-            } else {
-                setTimeout(scrollToOverview, 300);
-            }
-            
-            // Also try after Streamlit reruns
-            setTimeout(scrollToOverview, 500);
-            setTimeout(scrollToOverview, 1000);
         </script>
     """, unsafe_allow_html=True)
     
     st.markdown('<div id="overview" class="section-anchor"><div class="header-text">Your Carbon Footprint Analysis</div></div>', unsafe_allow_html=True)
+    
+    # Auto-scroll to overview section when report is ready - placed after overview element
+    st.markdown("""
+        <script>
+            (function() {
+                // Use a unique key to prevent multiple scrolls
+                if (window.overviewScrolled) return;
+                
+                function scrollToOverview() {
+                    const overviewElement = document.getElementById('overview');
+                    if (overviewElement) {
+                        // Wait for element to be fully rendered
+                        const rect = overviewElement.getBoundingClientRect();
+                        const isVisible = rect.height > 0 || rect.width > 0 || overviewElement.offsetHeight > 0;
+                        
+                        if (isVisible) {
+                            const streamlitNavbarArea = 56;
+                            const customNavbarContent = 80;
+                            const totalNavbarHeight = streamlitNavbarArea + customNavbarContent;
+                            
+                            // Calculate scroll position
+                            let scrollPosition;
+                            if (overviewElement.offsetTop !== undefined) {
+                                scrollPosition = overviewElement.offsetTop - totalNavbarHeight;
+                            } else {
+                                const elementTop = overviewElement.getBoundingClientRect().top + window.pageYOffset;
+                                scrollPosition = elementTop - totalNavbarHeight;
+                            }
+                            
+                            // Scroll smoothly
+                            window.scrollTo({
+                                top: Math.max(0, scrollPosition),
+                                behavior: 'smooth'
+                            });
+                            
+                            window.overviewScrolled = true;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                
+                // Try scrolling immediately
+                if (scrollToOverview()) return;
+                
+                // Try multiple times with increasing delays
+                function attemptScroll(attempts) {
+                    if (window.overviewScrolled) return;
+                    
+                    if (scrollToOverview()) {
+                        return;
+                    }
+                    
+                    if (attempts > 0) {
+                        setTimeout(function() {
+                            attemptScroll(attempts - 1);
+                        }, 200);
+                    }
+                }
+                
+                // Start attempting to scroll
+                attemptScroll(20); // Try for 4 seconds (20 * 200ms)
+                
+                // Also use MutationObserver as backup
+                const observer = new MutationObserver(function() {
+                    if (!window.overviewScrolled) {
+                        scrollToOverview();
+                    }
+                });
+                
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                
+                // Also try on window load
+                if (document.readyState === 'complete') {
+                    setTimeout(scrollToOverview, 100);
+                } else {
+                    window.addEventListener('load', function() {
+                        setTimeout(scrollToOverview, 100);
+                    });
+                }
+                
+                // Disconnect observer after 6 seconds
+                setTimeout(function() {
+                    observer.disconnect();
+                }, 6000);
+            })();
+        </script>
+    """, unsafe_allow_html=True)
     
     # Calculate total CO2e with error handling
     try:
