@@ -1,12 +1,30 @@
 # EcoMate-AI
 
-EcoMate-AI analyzes receipts, bills, and daily activities to estimate your carbon footprint and recommend greener choices, powered by multimodal AI.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python&logoColor=white)]()
 
-Upload an image of a receipt or describe your day in plain text. The app extracts individual activities, maps them to verified CO₂ emission factors, and generates a personalized sustainability report with actionable tips.
+> AI-powered carbon footprint decoder that transforms receipts, bills, and daily activities into actionable environmental impact reports.
 
-**[View Live Demo](https://shamikofficial.github.io)** &nbsp;|&nbsp; **[Portfolio](https://shamikofficial.github.io)**
+**[Portfolio](https://shamik-basu.com)** · **[GitHub Pages](https://shamikofficial.github.io)**
 
 ---
+
+## Problem
+
+People lack visibility into the carbon impact of everyday purchases and activities. Manual carbon accounting is tedious and generic tips don't reflect actual behavior.
+
+## Solution
+
+Upload a receipt image or describe your day in plain text. EcoMate-AI extracts activities via OCR/NLP, maps them to verified global emission factors, and generates personalized sustainability recommendations with interactive visualizations.
+
+## Key Results
+
+| Capability | Detail |
+|------------|--------|
+| Input modes | Receipt images + free-form text |
+| Emission mapping | Verified global CO₂e factors (`data/emission_factor.csv`) |
+| Output | Category breakdowns, global comparisons, ranked green tips |
+| Stack | Streamlit + FastAPI + GPT-4o Vision |
 
 ## Features
 
@@ -14,31 +32,31 @@ Upload an image of a receipt or describe your day in plain text. The app extract
 - **OCR extraction** — reads items, quantities, and services from scanned receipts
 - **CO₂ estimation** — maps activities to verified global emission factors
 - **Personalized tips** — AI-generated suggestions ranked by impact
-- **Global comparison** — contextualizes your footprint against regional and world averages
+- **Global comparison** — contextualizes your footprint against regional averages
 - **Interactive visualizations** — category breakdowns and trend charts
 
-## Tech stack
+## Tech Stack
 
 | Layer | Tools |
-|---|---|
+|-------|-------|
 | Frontend | Streamlit |
 | Backend | FastAPI |
 | AI / OCR | OpenAI GPT-4o, Vision API |
 | Data | pandas, NumPy |
 | Visualization | Plotly, Matplotlib |
 
-## Getting started
+## Quick Start
 
 ```bash
 git clone https://github.com/ShamikOfficial/EcoMate-AI.git
 cd EcoMate-AI
-python -m venv venv && source venv/bin/activate
+python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env        # add your OpenAI API key
 streamlit run app/main.py
 ```
 
-## Project structure
+## Project Structure
 
 ```
 EcoMate-AI/
@@ -46,20 +64,16 @@ EcoMate-AI/
 │   ├── main.py             # Streamlit frontend
 │   ├── api.py              # FastAPI backend
 │   ├── genai_model.py      # GenAI inference layer
-│   ├── services/           # Carbon calculation logic
-│   └── utils/              # Preprocessing helpers
+│   └── services/           # Carbon calculation logic
 ├── data/                   # Emission factor datasets
+├── docs/architecture.md    # System design
 └── requirements.txt
 ```
 
-## How it works
+## Architecture
 
-1. User uploads a receipt image or types a description of their activities
-2. OCR pipeline extracts line items and quantities
-3. Each item is classified and matched to an emission factor (kg CO₂e)
-4. Total footprint is calculated and broken down by category
-5. GPT-4o generates ranked, personalized recommendations
+See [docs/architecture.md](docs/architecture.md) for the full pipeline diagram.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
