@@ -1,5 +1,7 @@
 # EcoMate-AI
 
+> **Scope note for reviewers:** 24-hour hackathon build (UCLA SAIRS). Compact codebase — good product demo, not the primary interview depth sample. For full-stack AI systems work, start with [agentic-trend-orchestrator](https://github.com/ShamikOfficial/agentic-trend-orchestrator).
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python&logoColor=white)]()
 
